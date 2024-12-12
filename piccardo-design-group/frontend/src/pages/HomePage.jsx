@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import image from "../assets/primosfondo.jpg";
 import additionalImage from "../assets/sfondodue.jpg";
 import NewsletterBanner from "../components/NewsletterBanner";
@@ -28,9 +28,10 @@ function HomePage() {
 
   const imageStyle = {
     width: "100%",
-    height: "auto",
+    height: "700px",
     marginTop: "40px",
     position: "relative",
+    objectFit: "cover",
   };
 
   const logoStyle = {
