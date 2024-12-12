@@ -1,0 +1,81 @@
+
+
+
+Come clonare e lanciare il progetto: 
+
+Segui questi passaggi per scaricare e avviare il progetto sul tuo computer:
+
+Scarica e installa Git
+Se non hai Git, scaricalo dal sito ufficiale https://git-scm.com/ e installalo scegliendo le opzioni predefinite.
+
+Apri il terminale
+
+Su Windows, usa "Prompt dei comandi" o "Git Bash".
+Su Mac o Linux, apri il terminale del sistema operativo.
+Clona il progetto
+Vai alla pagina del progetto su GitHub, clicca il pulsante verde "Code" e copia il link HTTPS.
+Poi, nel terminale, digita:
+
+git clone URL_DEL_PROGETTO/link del progetto che prendi nella repository GitHub, cliccando una volta sulla repository e una volta il bottone verde "Code", il link apparirá  sotto la scritta https.
+
+Premi Invio per scaricare il progetto.
+
+apri un secondo terminale, nel primo scrivi cd frontend e invia e nel secondo cd server e invia, quando sei nel terminale ti conviene digitare F2 per rinominare il terminale cosí da non fare errori 
+
+Entra nella cartella del progetto
+Usa questo comando:
+
+Installa Node.js
+Scarica e installa Node.js dal sito https://nodejs.org/, scegliendo le opzioni predefinite.
+
+Installa le dipendenze che sono queste: 
+
+nel terminale frontend:
+
+@fortawesome/react-fontawesome
+
+@fortawesome/free-solid-svg-icons
+
+react-icons
+
+react-router-dom
+
+react-bootstrap
+
+npm install
+
+
+nel terminale backend: 
+
+backend
+
+jsonwebtoken
+
+mongoose
+
+bcryptjs
+
+express
+
+router (di express)
+
+multer
+
+path
+
+@sendgrid/mail
+
+cors
+
+dotenv
+
+npm install
+
+
+ avvia il progetto scrivendo in entrambi i terminali:
+
+npm run dev 
+
+Il terminale ti mostrerà un link (esempio: http://localhost:3000). Apri questo link nel browser per vedere il progetto in azione.
+
+Se hai problemi, verifica di aver seguito tutti i passaggi correttamente o chiedi aiuto. 😊
