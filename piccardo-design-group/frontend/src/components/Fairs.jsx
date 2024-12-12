@@ -1,130 +1,135 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import useFetchData from "../hooks/useFetchData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faTrash,
+  faPlus,
+  faSave,
+} from "@fortawesome/free-solid-svg-icons";
+import { addFair, deleteFair, updateFair } from "../services/apiServices";
 
-function Fairs() {
-  const [fairs, setFairs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const FairManagement = () => {
+  const [newFair, setNewFair] = useState({ name: "", location: "", date: "" });
+  const [editIndex, setEditIndex] = useState(null);
+  const { data: fairs, loading, error } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/fairs`);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/fairs")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setFairs(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching fairs:", error);
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+  const handleFairInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewFair({ ...newFair, [name]: value });
+  };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleAddFair = () => {
+    addFair(newFair).then((data) => {
+      setNewFair({ name: "", location: "", date: "" });
+    });
+  };
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const handleEditFair = (index) => {
+    setEditIndex(index);
+    setNewFair(fairs[index]);
+  };
+
+  const handleUpdateFair = () => {
+    const id = fairs[editIndex]._id;
+    updateFair(newFair, id).then((data) => {
+      setEditIndex(null);
+      setNewFair({ name: "", location: "", date: "" });
+    });
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error fetching fairs: {error.message}</div>;
 
   return (
-    <section className="py-5" style={sectionStyle}>
-      <div className="container">
-        <h2 className="text-center mb-5" style={headingStyle}>
-          Le Nostre Fiere
-        </h2>
-        <p className="text-center mb-4" style={subHeadingStyle}>
-          Scopri le fiere a cui i nostri partner partecipano quest'anno.
-        </p>
-        <p className="text-center mb-4" style={descriptionStyle}>
-          Quest'anno, i nostri partner parteciperanno a diverse fiere
-          prestigiose. Unitevi a noi per scoprire le ultime novità nel mondo del
-          design e dell'innovazione.
-        </p>
-
-        <div className="row">
-          {Array.isArray(fairs) &&
-            fairs.map((fair) => (
-              <div className="col-md-4 mb-4" key={fair._id}>
-                <div className="card h-100" style={cardStyle}>
-                  <div className="card-body">
-                    <h5 className="card-title" style={cardTitleStyle}>
-                      {fair.name}
-                    </h5>
-                    <p className="card-text" style={cardTextStyle}>
-                      {fair.location}
-                    </p>
-                    <p className="card-text" style={cardTextStyle}>
-                      {fair.date}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+    <div className="card mt-5">
+      <div className="card-body">
+        <h5 className="card-title">Add or Edit a Fair</h5>
+        <form>
+          <div className="form-group mb-3">
+            <label htmlFor="name">Fair Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              placeholder="Fair Name"
+              value={newFair.name}
+              onChange={handleFairInputChange}
+            />
+          </div>
+          <div className="form-group mb-3">
+            <label htmlFor="location">Location</label>
+            <input
+              type="text"
+              className="form-control"
+              id="location"
+              name="location"
+              placeholder="Location"
+              value={newFair.location}
+              onChange={handleFairInputChange}
+            />
+          </div>
+          <div className="form-group mb-3">
+            <label htmlFor="date">Date</label>
+            <input
+              type="text"
+              className="form-control"
+              id="date"
+              name="date"
+              placeholder="Date (dd-mm-yyyy)"
+              value={newFair.date}
+              onChange={handleFairInputChange}
+            />
+          </div>
+          <div className="form-group">
+            {editIndex !== null ? (
+              <button
+                type="button"
+                className="btn btn-success w-100"
+                onClick={handleUpdateFair}
+              >
+                <FontAwesomeIcon icon={faSave} /> Save
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary w-100"
+                onClick={handleAddFair}
+              >
+                <FontAwesomeIcon icon={faPlus} /> Add
+              </button>
+            )}
+          </div>
+        </form>
       </div>
-    </section>
+      <div className="row mt-5">
+        {fairs.map((fair, index) => (
+          <div className="col-md-4 mb-4" key={fair._id}>
+            <div className="card h-100">
+              <div className="card-body">
+                <h5 className="card-title">{fair.name}</h5>
+                <p className="card-text">{fair.location}</p>
+                <p className="card-text">{fair.date}</p>
+                <button
+                  className="btn btn-warning btn-sm me-2"
+                  onClick={() => handleEditFair(index)}
+                >
+                  <FontAwesomeIcon icon={faEdit} /> Edit
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteFair(fair._id)}
+                >
+                  <FontAwesomeIcon icon={faTrash} /> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
-
-const sectionStyle = {
-  backgroundColor: "#f8f9fa",
-  backgroundImage: "linear-gradient(135deg, #f5f7fa, #c3cfe2)",
-  padding: "50px 0",
 };
 
-const headingStyle = {
-  fontFamily: "Raleway, serif",
-  fontWeight: "400",
-  fontSize: "4rem",
-  lineHeight: "1.4em",
-  color: "#2c3e50",
-  textShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
-};
-
-const subHeadingStyle = {
-  fontFamily: "Georgia, serif",
-  fontWeight: "400",
-  fontSize: "1.5rem",
-  color: "#2c3e50",
-  marginBottom: "20px",
-};
-
-const descriptionStyle = {
-  fontFamily: "Georgia, serif",
-  fontWeight: "300",
-  fontSize: "1.2rem",
-  color: "#34495e",
-  marginBottom: "40px",
-};
-
-const cardStyle = {
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  border: "none",
-  borderRadius: "10px",
-  transition: "transform 0.3s",
-  backgroundColor: "#fff",
-};
-
-const cardTitleStyle = {
-  fontFamily: "Georgia, serif",
-  fontWeight: "700",
-  fontSize: "1.5rem",
-  color: "#2c3e50",
-};
-
-const cardTextStyle = {
-  fontFamily: "Georgia, serif",
-  fontWeight: "300",
-  fontSize: "1rem",
-  color: "#34495e",
-};
-
-export default Fairs;
+export default FairManagement;

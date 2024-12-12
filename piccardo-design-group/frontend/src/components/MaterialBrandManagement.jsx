@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useFetchData from "../hooks/useFetchData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faPlus, faSave,} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
 import { addBrand, updateBrand, deleteBrand } from "../services/apiServices";
 
 const MaterialBrandManagement = () => {
@@ -11,7 +11,7 @@ const MaterialBrandManagement = () => {
     website: "",
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: brands, loading, error } = useFetchData("/api/brands");
+  const { data: brands, loading, error } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/brands`);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;
@@ -118,7 +118,7 @@ const MaterialBrandManagement = () => {
                   rel="noopener noreferrer"
                 >
                   <img
-                    src={`http://localhost:5000/${brand.logo}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
                     alt={brand.name}
                     className="img-fluid"
                   />

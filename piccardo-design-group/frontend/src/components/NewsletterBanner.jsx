@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,7 +16,7 @@ const NewsletterBanner = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/subscribe", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

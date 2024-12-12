@@ -6,7 +6,7 @@ function Contracts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/contract/brands")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contract/brands`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -102,7 +102,7 @@ function Contracts() {
               key={brand._id}
             >
               <img
-                src={`http://localhost:5000/${brand.logo}`}
+                src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
                 alt={brand.name}
                 style={logoStyle}
               />

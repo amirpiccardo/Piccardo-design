@@ -16,7 +16,7 @@ const ContractBrandManagement = () => {
     website: "",
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: brands, loading, error } = useFetchData("/api/brands");
+  const { data: brands, loading, error } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/brands`);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;
@@ -123,7 +123,7 @@ const ContractBrandManagement = () => {
                   rel="noopener noreferrer"
                 >
                   <img
-                    src={`http://localhost:5000/${brand.logo}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
                     alt={brand.name}
                     className="img-fluid"
                   />

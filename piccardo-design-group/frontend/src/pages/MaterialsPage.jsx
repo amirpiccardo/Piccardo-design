@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ChatBot from "../components/ChatBot";
+
 function MaterialsPage() {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/materialpage/brands")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/materialpage/brands`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -64,13 +65,6 @@ function MaterialsPage() {
     margin: "10px",
   };
 
-  const iframeStyle = {
-    width: "640px",
-    height: "480px",
-    border: "none",
-    marginTop: "20px",
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -107,7 +101,7 @@ function MaterialsPage() {
                 key={brand._id}
               >
                 <img
-                  src={`http://localhost:5000/${brand.logo}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
                   alt={brand.name}
                   style={logoStyle}
                 />

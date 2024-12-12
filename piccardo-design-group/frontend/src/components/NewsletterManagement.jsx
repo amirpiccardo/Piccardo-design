@@ -7,7 +7,7 @@ const NewsletterManagement = () => {
     data: subscribers,
     loading,
     error,
-  } = useFetchData("/api/subscribers");
+  } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/subscribers`);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching subscribers: {error.message}</div>;
