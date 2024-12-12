@@ -1,0 +1,3539 @@
+Base Url
+
+http://localhost:5000/api
+
+
+Environment Variables
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+
+
+Authentication
+
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+
+Middleware di Autenticazione
+
+File: middlewares/authMiddleware.js
+
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+
+
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+
+Response: 
+
+{
+  "message": "User registered successfully"
+}
+
+
+
+User Login
+
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+
+Response: 
+
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+{
+  "auth": true
+}
+
+perche non lo fa scaricare? scrivilo tutto in un blocconote
+Ecco la documentazione completa delle API in un formato che puoi copiare e incollare in un file di testo:
+
+API Documentation
+Overview
+Questa documentazione descrive le API per l'applicazione che include funzionalità di autenticazione, gestione dei brand, gestione dei contatti, gestione dei brand per le pagine contract e materiali, gestione del team e gestione delle iscrizioni alla newsletter.
+
+Base URL
+plaintext
+http://localhost:5000/api
+Environment Variables
+Assicurati di configurare le seguenti variabili d'ambiente nel tuo file .env:
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+Authentication
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+Middleware di Autenticazione
+File: middlewares/authMiddleware.js
+
+javascript
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "message": "User registered successfully"
+}
+User Login
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+json
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+json
+{
+  "auth": true
+}
+2. Brand Management
+Get All Brands
+URL: /brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand.
+
+Response:
+
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+
+perche non lo fa scaricare? scrivilo tutto in un blocconote
+Ecco la documentazione completa delle API in un formato che puoi copiare e incollare in un file di testo:
+
+API Documentation
+Overview
+Questa documentazione descrive le API per l'applicazione che include funzionalità di autenticazione, gestione dei brand, gestione dei contatti, gestione dei brand per le pagine contract e materiali, gestione del team e gestione delle iscrizioni alla newsletter.
+
+Base URL
+plaintext
+http://localhost:5000/api
+Environment Variables
+Assicurati di configurare le seguenti variabili d'ambiente nel tuo file .env:
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+Authentication
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+Middleware di Autenticazione
+File: middlewares/authMiddleware.js
+
+javascript
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "message": "User registered successfully"
+}
+User Login
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+json
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+json
+{
+  "auth": true
+}
+2. Brand Management
+Get All Brands
+URL: /brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Brand
+URL: /brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+
+Response:
+
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+
+
+Update a Brand
+URL: /brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response: 
+
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+
+perche non lo fa scaricare? scrivilo tutto in un blocconote
+Ecco la documentazione completa delle API in un formato che puoi copiare e incollare in un file di testo:
+
+API Documentation
+Overview
+Questa documentazione descrive le API per l'applicazione che include funzionalità di autenticazione, gestione dei brand, gestione dei contatti, gestione dei brand per le pagine contract e materiali, gestione del team e gestione delle iscrizioni alla newsletter.
+
+Base URL
+plaintext
+http://localhost:5000/api
+Environment Variables
+Assicurati di configurare le seguenti variabili d'ambiente nel tuo file .env:
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+Authentication
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+Middleware di Autenticazione
+File: middlewares/authMiddleware.js
+
+javascript
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "message": "User registered successfully"
+}
+User Login
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+json
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+json
+{
+  "auth": true
+}
+2. Brand Management
+Get All Brands
+URL: /brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Brand
+URL: /brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Brand
+URL: /brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Brand
+URL: /brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand.
+
+Response:
+
+{
+  "message": "Deleted successfully"
+}
+
+perche non lo fa scaricare? scrivilo tutto in un blocconote
+Ecco la documentazione completa delle API in un formato che puoi copiare e incollare in un file di testo:
+
+API Documentation
+Overview
+Questa documentazione descrive le API per l'applicazione che include funzionalità di autenticazione, gestione dei brand, gestione dei contatti, gestione dei brand per le pagine contract e materiali, gestione del team e gestione delle iscrizioni alla newsletter.
+
+Base URL
+plaintext
+http://localhost:5000/api
+Environment Variables
+Assicurati di configurare le seguenti variabili d'ambiente nel tuo file .env:
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+Authentication
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+Middleware di Autenticazione
+File: middlewares/authMiddleware.js
+
+javascript
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "message": "User registered successfully"
+}
+User Login
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+json
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+json
+{
+  "auth": true
+}
+2. Brand Management
+Get All Brands
+URL: /brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Brand
+URL: /brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Brand
+URL: /brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Brand
+URL: /brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+3. Contact Management
+Add a New Contact
+URL: /contacts
+
+Method: POST
+
+Description: Aggiunge un nuovo contatto.
+
+Request Body:
+
+{
+  "name": "Contact Name",
+  "email": "contact_email@example.com",
+  "message": "Contact message"
+}
+
+Response: {
+  "_id": "contact_id",
+  "name": "Contact Name",
+  "email": "contact_email@example.com",
+  "message": "Contact message"
+}
+
+Get All Contacts
+URL: /contacts
+
+Method: GET
+
+Description: Recupera una lista di tutti i contatti.
+
+Response:
+
+[
+  {
+    "_id": "contact_id",
+    "name": "Contact Name",
+    "email": "contact_email@example.com",
+    "message": "Contact message"
+  }
+]
+
+Delete a Contact
+URL: /contacts/:id
+
+Method: DELETE
+
+Description: Elimina un contatto.
+
+Response:
+
+{
+  "message": "Contact deleted successfully"
+}
+
+perche non lo fa scaricare? scrivilo tutto in un blocconote
+Ecco la documentazione completa delle API in un formato che puoi copiare e incollare in un file di testo:
+
+API Documentation
+Overview
+Questa documentazione descrive le API per l'applicazione che include funzionalità di autenticazione, gestione dei brand, gestione dei contatti, gestione dei brand per le pagine contract e materiali, gestione del team e gestione delle iscrizioni alla newsletter.
+
+Base URL
+plaintext
+http://localhost:5000/api
+Environment Variables
+Assicurati di configurare le seguenti variabili d'ambiente nel tuo file .env:
+
+MONGO_URI="mongodb+srv://designpiccardo:3R7D2QEE307SORzb@cluster0.dvm0x.mongodb.net/"
+PORT=5000
+JWT_SECRET="secretkey"
+SENDGRID_API_KEY="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"
+SENDGRID_VERIFIED_SENDER="amirpiccardo@gmail.com"
+Authentication
+L'autenticazione avviene tramite token JWT. Il token deve essere incluso nell'header delle richieste come x-auth-token o Authorization.
+
+Middleware di Autenticazione
+File: middlewares/authMiddleware.js
+
+javascript
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  const token = req.header("x-auth-token");
+  if (!token) {
+    return res.status(401).json({ message: "No token, authorization denied" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Token is not valid" });
+  }
+};
+
+module.exports = authMiddleware;
+Endpoints
+1. User Authentication
+Register a New User
+URL: /auth/register
+
+Method: POST
+
+Description: Registra un nuovo utente.
+
+Request Body:
+
+json
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "message": "User registered successfully"
+}
+User Login
+URL: /auth/login
+
+Method: POST
+
+Description: Effettua il login di un utente.
+
+Request Body:
+
+json
+{
+  "email": "your_email@example.com",
+  "password": "your_password"
+}
+Response:
+
+json
+{
+  "auth": true,
+  "token": "your_jwt_token"
+}
+Verify Token
+URL: /auth/verifyToken
+
+Method: GET
+
+Description: Verifica la validità di un token.
+
+Headers:
+
+Authorization: Bearer your_jwt_token
+
+Response:
+
+json
+{
+  "auth": true
+}
+2. Brand Management
+Get All Brands
+URL: /brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Brand
+URL: /brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Brand
+URL: /brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Brand
+URL: /brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+3. Contact Management
+Add a New Contact
+URL: /contacts
+
+Method: POST
+
+Description: Aggiunge un nuovo contatto.
+
+Request Body:
+
+json
+{
+  "name": "Contact Name",
+  "email": "contact_email@example.com",
+  "message": "Contact message"
+}
+Response:
+
+json
+{
+  "_id": "contact_id",
+  "name": "Contact Name",
+  "email": "contact_email@example.com",
+  "message": "Contact message"
+}
+Get All Contacts
+URL: /contacts
+
+Method: GET
+
+Description: Recupera una lista di tutti i contatti.
+
+Response:
+
+json
+[
+  {
+    "_id": "contact_id",
+    "name": "Contact Name",
+    "email": "contact_email@example.com",
+    "message": "Contact message"
+  }
+]
+Delete a Contact
+URL: /contacts/:id
+
+Method: DELETE
+
+Description: Elimina un contatto.
+
+Response:
+
+json
+{
+  "message": "Contact deleted successfully"
+}
+4. Contract Brand Management
+Get All Contract Brands
+URL: /contract-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine contract.
+
+Response: 
+
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+
+
+Add a New Contract Brand
+URL: /contract-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine contract.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body: 
+
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+
+Response: 
+
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+
+
+Update a Contract Brand
+URL: /contract-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine contract.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+
+Response: 
+
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+{
+  "message": "Deleted successfully"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+
+
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+
+Response:
+
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+
+Response:
+
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+{
+  "message": "Deleted successfully"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+
+Response: {
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+
+Response: 
+
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+{
+  "message": "Deleted successfully"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+7. Newsletter Subscription Management
+Subscribe to Newsletter
+URL: /newsletter/subscribe
+
+Method: POST
+
+Description: Iscrive un utente alla newsletter.
+
+Request Body:
+
+{
+  "email": "user_email@example.com"
+}
+
+Response:
+
+{
+  "message": "Iscrizione avvenuta con successo e mail di benvenuto inviata."
+}
+
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+7. Newsletter Subscription Management
+Subscribe to Newsletter
+URL: /newsletter/subscribe
+
+Method: POST
+
+Description: Iscrive un utente alla newsletter.
+
+Request Body:
+
+json
+{
+  "email": "user_email@example.com"
+}
+Response:
+
+json
+{
+  "message": "Iscrizione avvenuta con successo e mail di benvenuto inviata."
+}
+Get All Newsletter Subscribers
+URL: /newsletter/subscribers
+
+Method: GET
+
+Description: Recupera una lista di tutte le email iscritte alla newsletter.
+
+Response:
+
+[
+  {
+    "email": "user_email@example.com"
+  }
+]
+
+Unsubscribe from Newsletter
+URL: /newsletter/unsubscribe/:email
+
+Method: DELETE
+
+Description: Cancella l'iscrizione di un utente dalla newsletter.
+
+Response:
+
+{
+  "message": "Email eliminata con successo."
+}
+
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+7. Newsletter Subscription Management
+Subscribe to Newsletter
+URL: /newsletter/subscribe
+
+Method: POST
+
+Description: Iscrive un utente alla newsletter.
+
+Request Body:
+
+json
+{
+  "email": "user_email@example.com"
+}
+Response:
+
+json
+{
+  "message": "Iscrizione avvenuta con successo e mail di benvenuto inviata."
+}
+Get All Newsletter Subscribers
+URL: /newsletter/subscribers
+
+Method: GET
+
+Description: Recupera una lista di tutte le email iscritte alla newsletter.
+
+Response:
+
+json
+[
+  {
+    "email": "user_email@example.com"
+  }
+]
+Unsubscribe from Newsletter
+URL: /newsletter/unsubscribe/:email
+
+Method: DELETE
+
+Description: Cancella l'iscrizione di un utente dalla newsletter.
+
+Response:
+
+json
+{
+  "message": "Email eliminata con successo."
+}
+8. User Management
+Get All Users
+URL: /users
+
+Method: GET
+
+Description: Recupera una lista di tutti gli utenti.
+
+Response:
+
+[
+  {
+    "_id": "user_id",
+    "username": "Username",
+    "email": "user_email@example.com",
+    "role": "user"
+  }
+]
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+7. Newsletter Subscription Management
+Subscribe to Newsletter
+URL: /newsletter/subscribe
+
+Method: POST
+
+Description: Iscrive un utente alla newsletter.
+
+Request Body:
+
+json
+{
+  "email": "user_email@example.com"
+}
+Response:
+
+json
+{
+  "message": "Iscrizione avvenuta con successo e mail di benvenuto inviata."
+}
+Get All Newsletter Subscribers
+URL: /newsletter/subscribers
+
+Method: GET
+
+Description: Recupera una lista di tutte le email iscritte alla newsletter.
+
+Response:
+
+json
+[
+  {
+    "email": "user_email@example.com"
+  }
+]
+Unsubscribe from Newsletter
+URL: /newsletter/unsubscribe/:email
+
+Method: DELETE
+
+Description: Cancella l'iscrizione di un utente dalla newsletter.
+
+Response:
+
+json
+{
+  "message": "Email eliminata con successo."
+}
+8. User Management
+Get All Users
+URL: /users
+
+Method: GET
+
+Description: Recupera una lista di tutti gli utenti.
+
+Response:
+
+json
+[
+  {
+    "_id": "user_id",
+    "username": "Username",
+    "email": "user_email@example.com",
+    "role": "user"
+  }
+]
+Update a User
+URL: /users/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un utente.
+
+Request Body:
+
+{
+  "username": "Updated Username",
+  "email": "updated_email@example.com",
+  "role": "admin"
+}
+
+Response: {
+  "_id": "user_id",
+  "username": "Updated Username",
+  "email": "updated_email@example.com",
+  "role": "admin"
+}
+
+riprendi da delete contract brand in poi
+Certo, ecco la documentazione delle API ripresa da "Delete a Contract Brand":
+
+4. Contract Brand Management (continua)
+Delete a Contract Brand
+URL: /contract-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine contract.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+5. Material Page Brand Management
+Get All Material Page Brands
+URL: /material-page-brands
+
+Method: GET
+
+Description: Recupera una lista di tutti i brand per le pagine materiali.
+
+Response:
+
+json
+[
+  {
+    "_id": "brand_id",
+    "name": "Brand Name",
+    "logo": "path/to/logo.png",
+    "website": "http://brand-website.com"
+  }
+]
+Add a New Material Page Brand
+URL: /material-page-brands
+
+Method: POST
+
+Description: Aggiunge un nuovo brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Brand Name",
+  "logo": "file",
+  "website": "http://brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Brand Name",
+  "logo": "path/to/logo.png",
+  "website": "http://brand-website.com"
+}
+Update a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un brand per le pagine materiali.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Brand Name",
+  "logo": "file",
+  "website": "http://updated-brand-website.com"
+}
+Response:
+
+json
+{
+  "_id": "brand_id",
+  "name": "Updated Brand Name",
+  "logo": "path/to/updated-logo.png",
+  "website": "http://updated-brand-website.com"
+}
+Delete a Material Page Brand
+URL: /material-page-brands/:id
+
+Method: DELETE
+
+Description: Elimina un brand per le pagine materiali.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+6. Team Management
+Get All Team Members
+URL: /team
+
+Method: GET
+
+Description: Recupera una lista di tutti i membri del team.
+
+Response:
+
+json
+[
+  {
+    "_id": "member_id",
+    "name": "Member Name",
+    "role": "Member Role",
+    "photo": "path/to/photo.jpg"
+  }
+]
+Add a New Team Member
+URL: /team
+
+Method: POST
+
+Description: Aggiunge un nuovo membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Member Name",
+  "role": "Member Role",
+  "photo": "path/to/photo.jpg"
+}
+Update a Team Member
+URL: /team/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un membro del team.
+
+Headers:
+
+Content-Type: multipart/form-data
+
+Request Body:
+
+json
+{
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "file"
+}
+Response:
+
+json
+{
+  "_id": "member_id",
+  "name": "Updated Member Name",
+  "role": "Updated Member Role",
+  "photo": "path/to/updated-photo.jpg"
+}
+Delete a Team Member
+URL: /team/:id
+
+Method: DELETE
+
+Description: Elimina un membro del team.
+
+Response:
+
+json
+{
+  "message": "Deleted successfully"
+}
+7. Newsletter Subscription Management
+Subscribe to Newsletter
+URL: /newsletter/subscribe
+
+Method: POST
+
+Description: Iscrive un utente alla newsletter.
+
+Request Body:
+
+json
+{
+  "email": "user_email@example.com"
+}
+Response:
+
+json
+{
+  "message": "Iscrizione avvenuta con successo e mail di benvenuto inviata."
+}
+Get All Newsletter Subscribers
+URL: /newsletter/subscribers
+
+Method: GET
+
+Description: Recupera una lista di tutte le email iscritte alla newsletter.
+
+Response:
+
+json
+[
+  {
+    "email": "user_email@example.com"
+  }
+]
+Unsubscribe from Newsletter
+URL: /newsletter/unsubscribe/:email
+
+Method: DELETE
+
+Description: Cancella l'iscrizione di un utente dalla newsletter.
+
+Response:
+
+json
+{
+  "message": "Email eliminata con successo."
+}
+8. User Management
+Get All Users
+URL: /users
+
+Method: GET
+
+Description: Recupera una lista di tutti gli utenti.
+
+Response:
+
+json
+[
+  {
+    "_id": "user_id",
+    "username": "Username",
+    "email": "user_email@example.com",
+    "role": "user"
+  }
+]
+Update a User
+URL: /users/:id
+
+Method: PUT
+
+Description: Aggiorna i dettagli di un utente.
+
+Request Body:
+
+json
+{
+  "username": "Updated Username",
+  "email": "updated_email@example.com",
+  "role": "admin"
+}
+Response:
+
+json
+{
+  "_id": "user_id",
+  "username": "Updated Username",
+  "email": "updated_email@example.com",
+  "role": "admin"
+}
+Delete a User
+URL: /users/:id
+
+Method: DELETE
+
+Description: Elimina un utente.
+
+Response:
+
+{
+  "message": "User deleted"
+}
+
+Error Handling
+
+Example Error Response:
+
+{
+  "message": "Error message"
+}
+
+Models: 
+
+Brand Model
+
+const mongoose = require("mongoose");
+
+const brandSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  logo: { type: String, required: true },
+  website: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Brand", brandSchema);
+
+
+Contact Model
+
+const mongoose = require("mongoose");
+
+const contactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Contact", contactSchema);
+
+Contract Brand Model
+
+const mongoose = require("mongoose");
+
+const contractBrandSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  logo: { type: String, required: true },
+  website: { type: String, required: true },
+});
+
+module.exports = mongoose.model("ContractBrand", contractBrandSchema);
+
+
+Fair Model
+
+const mongoose = require("mongoose");
+
+const fairSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  location: { type: String, required: true },
+  date: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Fair", fairSchema);
+
+Material Page Brand Model
+
+const mongoose = require("mongoose");
+
+const materialPageBrandSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  logo: { type: String, required: true },
+  website: { type: String, required: true },
+});
+
+module.exports = mongoose.model("MaterialPageBrand", materialPageBrandSchema);
+
+Newsletter Subscription Model
+
+const mongoose = require("mongoose");
+
+const newsletterSubscriptionSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+});
+
+const NewsletterSubscription = mongoose.model(
+  "NewsletterSubscription",
+  newsletterSubscriptionSchema
+);
+
+module.exports = NewsletterSubscription;
+
+Team Member Model
+
+const mongoose = require("mongoose");
+
+const teamMemberSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  role: { type: String, required: true },
+  photo: { type: String, required: true },
+});
+
+module.exports = mongoose.model("TeamMember", teamMemberSchema);
+
+
+
+
+
+
+
+
+
+
+
