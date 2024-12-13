@@ -62,7 +62,7 @@ function App() {
         <Navbar />
         <div style={contentStyle}>
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route index path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/materials" element={<MaterialsPage />} />
