@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import TeamPage from "./pages/TeamPage";
-import FairsPage from "./pages/FairsPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -66,7 +65,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/team" element={<TeamPage />} />
-            <Route path="/fairs" element={<FairsPage />} />
             <Route path="/materials" element={<MaterialsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contracts" element={<ContractsPage />} />

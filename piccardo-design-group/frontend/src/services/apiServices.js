@@ -30,26 +30,6 @@ export const updateBrand = (brandId, brand) => {
 export const deleteBrand = (brandId) =>
   fetch(`${API_BASE_URL}/brands/${brandId}`, { method: "DELETE" });
 
-export const fetchFairs = () =>
-  fetch(`${API_BASE_URL}/fairs`).then((res) => res.json());
-
-export const addFair = (fair) =>
-  fetch(`${API_BASE_URL}/fairs`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(fair),
-  }).then((res) => res.json());
-
-export const deleteFair = (fairId) =>
-  fetch(`${API_BASE_URL}/fairs/${fairId}`, { method: "DELETE" });
-
-export const updateFair = (fair, id) =>
-  fetch(`${API_BASE_URL}/fairs/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(fair),
-  }).then((res) => res.json());
-
 export const fetchTeamMembers = () =>
   fetch(`${API_BASE_URL}/team`).then((res) => res.json());
 

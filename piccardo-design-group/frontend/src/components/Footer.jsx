@@ -73,9 +73,6 @@ function Footer() {
         <Link to="/team" style={linkStyle}>
           Team
         </Link>
-        <Link to="/fairs" style={linkStyle}>
-          Fiere
-        </Link>
         <Link to="/materials" style={linkStyle}>
           Brands
         </Link>

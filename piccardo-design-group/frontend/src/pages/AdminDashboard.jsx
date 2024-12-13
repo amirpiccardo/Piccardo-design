@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Tabs, Tab, Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCalendarAlt,
   faTags,
   faUsers,
   faBoxOpen,
@@ -13,7 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import BrandManagement from "../components/BrandManagement";
-import FairManagement from "../components/FairManagement";
 import MaterialBrandManagement from "../components/MaterialBrandManagement";
 import ContractBrandManagement from "../components/ContractBrandManagement";
 import ContactManagement from "../components/ContactManagement";
@@ -51,16 +49,6 @@ function AdminDashboard() {
               onSelect={(k) => setKey(k)}
               className="mb-3"
             >
-              <Tab
-                eventKey="fairs"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faCalendarAlt} /> Fairs
-                  </>
-                }
-              >
-                <FairManagement />
-              </Tab>
               <Tab
                 eventKey="brands"
                 title={

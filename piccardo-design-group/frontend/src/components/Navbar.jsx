@@ -114,17 +114,6 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link"
-                to="/fairs"
-                style={
-                  location.pathname === "/fairs"
-                    ? { ...navLinkStyle("/fairs"), ...activeLinkStyle }
-                    : navLinkStyle("/fairs")
-                }
-              >
-                Fiere
-              </Link>
             </li>
             <li className="nav-item">
               <Link
