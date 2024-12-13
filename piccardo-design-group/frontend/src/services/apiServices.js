@@ -1,5 +1,5 @@
 const API_BASE_URL = `${import.meta.env.VITE_BASE_URL}/api`;
-
+console.log('API_BASE_URL:', API_BASE_URL); 
 export const fetchBrands = () =>
   fetch(`${API_BASE_URL}/brands`).then((res) => res.json());
 
