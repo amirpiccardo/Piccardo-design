@@ -7,7 +7,7 @@ const NewsletterManagement = () => {
     data: subscribers,
     loading,
     error,
-  } = useFetchData(`${import.meta.env.VITE_BACKEND_URL}/api/subscribers`);
+  } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/subscribers`);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching subscribers: {error.message}</div>;

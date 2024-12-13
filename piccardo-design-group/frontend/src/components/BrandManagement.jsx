@@ -11,7 +11,7 @@ const BrandManagement = () => {
     website: "",
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: brands, loading, error } = useFetchData(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
+  const { data: brands, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/brands`);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;

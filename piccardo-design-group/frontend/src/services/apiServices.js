@@ -1,4 +1,4 @@
-const API_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api`;
+const API_BASE_URL = `${import.meta.env.VITE_BASE_URL}/api`;
 
 export const fetchBrands = () =>
   fetch(`${API_BASE_URL}/brands`).then((res) => res.json());

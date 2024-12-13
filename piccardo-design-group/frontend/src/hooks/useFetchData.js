@@ -6,7 +6,7 @@ const useFetchData = (url) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}${url}`)
+    fetch(`${import.meta.env.VITE_REACT_APP_BASE_URL}${url}`)
       .then((response) => {
         if (!response.ok) throw new Error("Network response was not ok");
         return response.json();

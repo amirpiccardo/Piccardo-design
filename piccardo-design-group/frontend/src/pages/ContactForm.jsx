@@ -14,7 +14,7 @@ function ContactForm() {
     setStatus("Invio in corso...");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contact`, {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

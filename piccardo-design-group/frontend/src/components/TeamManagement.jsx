@@ -20,7 +20,7 @@ const TeamManagement = () => {
     photo: null,
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: teamMembers, loading, error } = useFetchData(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/team`);
+  const { data: teamMembers, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/team`);
 
   const handleTeamMemberInputChange = (e) => {
     const { name, value } = e.target;
@@ -123,7 +123,7 @@ const TeamManagement = () => {
                 <h5 className="card-title">{teamMember.name}</h5>
                 <p className="card-text">{teamMember.role}</p>
                 <img
-                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${teamMember.photo}`}
+                  src={`${import.meta.env.VITE_BASE_URL}/${teamMember.photo}`}
                   alt={teamMember.name}
                   className="img-fluid"
                 />

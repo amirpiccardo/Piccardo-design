@@ -10,7 +10,7 @@ function HomePage() {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/brands`)
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`)
       .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
@@ -87,7 +87,7 @@ function HomePage() {
           >
             <a href={brand.website} target="_blank" rel="noopener noreferrer">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}/${normalizePath(brand.logo)}`}
+                src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
                 alt={brand.name}
                 style={logoStyle}
               />

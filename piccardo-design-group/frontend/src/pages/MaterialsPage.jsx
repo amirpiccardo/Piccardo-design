@@ -7,7 +7,7 @@ function MaterialsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/materialpage/brands`)
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -99,7 +99,7 @@ function MaterialsPage() {
                 key={brand._id}
               >
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
+                  src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
                   alt={brand.name}
                   style={logoStyle}
                 />

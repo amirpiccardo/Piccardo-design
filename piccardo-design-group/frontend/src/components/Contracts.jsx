@@ -6,7 +6,7 @@ function Contracts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contract/brands`)
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Network response was not ok: ${response.statusText}`);
@@ -98,7 +98,7 @@ function Contracts() {
               key={brand._id}
             >
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
+                src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
                 alt={brand.name}
                 style={logoStyle}
               />

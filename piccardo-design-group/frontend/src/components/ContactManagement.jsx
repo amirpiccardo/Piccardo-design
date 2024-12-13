@@ -3,7 +3,7 @@ import useFetchData from "../hooks/useFetchData";
 import { deleteContact } from "../services/apiServices";
 
 const ContactManagement = () => {
-  const { data: contacts, loading, error } = useFetchData(`${import.meta.env.VITE_BACKEND_URL}/api/contact`);
+  const { data: contacts, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/contact`);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching contacts: {error.message}</div>;
