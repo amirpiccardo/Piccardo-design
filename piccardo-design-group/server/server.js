@@ -7,7 +7,7 @@ const path = require("path");
 const app = express();
 
 const corsOptions = {
-  origin: 'https://piccardo-design.vercel.app/',
+  origin: 'https://piccardo-design-group.onrender.com',
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
