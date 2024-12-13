@@ -10,7 +10,7 @@ function HomePage() {
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/brands`)
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/brands`)
       .then((response) => response.json())
       .then((data) => setBrands(data))
       .catch((error) => console.error("Error fetching brands:", error));
@@ -87,7 +87,7 @@ function HomePage() {
           >
             <a href={brand.website} target="_blank" rel="noopener noreferrer">
               <img
-                src={`${process.env.REACT_APP_BACKEND_URL}/${normalizePath(brand.logo)}`}
+                src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${normalizePath(brand.logo)}`}
                 alt={brand.name}
                 style={logoStyle}
               />

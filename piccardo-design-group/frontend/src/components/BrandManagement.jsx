@@ -20,7 +20,7 @@ const BrandManagement = () => {
     data: brands,
     loading,
     error,
-  } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/brands`);
+  } = useFetchData(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/brands`);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;

@@ -101,7 +101,7 @@ function MaterialsPage() {
                 key={brand._id}
               >
                 <img
-                  src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
+                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${brand.logo}`}
                   alt={brand.name}
                   style={logoStyle}
                 />

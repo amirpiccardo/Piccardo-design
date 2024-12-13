@@ -6,7 +6,7 @@ function Contracts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contract/brands`)
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/contract/brands`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -54,16 +54,16 @@ function Contracts() {
 
   const logosRowStyle = {
     display: "flex",
-    justifyContent: "space-around", // Posizionamento più ravvicinato
+    justifyContent: "space-around", 
     alignItems: "center",
     marginTop: "20px",
     flexWrap: "wrap",
   };
 
   const logoStyle = {
-    width: "450px", // Dimensioni fisse per larghezza
-    height: "350px", // Dimensioni fisse per altezza
-    objectFit: "cover", // Garantisce che l'immagine riempia l'elemento
+    width: "450px", 
+    height: "350px", 
+    objectFit: "cover", 
     margin: "10px",
   };
 
@@ -102,7 +102,7 @@ function Contracts() {
               key={brand._id}
             >
               <img
-                src={`${process.env.REACT_APP_BACKEND_URL}/${brand.logo}`}
+                src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${brand.logo}`}
                 alt={brand.name}
                 style={logoStyle}
               />

@@ -16,7 +16,7 @@ const NewsletterBanner = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscribe`, {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

@@ -12,7 +12,7 @@ import { addFair, deleteFair, updateFair } from "../services/apiServices";
 const FairManagement = () => {
   const [newFair, setNewFair] = useState({ name: "", location: "", date: "" });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: fairs, loading, error } = useFetchData(`${process.env.REACT_APP_BACKEND_URL}/api/fairs`);
+  const { data: fairs, loading, error } = useFetchData(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/fairs`);
 
   const handleFairInputChange = (e) => {
     const { name, value } = e.target;

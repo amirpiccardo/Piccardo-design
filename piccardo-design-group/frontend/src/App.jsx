@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/verifyToken`, {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/verifyToken`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

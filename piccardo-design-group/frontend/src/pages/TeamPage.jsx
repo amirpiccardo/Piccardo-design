@@ -7,7 +7,7 @@ function TeamPage() {
   const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/team`)
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/team`)
       .then((response) => response.json())
       .then((data) => setTeamMembers(data))
       .catch((error) => console.error("Error fetching team members:", error));
@@ -186,7 +186,7 @@ function TeamPage() {
                 }
               >
                 <img
-                  src={`${process.env.REACT_APP_BACKEND_URL}/${member.photo}`}
+                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${member.photo}`}
                   alt={member.name}
                   className="img-fluid mb-2"
                   style={memberImageStyle}
