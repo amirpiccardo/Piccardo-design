@@ -27,7 +27,6 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const teamRoutes = require("./routes/team");
 const brandRoutes = require("./routes/brands");
-const fairRoutes = require("./routes/fairs");
 
 app.use("/api/contact", contactRoutes);
 app.use("/api", subscriptionRoutes);
@@ -35,7 +34,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/brands", brandRoutes);
-app.use("/api/fairs", fairRoutes);
 
 const dbURI = process.env.MONGO_URI;
 mongoose
