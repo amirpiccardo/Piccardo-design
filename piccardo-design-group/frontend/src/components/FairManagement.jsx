@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import useFetchData from "../hooks/useFetchData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faPlus,
-  faSave,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
 import { addFair, deleteFair, updateFair } from "../services/apiServices";
 
 const FairManagement = () => {
   const [newFair, setNewFair] = useState({ name: "", location: "", date: "" });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: fairs, loading, error } = useFetchData(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/fairs`);
+  const { data: fairs, loading, error } = useFetchData(`${import.meta.env.VITE_BACKEND_URL}/api/fairs`);
 
   const handleFairInputChange = (e) => {
     const { name, value } = e.target;

@@ -6,12 +6,10 @@ function Contracts() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/contract/brands`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/contract/brands`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
         return response.json();
       })
@@ -54,16 +52,16 @@ function Contracts() {
 
   const logosRowStyle = {
     display: "flex",
-    justifyContent: "space-around", 
+    justifyContent: "space-around",
     alignItems: "center",
     marginTop: "20px",
     flexWrap: "wrap",
   };
 
   const logoStyle = {
-    width: "450px", 
-    height: "350px", 
-    objectFit: "cover", 
+    width: "450px",
+    height: "350px",
+    objectFit: "cover",
     margin: "10px",
   };
 
@@ -83,14 +81,12 @@ function Contracts() {
     return result;
   };
 
-  const brandChunks = chunkArray(brands, 3); // 3 per riga
+  const brandChunks = chunkArray(brands, 3);
 
   return (
     <div style={pageStyle}>
       <h1 style={headingStyle}>Esplora i Nostri Contratti</h1>
-      <p style={subHeadingStyle}>
-        Clicca sul contract di tuo interesse per vedere più dettagli.
-      </p>
+      <p style={subHeadingStyle}>Clicca sul contract di tuo interesse per vedere più dettagli.</p>
       {brandChunks.map((chunk, idx) => (
         <div style={logosRowStyle} key={idx}>
           {chunk.map((brand) => (
@@ -102,7 +98,7 @@ function Contracts() {
               key={brand._id}
             >
               <img
-                src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${brand.logo}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
                 alt={brand.name}
                 style={logoStyle}
               />

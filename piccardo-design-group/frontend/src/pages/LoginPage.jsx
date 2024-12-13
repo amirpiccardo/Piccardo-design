@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-  faSignInAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +14,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/auth/login`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

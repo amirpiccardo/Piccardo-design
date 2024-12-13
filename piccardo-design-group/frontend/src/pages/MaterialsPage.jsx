@@ -7,12 +7,10 @@ function MaterialsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/materialpage/brands`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/materialpage/brands`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
+          throw new Error(`Network response was not ok: ${response.statusText}`);
         }
         return response.json();
       })
@@ -101,7 +99,7 @@ function MaterialsPage() {
                 key={brand._id}
               >
                 <img
-                  src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${brand.logo}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
                   alt={brand.name}
                   style={logoStyle}
                 />

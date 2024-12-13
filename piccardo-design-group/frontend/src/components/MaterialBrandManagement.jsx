@@ -11,7 +11,7 @@ const MaterialBrandManagement = () => {
     website: "",
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: brands, loading, error } = useFetchData(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/brands`);
+  const { data: brands, loading, error } = useFetchData(`${import.meta.env.VITE_BACKEND_URL}/api/brands`);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;
@@ -118,7 +118,7 @@ const MaterialBrandManagement = () => {
                   rel="noopener noreferrer"
                 >
                   <img
-                    src={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/${brand.logo}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
                     alt={brand.name}
                     className="img-fluid"
                   />
