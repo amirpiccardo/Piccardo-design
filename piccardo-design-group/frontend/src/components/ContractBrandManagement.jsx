@@ -5,6 +5,7 @@ import { faEdit, faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-ico
 import { addBrand, updateBrand, deleteBrand } from "../services/apiServices";
 
 const ContractBrandManagement = () => {
+console.log(import.meta.env.VITE_BASE_URL)
   const [newBrand, setNewBrand] = useState({
     name: "",
     logo: null,
