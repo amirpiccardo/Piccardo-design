@@ -1,6 +1,6 @@
 const API_BASE_URL = `${import.meta.env.VITE_BASE_URL}/api`;
 export const fetchBrands = () =>
-  fetch(`${API_BASE_URL}/brands`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/brands`).then((res) => res.json());
 
 export const addBrand = (brand) => {
   const formData = new FormData();
@@ -8,7 +8,7 @@ export const addBrand = (brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/brands`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/brands`, {
     method: "POST",
     body: formData,
   }).then((res) => res.json());
@@ -20,17 +20,17 @@ export const updateBrand = (brandId, brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/brands/${brandId}`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/brands/${brandId}`, {
     method: "PUT",
     body: formData,
   }).then((res) => res.json());
 };
 
 export const deleteBrand = (brandId) =>
-  fetch(`${API_BASE_URL}/brands/${brandId}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/brands/${brandId}`, { method: "DELETE" });
 
 export const fetchTeamMembers = () =>
-  fetch(`${API_BASE_URL}/team`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/team`).then((res) => res.json());
 
 export const addTeamMember = (teamMember) => {
   const formData = new FormData();
@@ -38,7 +38,7 @@ export const addTeamMember = (teamMember) => {
   formData.append("role", teamMember.role);
   formData.append("photo", teamMember.photo);
 
-  return fetch(`${API_BASE_URL}/team`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/team`, {
     method: "POST",
     body: formData,
   }).then((res) => res.json());
@@ -50,17 +50,17 @@ export const updateTeamMember = (teamMemberId, teamMember) => {
   formData.append("role", teamMember.role);
   formData.append("photo", teamMember.photo);
 
-  return fetch(`${API_BASE_URL}/team/${teamMemberId}`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/team/${teamMemberId}`, {
     method: "PUT",
     body: formData,
   }).then((res) => res.json());
 };
 
 export const deleteTeamMember = (teamMemberId) =>
-  fetch(`${API_BASE_URL}/team/${teamMemberId}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/team/${teamMemberId}`, { method: "DELETE" });
 
 export const fetchMaterialBrands = () =>
-  fetch(`${API_BASE_URL}/materialpage/brands`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/materialpage/brands`).then((res) => res.json());
 
 export const addMaterialBrand = (brand) => {
   const formData = new FormData();
@@ -68,7 +68,7 @@ export const addMaterialBrand = (brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/materialpage/brands`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/materialpage/brands`, {
     method: "POST",
     body: formData,
   }).then((res) => res.json());
@@ -80,17 +80,17 @@ export const updateMaterialBrand = (brandId, brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/materialpage/brands/${brandId}`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/materialpage/brands/${brandId}`, {
     method: "PUT",
     body: formData,
   }).then((res) => res.json());
 };
 
 export const deleteMaterialBrand = (brandId) =>
-  fetch(`${API_BASE_URL}/materialpage/brands/${brandId}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/materialpage/brands/${brandId}`, { method: "DELETE" });
 
 export const fetchContractBrands = () =>
-  fetch(`${API_BASE_URL}/contract/brands`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/contract/brands`).then((res) => res.json());
 
 export const addContractBrand = (brand) => {
   const formData = new FormData();
@@ -98,7 +98,7 @@ export const addContractBrand = (brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/contract/brands`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/contract/brands`, {
     method: "POST",
     body: formData,
   }).then((res) => res.json());
@@ -110,23 +110,23 @@ export const updateContractBrand = (brandId, brand) => {
   formData.append("logo", brand.logo);
   formData.append("website", brand.website);
 
-  return fetch(`${API_BASE_URL}/contract/brands/${brandId}`, {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/contract/brands/${brandId}`, {
     method: "PUT",
     body: formData,
   }).then((res) => res.json());
 };
 
 export const deleteContractBrand = (brandId) =>
-  fetch(`${API_BASE_URL}/contract/brands/${brandId}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/contract/brands/${brandId}`, { method: "DELETE" });
 
 export const fetchContacts = () =>
-  fetch(`${API_BASE_URL}/contact`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/contact`).then((res) => res.json());
 
 export const deleteContact = (contactId) =>
-  fetch(`${API_BASE_URL}/contact/${contactId}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/contact/${contactId}`, { method: "DELETE" });
 
 export const fetchSubscribers = () =>
-  fetch(`${API_BASE_URL}/subscribers`).then((res) => res.json());
+  fetch(`${import.meta.env.VITE_BASE_URL}/subscribers`).then((res) => res.json());
 
 export const deleteSubscriber = (email) =>
-  fetch(`${API_BASE_URL}/unsubscribe/${email}`, { method: "DELETE" });
+  fetch(`${import.meta.env.VITE_BASE_URL}/unsubscribe/${email}`, { method: "DELETE" });
