@@ -59,7 +59,7 @@ function Contracts() {
   };
 
   const logoStyle = {
-    width: "450px",
+    width: "400px",
     height: "350px",
     objectFit: "cover",
     margin: "10px",
@@ -92,7 +92,7 @@ function Contracts() {
         <div style={logosRowStyle} key={idx}>
           {chunk.map((brand) => (
             <a
-              href={brand.website}
+              h1={brand.website}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textAlign: "center", margin: "10px" }}
