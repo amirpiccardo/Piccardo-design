@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-  faSignInAlt,
-  faEnvelope,
-  faLock,
+import { faEye, faEyeSlash,faSignInAlt,faEnvelope,faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import backgroundImage from "../assets/primosfondo.jpg"
+import backgroundImage from "../assets/primosfondo.jpg";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,13 +45,14 @@ function LoginPage() {
     setShowPassword(!showPassword);
   };
 
-  const containerStyle = {
-    marginTop: "100px",
+  const pageStyle = {
+    height: "100vh",
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    position: "relative",
-    padding: "50px 0",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   const cardStyle = {
@@ -97,75 +93,69 @@ function LoginPage() {
   };
 
   return (
-    <div className="container" style={containerStyle}>
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow-lg" style={cardStyle}>
-            <div
-              className="card-header text-center text-white"
-              style={cardHeaderStyle}
-            >
-              <h3>Admin Login</h3>
-            </div>
-            <div className="card-body p-4" style={cardBodyStyle}>
-              <form onSubmit={handleLogin}>
-                <div className="input-group" style={inputGroupStyle}>
-                  <div className="input-group-prepend" style={iconStyle}>
-                    <FontAwesomeIcon icon={faEnvelope} className="text-muted" />
-                  </div>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
+    <div style={pageStyle}>
+      <div className="col-md-6">
+        <div className="card shadow-lg" style={cardStyle}>
+          <div
+            className="card-header text-center text-white"
+            style={cardHeaderStyle}
+          >
+            <h3>Admin Login</h3>
+          </div>
+          <div className="card-body p-4" style={cardBodyStyle}>
+            <form onSubmit={handleLogin}>
+              <div className="input-group" style={inputGroupStyle}>
+                <div className="input-group-prepend" style={iconStyle}>
+                  <FontAwesomeIcon icon={faEnvelope} className="text-muted" />
                 </div>
-                <div className="input-group" style={inputGroupStyle}>
-                  <div className="input-group-prepend" style={iconStyle}>
-                    <FontAwesomeIcon icon={faLock} className="text-muted" />
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <div className="input-group-append">
-                    <button
-                      type="button"
-                      className="btn btn-outline-secondary"
-                      onClick={togglePasswordVisibility}
-                    >
-                      <FontAwesomeIcon
-                        icon={showPassword ? faEyeSlash : faEye}
-                      />
-                    </button>
-                  </div>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  value={email}
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-group" style={inputGroupStyle}>
+                <div className="input-group-prepend" style={iconStyle}>
+                  <FontAwesomeIcon icon={faLock} className="text-muted" />
                 </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary mt-4 w-100"
-                  style={submitButtonStyle}
-                  onMouseEnter={(e) =>
-                    (e.target.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                >
-                  <FontAwesomeIcon
-                    icon={faSignInAlt}
-                    style={{ marginRight: "10px" }}
-                  />
-                  Login
-                </button>
-                {error && <p className="text-danger mt-3">{error}</p>}
-              </form>
-            </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div className="input-group-append">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={togglePasswordVisibility}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </button>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary mt-4 w-100"
+                style={submitButtonStyle}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+              >
+                <FontAwesomeIcon
+                  icon={faSignInAlt}
+                  style={{ marginRight: "10px" }}
+                />
+                Login
+              </button>
+              {error && <p className="text-danger mt-3">{error}</p>}
+            </form>
           </div>
         </div>
       </div>
