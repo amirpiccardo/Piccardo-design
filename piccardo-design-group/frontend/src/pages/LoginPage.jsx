@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  faEye,
+  faEyeSlash,
+  faSignInAlt,
+  faEnvelope,
+  faLock,
+} from "@fortawesome/free-solid-svg-icons";
+import "bootstrap/dist/css/bootstrap.min.css";
+import backgroundImage from "../assets/your-background-image.jpg"; // Assicurati che il percorso sia corretto
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,13 +22,16 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -43,26 +53,17 @@ function LoginPage() {
 
   const containerStyle = {
     marginTop: "100px",
-    backgroundImage: "url('https://via.placeholder.com/1500')",
+    backgroundImage: `url(${backgroundImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     position: "relative",
     padding: "50px 0",
-    borderRadius: "10px",
-  };
-
-  const overlayStyle = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0, 0, 0, 0.5)",
-    borderRadius: "10px",
   };
 
   const cardStyle = {
     borderRadius: "10px",
+    background: "rgba(0, 0, 0, 0.7)",
+    color: "#fff",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     position: "relative",
     zIndex: 2,
@@ -71,7 +72,7 @@ function LoginPage() {
   const cardHeaderStyle = {
     borderTopLeftRadius: "10px",
     borderTopRightRadius: "10px",
-    background: "linear-gradient(135deg, #6D5BBA 0%, #8D58BF 100%)",
+    background: "rgba(0, 0, 0, 0.8)",
   };
 
   const cardBodyStyle = {
@@ -88,20 +89,23 @@ function LoginPage() {
   };
 
   const submitButtonStyle = {
-    backgroundColor: "#6D5BBA",
-    borderColor: "#6D5BBA",
+    backgroundColor: "#d3d3d3",
+    borderColor: "#d3d3d3",
     transition: "transform 0.3s",
     fontSize: "16px",
-    borderRadius: "50px",
+    borderRadius: "0",
+    color: "#000",
   };
 
   return (
     <div className="container" style={containerStyle}>
-      <div style={overlayStyle}></div>
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card shadow-lg" style={cardStyle}>
-            <div className="card-header text-center text-white" style={cardHeaderStyle}>
+            <div
+              className="card-header text-center text-white"
+              style={cardHeaderStyle}
+            >
               <h3>Admin Login</h3>
             </div>
             <div className="card-body p-4" style={cardBodyStyle}>
@@ -139,7 +143,9 @@ function LoginPage() {
                       className="btn btn-outline-secondary"
                       onClick={togglePasswordVisibility}
                     >
-                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                      />
                     </button>
                   </div>
                 </div>
@@ -147,10 +153,15 @@ function LoginPage() {
                   type="submit"
                   className="btn btn-primary mt-4 w-100"
                   style={submitButtonStyle}
-                  onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+                  onMouseEnter={(e) =>
+                    (e.target.style.transform = "scale(1.05)")
+                  }
                   onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
                 >
-                  <FontAwesomeIcon icon={faSignInAlt} style={{ marginRight: "10px" }} />
+                  <FontAwesomeIcon
+                    icon={faSignInAlt}
+                    style={{ marginRight: "10px" }}
+                  />
                   Login
                 </button>
                 {error && <p className="text-danger mt-3">{error}</p>}
