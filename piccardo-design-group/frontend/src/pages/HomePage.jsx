@@ -52,18 +52,10 @@ function HomePage() {
     textDecoration: "none",
     fontSize: "18px",
     transition: "transform 0.3s",
-  };
-
-  const buttonOnImageStyle = {
-    ...buttonStyle,
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-  };
-
-  const buttonHoverStyle = {
-    transform: "scale(1.05)",
   };
 
   const normalizePath = (path) => path.replace(/\\/g, "/");
@@ -125,13 +117,13 @@ function HomePage() {
             />
             <Link
               to="/materials"
-              style={buttonOnImageStyle}
-              onMouseEnter={(e) =>
-                Object.assign(e.target.style, buttonHoverStyle)
-              }
-              onMouseLeave={(e) =>
-                Object.assign(e.target.style, buttonStyle)
-              }
+              style={buttonStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               Scopri di più
             </Link>
