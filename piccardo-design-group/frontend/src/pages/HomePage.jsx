@@ -122,8 +122,12 @@ function HomePage() {
             <Link
               to="/materials"
               style={buttonOnImageStyle}
-              onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-              onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+              onMouseEnter={(e) => {
+                e.target.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = "scale(1)";
+              }}
             >
               Scopri di più
             </Link>
