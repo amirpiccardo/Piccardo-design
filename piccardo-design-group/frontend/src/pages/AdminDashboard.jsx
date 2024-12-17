@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, Tab, Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTags,
-  faUsers,
-  faBoxOpen,
-  faFileContract,
-  faAddressBook,
-  faEnvelope,
-  faSignOutAlt,
+import { 
+  faTags, 
+  faUsers, 
+  faBoxOpen, 
+  faFileContract, 
+  faAddressBook, 
+  faEnvelope, 
+  faSignOutAlt 
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import BrandManagement from "../components/BrandManagement";
@@ -22,7 +22,9 @@ function AdminDashboard() {
   const [key, setKey] = useState("brands");
   const navigate = useNavigate();
 
-  useEffect(() => { console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); }, []);
+  useEffect(() => {
+    console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
