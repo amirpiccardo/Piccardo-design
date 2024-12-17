@@ -1,18 +1,33 @@
-import React, { useState } from "react";
-import useFetchData from "../hooks/useFetchData";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
 import { addBrand, updateBrand, deleteBrand } from "../services/apiServices";
 
 const ContractBrandManagement = () => {
-console.log(import.meta.env.VITE_BASE_URL)
-  const [newBrand, setNewBrand] = useState({
-    name: "",
-    logo: null,
-    website: "",
-  });
+  const [brands, setBrands] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [newBrand, setNewBrand] = useState({ name: "", logo: null, website: "" });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: brands, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/brands`);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setBrands(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching brands:", error);
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   const handleBrandInputChange = (e) => {
     const { name, value } = e.target;
