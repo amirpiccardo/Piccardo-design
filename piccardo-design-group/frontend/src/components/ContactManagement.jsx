@@ -1,9 +1,31 @@
-import React from "react";
-import useFetchData from "../hooks/useFetchData";
+import React, { useState, useEffect } from "react";
 import { deleteContact } from "../services/apiServices";
 
 const ContactManagement = () => {
-  const { data: contacts, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/contact`);
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/contact`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setContacts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching contacts:", error);
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching contacts: {error.message}</div>;

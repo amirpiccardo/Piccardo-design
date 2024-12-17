@@ -9,7 +9,9 @@ function Contracts() {
     fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
         }
         return response.json();
       })
@@ -63,30 +65,15 @@ function Contracts() {
     height: "350px",
     objectFit: "cover",
     margin: "10px",
+    transition: "transform 0.3s",
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching brands: {error.message}</div>;
-  }
-
-  const chunkArray = (arr, size) => {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  };
-
-  const brandChunks = chunkArray(brands, 3);
 
   return (
     <div style={pageStyle}>
       <h1 style={headingStyle}>Esplora i Nostri Contratti</h1>
-      <p style={subHeadingStyle}>Clicca sul contract di tuo interesse per vedere più dettagli.</p>
+      <p style={subHeadingStyle}>
+        Clicca sul contract di tuo interesse per vedere più dettagli.
+      </p>
       {brandChunks.map((chunk, idx) => (
         <div style={logosRowStyle} key={idx}>
           {chunk.map((brand) => (
@@ -94,14 +81,23 @@ function Contracts() {
               href={brand.website}
               target="_blank"
               rel="noopener noreferrer"
-              style={logoStyle}
+              style={{ textAlign: "center", margin: "10px" }}
               key={brand._id}
+              onMouseEnter={(e) =>
+                (e.currentTarget.querySelector("img").style.transform =
+                  "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.querySelector("img").style.transform =
+                  "scale(1)")
+              }
             >
               <img
                 src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
                 alt={brand.name}
                 style={logoStyle}
               />
+              <p>{brand.name}</p>
             </a>
           ))}
         </div>

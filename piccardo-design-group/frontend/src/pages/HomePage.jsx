@@ -38,6 +38,7 @@ function HomePage() {
     width: "150px",
     height: "auto",
     margin: "10px",
+    transition: "transform 0.3s",
   };
 
   const buttonStyle = {
@@ -50,6 +51,7 @@ function HomePage() {
     textAlign: "center",
     textDecoration: "none",
     fontSize: "18px",
+    transition: "transform 0.3s",
   };
 
   const buttonOnImageStyle = {
@@ -85,9 +87,23 @@ function HomePage() {
             className="my-2 d-flex justify-content-center"
             key={index}
           >
-            <a href={brand.website} target="_blank" rel="noopener noreferrer">
+            <a
+              href={brand.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={(e) =>
+                (e.currentTarget.querySelector("img").style.transform =
+                  "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.querySelector("img").style.transform =
+                  "scale(1)")
+              }
+            >
               <img
-                src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(
+                  brand.logo
+                )}`}
                 alt={brand.name}
                 style={logoStyle}
               />
@@ -103,7 +119,12 @@ function HomePage() {
               alt="Additional Design Image"
               style={imageStyle}
             />
-            <Link to="/materials" style={buttonOnImageStyle}>
+            <Link
+              to="/materials"
+              style={buttonOnImageStyle}
+              onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+              onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+            >
               Scopri di più
             </Link>
           </div>

@@ -10,7 +10,9 @@ function MaterialsPage() {
     fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
         }
         return response.json();
       })
@@ -61,25 +63,8 @@ function MaterialsPage() {
     width: "150px",
     height: "auto",
     margin: "10px",
+    transition: "transform 0.3s",
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching brands: {error.message}</div>;
-  }
-
-  const chunkArray = (arr, size) => {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  };
-
-  const brandChunks = chunkArray(brands, 4);
 
   return (
     <div>
@@ -97,6 +82,14 @@ function MaterialsPage() {
                 rel="noopener noreferrer"
                 style={logoStyle}
                 key={brand._id}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.querySelector("img").style.transform =
+                    "scale(1.05)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.querySelector("img").style.transform =
+                    "scale(1)")
+                }
               >
                 <img
                   src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}

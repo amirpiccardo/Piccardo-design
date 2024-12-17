@@ -179,10 +179,10 @@ function TeamPage() {
                 className="col-12 col-sm-6 col-lg-4"
                 style={memberStyle}
                 onMouseEnter={(e) =>
-                  Object.assign(e.currentTarget.style, memberHoverStyle)
+                  (e.currentTarget.style.transform = "scale(1.05)")
                 }
                 onMouseLeave={(e) =>
-                  Object.assign(e.currentTarget.style, memberStyle)
+                  (e.currentTarget.style.transform = "scale(1)")
                 }
               >
                 <img
@@ -191,11 +191,9 @@ function TeamPage() {
                   className="img-fluid mb-2"
                   style={memberImageStyle}
                   onMouseEnter={(e) =>
-                    Object.assign(e.target.style, memberHoverStyle)
+                    (e.target.style.transform = "scale(1.05)")
                   }
-                  onMouseLeave={(e) =>
-                    Object.assign(e.target.style, memberImageStyle)
-                  }
+                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
                 />
                 <p style={memberNameStyle}>{member.name}</p>
                 <p style={memberRoleStyle}>{member.role}</p>
