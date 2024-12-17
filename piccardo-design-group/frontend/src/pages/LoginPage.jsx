@@ -1,36 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash,faSignInAlt,faEnvelope,faLock,
-} from "@fortawesome/free-solid-svg-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
-import backgroundImage from "../assets/primosfondo.jpg";
+import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import backgroundImage from '../assets/primosfondo.jpg';
+import { useAuth } from "../context/AuthContext";  
+
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();  
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await response.json();
 
       if (data.auth) {
         localStorage.setItem("authToken", data.token);
+        setIsAuthenticated(true); 
         navigate("/admin");
       } else {
         setError("Invalid username or password");
@@ -96,10 +96,7 @@ function LoginPage() {
     <div style={pageStyle}>
       <div className="col-md-6">
         <div className="card shadow-lg" style={cardStyle}>
-          <div
-            className="card-header text-center text-white"
-            style={cardHeaderStyle}
-          >
+          <div className="card-header text-center text-white" style={cardHeaderStyle}>
             <h3>Admin Login</h3>
           </div>
           <div className="card-body p-4" style={cardBodyStyle}>
@@ -148,10 +145,7 @@ function LoginPage() {
                 onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
                 onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
               >
-                <FontAwesomeIcon
-                  icon={faSignInAlt}
-                  style={{ marginRight: "10px" }}
-                />
+                <FontAwesomeIcon icon={faSignInAlt} style={{ marginRight: "10px" }} />
                 Login
               </button>
               {error && <p className="text-danger mt-3">{error}</p>}
