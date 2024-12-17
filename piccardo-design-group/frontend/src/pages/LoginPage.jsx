@@ -9,7 +9,7 @@ import {
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import backgroundImage from "../assets/primosfondo"
+import backgroundImage from "../assets/primosfondo.jpg"
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
