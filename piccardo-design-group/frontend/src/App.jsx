@@ -12,7 +12,6 @@ import ContactForm from "./pages/ContactForm";
 import Footer from "./components/Footer";
 import ContractsPage from "./pages/ContractsPage";
 
-console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL);
 
 function App() {
   return (

@@ -76,6 +76,9 @@ function Footer() {
         <Link to="/materials" style={linkStyle}>
           Brands
         </Link>
+        <Link to="/contracts" style={linkStyle}>
+          Contracts
+        </Link>
         <button
           className="btn btn-link"
           onClick={handlePrivateAreaClick}
