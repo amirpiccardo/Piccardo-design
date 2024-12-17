@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -43,11 +44,30 @@ function LoginPage() {
 
   const containerStyle = {
     marginTop: "100px",
+    backgroundImage: "url('https://via.placeholder.com/1500')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    position: "relative",
+    padding: "50px 0",
+    borderRadius: "10px",
+    fontFamily: "'Raleway', sans-serif",
+  };
+
+  const overlayStyle = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0, 0, 0, 0.5)",
+    borderRadius: "10px",
   };
 
   const cardStyle = {
     borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    position: "relative",
+    zIndex: 2,
   };
 
   const cardHeaderStyle = {
@@ -74,10 +94,12 @@ function LoginPage() {
     borderColor: "#6D5BBA",
     transition: "transform 0.3s",
     fontSize: "16px",
+    borderRadius: "50px",
   };
 
   return (
     <div className="container" style={containerStyle}>
+      <div style={overlayStyle}></div>
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card shadow-lg" style={cardStyle}>
