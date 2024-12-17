@@ -19,8 +19,10 @@ import NewsletterManagement from "../components/NewsletterManagement";
 import TeamManagement from "../components/TeamManagement";
 
 function AdminDashboard() {
-  const [key, setKey] = useState("fairs");
+  const [key, setKey] = useState("brands");
   const navigate = useNavigate();
+
+  useEffect(() => { console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL); }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");

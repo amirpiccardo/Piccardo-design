@@ -118,7 +118,7 @@ const BrandManagement = () => {
                   rel="noopener noreferrer"
                 >
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${brand.logo}`}
+                    src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
                     alt={brand.name}
                     className="img-fluid"
                   />
