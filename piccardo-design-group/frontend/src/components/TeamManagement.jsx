@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import useFetchData from "../hooks/useFetchData";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -14,13 +13,36 @@ import {
 } from "../services/apiServices";
 
 const TeamManagement = () => {
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [newTeamMember, setNewTeamMember] = useState({
     name: "",
     role: "",
     photo: null,
   });
   const [editIndex, setEditIndex] = useState(null);
-  const { data: teamMembers, loading, error } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/team`);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/team`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTeamMembers(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching team members:", error);
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   const handleTeamMemberInputChange = (e) => {
     const { name, value } = e.target;

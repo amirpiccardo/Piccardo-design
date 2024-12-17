@@ -1,13 +1,31 @@
-import React from "react";
-import useFetchData from "../hooks/useFetchData";
+import React, { useState, useEffect } from "react";
 import { deleteSubscriber } from "../services/apiServices";
 
 const NewsletterManagement = () => {
-  const {
-    data: subscribers,
-    loading,
-    error,
-  } = useFetchData(`${import.meta.env.VITE_BASE_URL}/api/subscribers`);
+  const [subscribers, setSubscribers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/subscribers`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok: ${response.statusText}`
+          );
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSubscribers(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching subscribers:", error);
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching subscribers: {error.message}</div>;
