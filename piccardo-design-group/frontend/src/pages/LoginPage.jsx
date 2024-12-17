@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -50,7 +49,6 @@ function LoginPage() {
     position: "relative",
     padding: "50px 0",
     borderRadius: "10px",
-    fontFamily: "'Raleway', sans-serif",
   };
 
   const overlayStyle = {
