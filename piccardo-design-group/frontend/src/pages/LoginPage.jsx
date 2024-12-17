@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../context/AuthContext";  
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ function LoginPage() {
 
       if (data.auth) {
         localStorage.setItem("authToken", data.token);
+        setIsAuthenticated(true);  
         navigate("/admin");
       } else {
         setError("Invalid username or password");

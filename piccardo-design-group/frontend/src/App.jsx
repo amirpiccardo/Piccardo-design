@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -12,82 +13,40 @@ import Footer from "./components/Footer";
 import ContractsPage from "./pages/ContractsPage";
 
 console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL);
+
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          <Navbar />
+          <div style={{ flex: "1" }}>
+            <Routes>
+              <Route index path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="/materials" element={<MaterialsPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/contracts" element={<ContractsPage />} />
+              <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+              <Route path="/contact" element={<ContactForm />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/verifyToken`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.auth) {
-            setIsAuthenticated(true);
-          } else {
-            localStorage.removeItem("authToken");
-          }
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error verifying token:", error);
-          localStorage.removeItem("authToken");
-          setIsLoading(false);
-        });
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
+function PrivateRoute({ children }) {
+  const { isAuthenticated } = useAuth();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
   }
 
-  const appStyle = {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "100vh",
-  };
-
-  const contentStyle = {
-    flex: "1",
-  };
-
-  return (
-    <BrowserRouter>
-      <div style={appStyle}>
-        <Navbar />
-        <div style={contentStyle}>
-          <Routes>
-            <Route index path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/team" element={<TeamPage />} />
-            <Route path="/materials" element={<MaterialsPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/contracts" element={<ContractsPage />} />
-            <Route
-              path="/admin"
-              element={
-                isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" />
-              }
-            />
-            <Route path="/contact" element={<ContactForm />} />
-            <Route
-              path="/private"
-              element={
-                isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" />
-              }
-            />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
-  );
+  return children;
 }
 
 export default App;
