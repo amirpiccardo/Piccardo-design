@@ -1,170 +1,139 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faPlus,
-  faSave,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  addTeamMember,
-  updateTeamMember,
-  deleteTeamMember,
-} from "../services/apiServices";
+import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { fetchTeamMembers, addTeamMember, updateTeamMember, deleteTeamMember } from "../services/apiServices";
 
 const TeamManagement = () => {
-  const [teamMembers, setTeamMembers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [newTeamMember, setNewTeamMember] = useState({
-    name: "",
-    role: "",
-    photo: null,
-  });
-  const [editIndex, setEditIndex] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const [form, setForm] = useState({ name: "", role: "", photo: null });
+  const [editId, setEditId] = useState(null);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/api/team`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setTeamMembers(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching team members:", error);
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+  const load = () => {
+    setLoading(true);
+    fetchTeamMembers()
+      .then((data) => { setMembers(data); setLoading(false); })
+      .catch(() => setLoading(false));
+  };
 
-  const handleTeamMemberInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "photo") {
-      setNewTeamMember({ ...newTeamMember, photo: e.target.files[0] });
+  useEffect(() => { load(); }, []);
+
+  const reset = () => { setForm({ name: "", role: "", photo: null }); setEditId(null); };
+
+  const showFeedback = (msg, type = "success") => {
+    setFeedback({ msg, type });
+    setTimeout(() => setFeedback(null), 3000);
+  };
+
+  const handleChange = (e) => {
+    if (e.target.name === "photo") {
+      setForm({ ...form, photo: e.target.files[0] });
     } else {
-      setNewTeamMember({ ...newTeamMember, [name]: value });
+      setForm({ ...form, [e.target.name]: e.target.value });
     }
   };
 
-  const handleAddTeamMember = () => {
-    addTeamMember(newTeamMember).then(() => {
-      setNewTeamMember({ name: "", role: "", photo: null });
-    });
+  const handleSubmit = async () => {
+    if (!form.name || !form.role) return showFeedback("Nome e ruolo sono obbligatori", "danger");
+    if (!editId && !form.photo) return showFeedback("La foto è obbligatoria", "danger");
+    setSaving(true);
+    try {
+      if (editId) {
+        await updateTeamMember(editId, form);
+        showFeedback("Membro aggiornato con successo");
+      } else {
+        await addTeamMember(form);
+        showFeedback("Membro aggiunto con successo");
+      }
+      reset();
+      load();
+    } catch {
+      showFeedback("Errore durante il salvataggio", "danger");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleEditTeamMember = (index) => {
-    setEditIndex(index);
-    setNewTeamMember(teamMembers[index]);
+  const handleEdit = (member) => {
+    setEditId(member._id);
+    setForm({ name: member.name, role: member.role, photo: null });
   };
 
-  const handleUpdateTeamMember = () => {
-    const id = teamMembers[editIndex]._id;
-    updateTeamMember(id, newTeamMember).then(() => {
-      setEditIndex(null);
-      setNewTeamMember({ name: "", role: "", photo: null });
-    });
+  const handleDelete = async (id) => {
+    if (!window.confirm("Eliminare questo membro del team?")) return;
+    try {
+      await deleteTeamMember(id);
+      showFeedback("Membro eliminato");
+      load();
+    } catch {
+      showFeedback("Errore durante l'eliminazione", "danger");
+    }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching team members: {error.message}</div>;
+  const normalizePath = (p) => (p || "").replace(/\\/g, "/");
+
+  if (loading) return <div className="text-center py-5"><div className="spinner-border" /></div>;
 
   return (
-    <div className="card mt-5">
-      <div className="card-body">
-        <h5 className="card-title">
-          {editIndex !== null ? "Edit Team Member" : "Add Team Member"}
-        </h5>
-        <form>
-          <div className="form-group mb-3">
-            <label htmlFor="teamMemberName">Team Member Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="teamMemberName"
-              name="name"
-              placeholder="Team Member Name"
-              value={newTeamMember.name}
-              onChange={handleTeamMemberInputChange}
-            />
+    <div>
+      {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
+
+      <div className="card mb-4">
+        <div className="card-body">
+          <h5 className="card-title mb-3">{editId ? "Modifica Membro" : "Aggiungi Membro"}</h5>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <input type="text" className="form-control" name="name" placeholder="Nome" value={form.name} onChange={handleChange} />
+            </div>
+            <div className="col-md-4">
+              <input type="text" className="form-control" name="role" placeholder="Ruolo" value={form.role} onChange={handleChange} />
+            </div>
+            <div className="col-md-4">
+              <input type="file" className="form-control" name="photo" accept="image/*" onChange={handleChange} />
+              {editId && <small className="text-muted">Lascia vuoto per non cambiare la foto</small>}
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="teamMemberRole">Team Member Role</label>
-            <input
-              type="text"
-              className="form-control"
-              id="teamMemberRole"
-              name="role"
-              placeholder="Team Member Role"
-              value={newTeamMember.role}
-              onChange={handleTeamMemberInputChange}
-            />
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="teamMemberPhoto">Team Member Photo</label>
-            <input
-              type="file"
-              className="form-control"
-              id="teamMemberPhoto"
-              name="photo"
-              onChange={handleTeamMemberInputChange}
-            />
-          </div>
-          <div className="form-group">
-            {editIndex !== null ? (
-              <button
-                type="button"
-                className="btn btn-success w-100"
-                onClick={handleUpdateTeamMember}
-              >
-                <FontAwesomeIcon icon={faSave} /> Save
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn btn-primary w-100"
-                onClick={handleAddTeamMember}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add
+          <div className="mt-3 d-flex gap-2">
+            <button className="btn btn-dark" onClick={handleSubmit} disabled={saving}>
+              {saving ? <span className="spinner-border spinner-border-sm me-1" /> : <FontAwesomeIcon icon={editId ? faSave : faPlus} className="me-1" />}
+              {editId ? "Salva" : "Aggiungi"}
+            </button>
+            {editId && (
+              <button className="btn btn-outline-secondary" onClick={reset}>
+                <FontAwesomeIcon icon={faTimes} className="me-1" /> Annulla
               </button>
             )}
           </div>
-        </form>
+        </div>
       </div>
-      <div className="row mt-5">
-        {teamMembers.map((teamMember, index) => (
-          <div className="col-md-4 mb-4" key={teamMember._id}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5 className="card-title">{teamMember.name}</h5>
-                <p className="card-text">{teamMember.role}</p>
+
+      <div className="row">
+        {members.map((member) => (
+          <div className="col-sm-6 col-md-4 col-lg-3 mb-3" key={member._id}>
+            <div className="card h-100 text-center">
+              <div className="card-body d-flex flex-column align-items-center">
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/${teamMember.photo}`}
-                  alt={teamMember.name}
-                  className="img-fluid"
+                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(member.photo)}`}
+                  alt={member.name}
+                  style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover", marginBottom: "10px" }}
                 />
-                <button
-                  className="btn btn-warning btn-sm mt-3 me-2"
-                  onClick={() => handleEditTeamMember(index)}
-                >
-                  <FontAwesomeIcon icon={faEdit} /> Edit
-                </button>
-                <button
-                  className="btn btn-danger btn-sm mt-3"
-                  onClick={() => deleteTeamMember(teamMember._id)}
-                >
-                  <FontAwesomeIcon icon={faTrash} /> Delete
-                </button>
+                <p className="fw-semibold mb-0">{member.name}</p>
+                <p className="text-muted small mb-2">{member.role}</p>
+                <div className="d-flex gap-2">
+                  <button className="btn btn-sm btn-outline-secondary" onClick={() => handleEdit(member)}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(member._id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ))}
+        {members.length === 0 && <p className="text-muted">Nessun membro presente.</p>}
       </div>
     </div>
   );

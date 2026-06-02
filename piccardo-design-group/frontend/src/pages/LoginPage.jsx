@@ -2,153 +2,139 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import backgroundImage from '../assets/primosfondo.jpg';
-import { useAuth } from "../context/AuthContext";  
+import backgroundImage from "../assets/primosfondo.jpg";
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();  
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
-      if (data.auth) {
-        localStorage.setItem("authToken", data.token);
-        setIsAuthenticated(true); 
+      if (response.ok && data.auth) {
+        login(data.token);
         navigate("/admin");
       } else {
-        setError("Invalid username or password");
+        setError(data.message || "Credenziali non valide");
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setError("Login failed. Please try again.");
+    } catch {
+      setError("Errore di connessione. Riprova più tardi.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const pageStyle = {
-    height: "100vh",
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
-
-  const cardStyle = {
-    borderRadius: "10px",
-    background: "rgba(0, 0, 0, 0.7)",
-    color: "#fff",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    position: "relative",
-    zIndex: 2,
-  };
-
-  const cardHeaderStyle = {
-    borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px",
-    background: "rgba(0, 0, 0, 0.8)",
-  };
-
-  const cardBodyStyle = {
-    padding: "20px",
-  };
-
-  const inputGroupStyle = {
-    marginBottom: "15px",
-  };
-
-  const iconStyle = {
-    minWidth: "45px",
-    textAlign: "center",
-  };
-
-  const submitButtonStyle = {
-    backgroundColor: "#d3d3d3",
-    borderColor: "#d3d3d3",
-    transition: "transform 0.3s",
-    fontSize: "16px",
-    borderRadius: "0",
-    color: "#000",
-  };
-
   return (
-    <div style={pageStyle}>
-      <div className="col-md-6">
-        <div className="card shadow-lg" style={cardStyle}>
-          <div className="card-header text-center text-white" style={cardHeaderStyle}>
-            <h3>Admin Login</h3>
+    <div
+      style={{
+        height: "100vh",
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div className="col-md-5 col-lg-4">
+        <div
+          className="card shadow-lg"
+          style={{
+            borderRadius: "12px",
+            background: "rgba(0,0,0,0.75)",
+            color: "#fff",
+            border: "none",
+          }}
+        >
+          <div className="card-header text-center text-white" style={{ background: "transparent", borderBottom: "1px solid rgba(255,255,255,0.1)", padding: "24px" }}>
+            <h3 style={{ fontFamily: "Raleway, sans-serif", fontWeight: 300, letterSpacing: "0.1em" }}>
+              Area Amministrativa
+            </h3>
           </div>
-          <div className="card-body p-4" style={cardBodyStyle}>
+          <div className="card-body p-4">
             <form onSubmit={handleLogin}>
-              <div className="input-group" style={inputGroupStyle}>
-                <div className="input-group-prepend" style={iconStyle}>
-                  <FontAwesomeIcon icon={faEnvelope} className="text-muted" />
-                </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}>
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </span>
                 <input
                   type="email"
                   className="form-control"
-                  id="email"
-                  value={email}
                   placeholder="Email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}
                 />
               </div>
-              <div className="input-group" style={inputGroupStyle}>
-                <div className="input-group-prepend" style={iconStyle}>
-                  <FontAwesomeIcon icon={faLock} className="text-muted" />
-                </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}>
+                  <FontAwesomeIcon icon={faLock} />
+                </span>
                 <input
                   type={showPassword ? "text" : "password"}
                   className="form-control"
-                  id="password"
-                  value={password}
                   placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}
                 />
-                <div className="input-group-append">
-                  <button
-                    type="button"
-                    className="btn btn-outline-secondary"
-                    onClick={togglePasswordVisibility}
-                  >
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff" }}
+                >
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </button>
               </div>
+
+              {error && (
+                <div className="alert alert-danger py-2" style={{ fontSize: "0.9rem" }}>
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="btn btn-primary mt-4 w-100"
-                style={submitButtonStyle}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                className="btn w-100 mt-2"
+                disabled={loading}
+                style={{
+                  backgroundColor: "#c8a96e",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "30px",
+                  padding: "12px",
+                  fontSize: "1rem",
+                  fontFamily: "Raleway, sans-serif",
+                  letterSpacing: "0.05em",
+                }}
               >
-                <FontAwesomeIcon icon={faSignInAlt} style={{ marginRight: "10px" }} />
-                Login
+                {loading ? (
+                  <span className="spinner-border spinner-border-sm me-2" />
+                ) : (
+                  <FontAwesomeIcon icon={faSignInAlt} className="me-2" />
+                )}
+                {loading ? "Accesso..." : "Accedi"}
               </button>
-              {error && <p className="text-danger mt-3">{error}</p>}
             </form>
           </div>
         </div>

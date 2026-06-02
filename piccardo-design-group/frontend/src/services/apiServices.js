@@ -1,159 +1,167 @@
+const BASE = import.meta.env.VITE_BASE_URL;
+
+const authHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+});
+
+// ─── Brands (Homepage) ───────────────────────────────────────────────────────
+
 export const fetchBrands = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`).then((res) =>
-    res.json()
-  );
+  fetch(`${BASE}/api/brands`).then((r) => r.json());
 
 export const addBrand = (brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`, {
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/brands`, {
     method: "POST",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const updateBrand = (brandId, brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/brands/${brandId}`, {
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  if (brand.logo instanceof File) fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/brands/${brandId}`, {
     method: "PUT",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const deleteBrand = (brandId) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/brands/${brandId}`, {
+  fetch(`${BASE}/api/brands/${brandId}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
+
+// ─── Team ─────────────────────────────────────────────────────────────────────
 
 export const fetchTeamMembers = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/team`).then((res) => res.json());
+  fetch(`${BASE}/api/team`).then((r) => r.json());
 
-export const addTeamMember = (teamMember) => {
-  const formData = new FormData();
-  formData.append("name", teamMember.name);
-  formData.append("role", teamMember.role);
-  formData.append("photo", teamMember.photo);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/team`, {
+export const addTeamMember = (member) => {
+  const fd = new FormData();
+  fd.append("name", member.name);
+  fd.append("role", member.role);
+  fd.append("photo", member.photo);
+  return fetch(`${BASE}/api/team`, {
     method: "POST",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
-export const updateTeamMember = (teamMemberId, teamMember) => {
-  const formData = new FormData();
-  formData.append("name", teamMember.name);
-  formData.append("role", teamMember.role);
-  formData.append("photo", teamMember.photo);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/team/${teamMemberId}`, {
+export const updateTeamMember = (id, member) => {
+  const fd = new FormData();
+  fd.append("name", member.name);
+  fd.append("role", member.role);
+  if (member.photo instanceof File) fd.append("photo", member.photo);
+  return fetch(`${BASE}/api/team/${id}`, {
     method: "PUT",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
-export const deleteTeamMember = (teamMemberId) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/team/${teamMemberId}`, {
+export const deleteTeamMember = (id) =>
+  fetch(`${BASE}/api/team/${id}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
 
+// ─── Material Brands ──────────────────────────────────────────────────────────
+
 export const fetchMaterialBrands = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands`).then(
-    (res) => res.json()
-  );
+  fetch(`${BASE}/api/materialpage/brands`).then((r) => r.json());
 
 export const addMaterialBrand = (brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands`, {
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/materialpage/brands`, {
     method: "POST",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const updateMaterialBrand = (brandId, brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(
-    `${import.meta.env.VITE_BASE_URL}/api/materialpage/brands/${brandId}`,
-    {
-      method: "PUT",
-      body: formData,
-    }
-  ).then((res) => res.json());
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  if (brand.logo instanceof File) fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/materialpage/brands/${brandId}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const deleteMaterialBrand = (brandId) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands/${brandId}`, {
+  fetch(`${BASE}/api/materialpage/brands/${brandId}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
 
+// ─── Contract Brands ──────────────────────────────────────────────────────────
+
 export const fetchContractBrands = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands`).then((res) =>
-    res.json()
-  );
+  fetch(`${BASE}/api/contract/brands`).then((r) => r.json());
 
 export const addContractBrand = (brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands`, {
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/contract/brands`, {
     method: "POST",
-    body: formData,
-  }).then((res) => res.json());
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const updateContractBrand = (brandId, brand) => {
-  const formData = new FormData();
-  formData.append("name", brand.name);
-  formData.append("logo", brand.logo);
-  formData.append("website", brand.website);
-
-  return fetch(
-    `${import.meta.env.VITE_BASE_URL}/api/contract/brands/${brandId}`,
-    {
-      method: "PUT",
-      body: formData,
-    }
-  ).then((res) => res.json());
+  const fd = new FormData();
+  fd.append("name", brand.name);
+  if (brand.logo instanceof File) fd.append("logo", brand.logo);
+  fd.append("website", brand.website);
+  return fetch(`${BASE}/api/contract/brands/${brandId}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: fd,
+  }).then((r) => r.json());
 };
 
 export const deleteContractBrand = (brandId) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands/${brandId}`, {
+  fetch(`${BASE}/api/contract/brands/${brandId}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
+
+// ─── Contacts ─────────────────────────────────────────────────────────────────
 
 export const fetchContacts = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/contact`).then((res) =>
-    res.json()
-  );
+  fetch(`${BASE}/api/contact`, { headers: authHeaders() }).then((r) => r.json());
 
 export const deleteContact = (contactId) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/contact/${contactId}`, {
+  fetch(`${BASE}/api/contact/${contactId}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
 
+// ─── Newsletter ───────────────────────────────────────────────────────────────
+
 export const fetchSubscribers = () =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/api/subscribers`).then((res) =>
-    res.json()
-  );
+  fetch(`${BASE}/api/subscribers`, { headers: authHeaders() }).then((r) => r.json());
 
 export const deleteSubscriber = (email) =>
-  fetch(`${import.meta.env.VITE_BASE_URL}/unsubscribe/${email}`, {
+  fetch(`${BASE}/api/unsubscribe/${email}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });

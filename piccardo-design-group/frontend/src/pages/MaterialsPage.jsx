@@ -1,117 +1,107 @@
 import React, { useState, useEffect } from "react";
-import ChatBot from "../components/ChatBot";
+import { Container } from "react-bootstrap";
+import { fetchMaterialBrands } from "../services/apiServices";
 
 function MaterialsPage() {
   const [brands, setBrands] = useState([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/api/materialpage/brands`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBrands(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching brands:", error);
-        setError(error);
-        setLoading(false);
-      });
+    fetchMaterialBrands()
+      .then((data) => { setBrands(data); setLoading(false); })
+      .catch(() => setLoading(false));
   }, []);
 
-  const pageStyle = {
-    backgroundColor: "#ffffff",
-    padding: "20px",
-    fontFamily: "Raleway, sans-serif",
-    color: "#333",
-    textAlign: "center",
-  };
+  const normalizePath = (p) => (p || "").replace(/\\/g, "/");
 
-  const headingStyle = {
-    fontFamily: "Raleway, serif",
-    fontWeight: "400",
-    fontSize: "4rem",
-    lineHeight: "1.4em",
-    marginBottom: "20px",
-  };
-
-  const subHeadingStyle = {
-    fontFamily: "Raleway, sans-serif",
-    fontWeight: "300",
-    fontSize: "1.5rem",
-    lineHeight: "1.8em",
-    marginBottom: "20px",
-  };
-
-  const logosRowStyle = {
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: "20px",
-    flexWrap: "wrap",
-  };
-
-  const logoStyle = {
-    width: "150px",
-    height: "auto",
-    margin: "10px",
-    transition: "transform 0.3s",
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching brands: {error.message}</div>;
-  }
-
-  const chunkArray = (arr, size) => {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  };
-
-  const brandChunks = chunkArray(brands, 4);
+  const filtered = brands.filter((b) =>
+    b.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div>
-      <div style={pageStyle}>
-        <h1 style={headingStyle}>Scopri i Nostri Partner</h1>
-        <p style={subHeadingStyle}>
-          Clicca sul logo per vedere il catalogo del brand specifico.
+    <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "60vh" }}>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "60px 20px 30px",
+          backgroundColor: "#fafafa",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        <h1
+          style={{
+            fontWeight: 300,
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            letterSpacing: "0.05em",
+            marginBottom: "12px",
+          }}
+        >
+          I Nostri Partner
+        </h1>
+        <p style={{ color: "#777", fontSize: "1.1rem", marginBottom: "30px" }}>
+          Clicca sul logo per visitare il sito del brand
         </p>
-        {brandChunks.map((chunk, idx) => (
-          <div style={logosRowStyle} key={idx}>
-            {chunk.map((brand) => (
-              <a
-                href={brand.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={logoStyle}
-                key={brand._id}
-                onMouseEnter={(e) => (e.currentTarget.querySelector('img').style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.currentTarget.querySelector('img').style.transform = "scale(1)")}
-              >
-                <img
-                  src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
-                  alt={brand.name}
-                  style={logoStyle}
-                />
-              </a>
+        <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cerca brand..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ borderRadius: "30px", padding: "10px 20px", border: "1px solid #ddd" }}
+          />
+        </div>
+      </div>
+
+      <Container className="py-5">
+        {loading ? (
+          <div className="text-center py-5"><div className="spinner-border" /></div>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-muted py-5">Nessun brand trovato per "{search}"</p>
+        ) : (
+          <div className="row justify-content-center">
+            {filtered.map((brand) => (
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex justify-content-center" key={brand._id}>
+                <a
+                  href={brand.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={brand.name}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textDecoration: "none",
+                    padding: "16px",
+                    borderRadius: "8px",
+                    border: "1px solid #eee",
+                    width: "140px",
+                    transition: "box-shadow 0.2s, transform 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.1)";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.transform = "none";
+                  }}
+                >
+                  <img
+                    src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                    alt={brand.name}
+                    style={{ maxWidth: "100px", maxHeight: "60px", objectFit: "contain" }}
+                  />
+                  <span style={{ fontSize: "0.75rem", color: "#666", marginTop: "8px", textAlign: "center" }}>
+                    {brand.name}
+                  </span>
+                </a>
+              </div>
             ))}
           </div>
-        ))}
-      </div>
-      <ChatBot />
+        )}
+      </Container>
     </div>
   );
 }

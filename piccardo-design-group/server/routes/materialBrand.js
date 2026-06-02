@@ -1,18 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
 const MaterialPageBrand = require("../models/MaterialPageBrand");
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage: storage });
+const upload = require("../middlewares/upload");
+const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 
 router.get("/", async (req, res) => {
   try {
@@ -23,11 +13,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", upload.single("logo"), async (req, res) => {
+router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
+  if (!req.file) return res.status(400).json({ message: "Logo obbligatorio" });
+  if (!req.body.name) return res.status(400).json({ message: "Nome obbligatorio" });
+
   const brand = new MaterialPageBrand({
     name: req.body.name,
     logo: req.file.path,
-    website: req.body.website,
+    website: req.body.website || "",
   });
 
   try {
@@ -38,34 +31,24 @@ router.post("/", upload.single("logo"), async (req, res) => {
   }
 });
 
-router.put("/:id", upload.single("logo"), async (req, res) => {
-  const updateData = {
-    name: req.body.name,
-    website: req.body.website,
-  };
-
-  if (req.file) {
-    updateData.logo = req.file.path;
-  }
+router.put("/:id", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
+  const updateData = { name: req.body.name, website: req.body.website };
+  if (req.file) updateData.logo = req.file.path;
 
   try {
-    const brand = await MaterialPageBrand.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
-    if (!brand) return res.status(404).json({ message: "Not found" });
+    const brand = await MaterialPageBrand.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!brand) return res.status(404).json({ message: "Brand non trovato" });
     res.status(200).json(brand);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const brand = await MaterialPageBrand.findByIdAndDelete(req.params.id);
-    if (!brand) return res.status(404).json({ message: "Not found" });
-    res.status(200).json({ message: "Deleted successfully" });
+    if (!brand) return res.status(404).json({ message: "Brand non trovato" });
+    res.status(200).json({ message: "Eliminato con successo" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

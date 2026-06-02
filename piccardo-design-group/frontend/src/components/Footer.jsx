@@ -1,108 +1,88 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 function Footer() {
-  const token = localStorage.getItem("authToken");
-  const isAuthenticated = !!token;
-  const navigate = useNavigate();
-
-  const handlePrivateAreaClick = () => {
-    if (isAuthenticated) {
-      navigate("/admin");
-    } else {
-      navigate("/login");
-    }
-  };
-
-  const footerStyle = {
-    backgroundColor: "#f8f9fa",
-    padding: "20px 0",
-    textAlign: "center",
-    position: "relative",
-    width: "100%",
-    marginTop: "auto",
-  };
-
-  const linkContainerStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: "20px",
-  };
-
-  const linkStyle = {
-    margin: "0 15px",
-    color: "#333",
-    textDecoration: "none",
-  };
-
-  const iconStyle = {
-    margin: "0 10px",
-    color: "#333",
-    fontSize: "24px",
-  };
-
-  const buttonLinkStyle = {
-    ...linkStyle,
-    background: "none",
-    border: "none",
-    padding: 0,
-    cursor: "pointer",
-  };
-
-  const infoContainerStyle = {
-    position: "absolute",
-    bottom: "0px",
-    right: "20px",
-    textAlign: "right",
-    fontSize: "0.5rem",
-    color: "#333",
-  };
+  const { isAuthenticated } = useAuth();
 
   return (
-    <footer style={footerStyle}>
-      <div style={linkContainerStyle}>
-        <Link to="/" style={linkStyle}>
-          Home
-        </Link>
-        <Link to="/about" style={linkStyle}>
-          Chi Siamo
-        </Link>
-        <Link to="/team" style={linkStyle}>
-          Team
-        </Link>
-        <Link to="/materials" style={linkStyle}>
-          Brands
-        </Link>
-        <Link to="/contracts" style={linkStyle}>
-          Contracts
-        </Link>
-        <button
-          className="btn btn-link"
-          onClick={handlePrivateAreaClick}
-          style={buttonLinkStyle}
-        >
-          Area Riservata
-        </button>
-      </div>
-      <div style={{ marginTop: "10px" }}>
-        <a href="https://www.instagram.com" style={iconStyle}>
-          <FaInstagram />
-        </a>
-        <a href="https://www.facebook.com" style={iconStyle}>
-          <FaFacebook />
-        </a>
-        <a href="https://www.linkedin.com" style={iconStyle}>
-          <FaLinkedin />
-        </a>
-      </div>
-      <div style={infoContainerStyle}>
-        <p>Piccardo Design Group</p>
-        <p>Via Alfieri 18, Imperia, IM, 18100</p>
-        <p>P.IVA 01587610088</p>
-        <p>&copy; 2024 Piccardo Design Group. Tutti i diritti riservati.</p>
+    <footer
+      style={{
+        backgroundColor: "#1a1a1a",
+        color: "#ccc",
+        padding: "40px 0 20px",
+        fontFamily: "Raleway, sans-serif",
+      }}
+    >
+      <div className="container">
+        <div className="row mb-4">
+          <div className="col-md-4 mb-3">
+            <h6 style={{ color: "#fff", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "0.8rem" }}>
+              Piccardo Design Group
+            </h6>
+            <p style={{ fontSize: "0.85rem", color: "#999", lineHeight: "1.8" }}>
+              Via Alfieri 18<br />
+              Imperia, IM 18100<br />
+              P.IVA 01587610088
+            </p>
+          </div>
+
+          <div className="col-md-4 mb-3">
+            <h6 style={{ color: "#fff", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "0.8rem" }}>
+              Navigazione
+            </h6>
+            <ul className="list-unstyled" style={{ fontSize: "0.85rem" }}>
+              {[
+                { to: "/", label: "Home" },
+                { to: "/about", label: "Chi Siamo" },
+                { to: "/team", label: "Team" },
+                { to: "/materials", label: "Brands" },
+                { to: "/contracts", label: "Contracts" },
+                { to: "/contact", label: "Contattaci" },
+              ].map(({ to, label }) => (
+                <li key={to}>
+                  <Link to={to} style={{ color: "#999", textDecoration: "none" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                    onMouseLeave={(e) => (e.target.style.color = "#999")}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+              {isAuthenticated && (
+                <li>
+                  <Link to="/admin" style={{ color: "#999", textDecoration: "none" }}
+                    onMouseEnter={(e) => (e.target.style.color = "#fff")}
+                    onMouseLeave={(e) => (e.target.style.color = "#999")}>
+                    Area Admin
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div className="col-md-4 mb-3">
+            <h6 style={{ color: "#fff", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "0.8rem" }}>
+              Seguici
+            </h6>
+            <div className="d-flex gap-3 mt-2">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+                <FaInstagram />
+              </a>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+                <FaFacebook />
+              </a>
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+                <FaLinkedin />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <hr style={{ borderColor: "#333" }} />
+        <p style={{ textAlign: "center", fontSize: "0.75rem", color: "#666", margin: 0 }}>
+          &copy; {new Date().getFullYear()} Piccardo Design Group. Tutti i diritti riservati.
+        </p>
       </div>
     </footer>
   );

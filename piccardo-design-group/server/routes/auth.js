@@ -1,63 +1,72 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const rateLimit = require("express-rate-limit");
 const router = express.Router();
 const User = require("../models/User");
+const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 
-router.post("/register", async (req, res) => {
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { message: "Troppi tentativi di accesso. Riprova tra 15 minuti." },
+});
+
+// Registrazione protetta: solo un admin esistente può creare nuovi account
+router.post("/register", authMiddleware, adminMiddleware, async (req, res) => {
+  const { username, email, password, role } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: "Username, email e password sono obbligatori" });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ message: "La password deve avere almeno 8 caratteri" });
+  }
+
   try {
-    const { username, email, password } = req.body;
-    const user = new User({ username, email, password });
+    const user = new User({ username, email, password, role: role || "user" });
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "Utente creato con successo" });
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: "Email o username già in uso" });
+    }
     res.status(400).json({ message: err.message });
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", loginLimiter, async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email e password sono obbligatorie" });
+  }
+
   try {
-    const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Credenziali non valide" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Credenziali non valide" });
     }
 
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "8h" }
     );
 
-    res.status(200).json({ auth: true, token });
+    res.status(200).json({ auth: true, token, role: user.role });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token)
-    return res.status(401).json({ auth: false, message: "No token provided." });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err)
-      return res
-        .status(500)
-        .json({ auth: false, message: "Failed to authenticate token." });
-
-    req.userId = decoded.userId;
-    next();
-  });
-};
-
-router.get("/verifyToken", verifyToken, (req, res) => {
-  res.status(200).json({ auth: true });
+router.get("/verifyToken", authMiddleware, (req, res) => {
+  res.status(200).json({ auth: true, role: req.user.role });
 });
 
 module.exports = router;

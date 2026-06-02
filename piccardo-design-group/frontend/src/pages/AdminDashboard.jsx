@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Tabs, Tab, Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faTags, 
-  faUsers, 
-  faBoxOpen, 
-  faFileContract, 
-  faAddressBook, 
-  faEnvelope, 
-  faSignOutAlt 
+import {
+  faTags,
+  faUsers,
+  faBoxOpen,
+  faFileContract,
+  faAddressBook,
+  faEnvelope,
+  faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import BrandManagement from "../components/BrandManagement";
 import MaterialBrandManagement from "../components/MaterialBrandManagement";
 import ContractBrandManagement from "../components/ContractBrandManagement";
@@ -21,96 +22,52 @@ import TeamManagement from "../components/TeamManagement";
 function AdminDashboard() {
   const [key, setKey] = useState("brands");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL);
-  }, []);
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
+    logout();
     navigate("/login");
   };
 
   return (
-    <section className="py-5 bg-light">
+    <section className="py-5 bg-light" style={{ minHeight: "100vh" }}>
       <Container>
         <Row className="d-flex justify-content-between align-items-center mb-4">
-          <Col></Col>
+          <Col>
+            <h4 style={{ fontFamily: "Raleway, sans-serif", fontWeight: 300 }}>
+              Pannello di Amministrazione
+            </h4>
+          </Col>
           <Col className="text-end">
-            <Button variant="secondary" onClick={handleLogout}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+            <Button variant="outline-secondary" size="sm" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faSignOutAlt} className="me-1" /> Esci
             </Button>
           </Col>
         </Row>
         <Row>
           <Col>
-            <p className="text-center mb-4">
-              Welcome to the admin dashboard. Here you can manage everything.
-            </p>
             <Tabs
               id="admin-dashboard-tabs"
               activeKey={key}
               onSelect={(k) => setKey(k)}
-              className="mb-3"
+              className="mb-4"
             >
-              <Tab
-                eventKey="brands"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faTags} /> Brands
-                  </>
-                }
-              >
+              <Tab eventKey="brands" title={<><FontAwesomeIcon icon={faTags} className="me-1" />Brands</>}>
                 <BrandManagement />
               </Tab>
-              <Tab
-                eventKey="team"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faUsers} /> Team
-                  </>
-                }
-              >
+              <Tab eventKey="team" title={<><FontAwesomeIcon icon={faUsers} className="me-1" />Team</>}>
                 <TeamManagement />
               </Tab>
-              <Tab
-                eventKey="materials"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faBoxOpen} /> Materials
-                  </>
-                }
-              >
+              <Tab eventKey="materials" title={<><FontAwesomeIcon icon={faBoxOpen} className="me-1" />Materiali</>}>
                 <MaterialBrandManagement />
               </Tab>
-              <Tab
-                eventKey="contracts"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faFileContract} /> Contracts
-                  </>
-                }
-              >
+              <Tab eventKey="contracts" title={<><FontAwesomeIcon icon={faFileContract} className="me-1" />Contract</>}>
                 <ContractBrandManagement />
               </Tab>
-              <Tab
-                eventKey="contacts"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faAddressBook} /> Contacts
-                  </>
-                }
-              >
+              <Tab eventKey="contacts" title={<><FontAwesomeIcon icon={faAddressBook} className="me-1" />Contatti</>}>
                 <ContactManagement />
               </Tab>
-              <Tab
-                eventKey="newsletter"
-                title={
-                  <>
-                    <FontAwesomeIcon icon={faEnvelope} /> Newsletter
-                  </>
-                }
-              >
+              <Tab eventKey="newsletter" title={<><FontAwesomeIcon icon={faEnvelope} className="me-1" />Newsletter</>}>
                 <NewsletterManagement />
               </Tab>
             </Tabs>

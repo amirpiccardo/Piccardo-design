@@ -1,115 +1,105 @@
 import React, { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
+import { fetchContractBrands } from "../services/apiServices";
 
 function Contracts() {
   const [brands, setBrands] = useState([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/api/contract/brands`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBrands(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching brands:", error);
-        setError(error);
-        setLoading(false);
-      });
+    fetchContractBrands()
+      .then((data) => { setBrands(data); setLoading(false); })
+      .catch(() => setLoading(false));
   }, []);
 
-  const pageStyle = {
-    backgroundColor: "#ffffff",
-    padding: "20px 40px",
-    fontFamily: "Raleway, sans-serif",
-    color: "#333",
-    textAlign: "center",
-  };
+  const normalizePath = (p) => (p || "").replace(/\\/g, "/");
 
-  const headingStyle = {
-    fontFamily: "Raleway, serif",
-    fontWeight: "400",
-    fontSize: "4rem",
-    lineHeight: "1.4em",
-    marginBottom: "20px",
-    color: "#2c3e50",
-  };
-
-  const subHeadingStyle = {
-    fontFamily: "Georgia, serif",
-    fontWeight: "400",
-    fontSize: "1.5rem",
-    lineHeight: "1.8em",
-    marginBottom: "20px",
-    color: "#2c3e50",
-  };
-
-  const logosRowStyle = {
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: "20px",
-    flexWrap: "wrap",
-  };
-
-  const logoStyle = {
-    width: "400px",
-    height: "350px",
-    objectFit: "cover",
-    margin: "10px",
-    transition: "transform 0.3s",
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching brands: {error.message}</div>;
-  }
-
-  const chunkArray = (arr, size) => {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  };
-
-  const brandChunks = chunkArray(brands, 3);
+  const filtered = brands.filter((b) =>
+    b.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div style={pageStyle}>
-      <h1 style={headingStyle}>Esplora i Nostri Contratti</h1>
-      <p style={subHeadingStyle}>Clicca sul contract di tuo interesse per vedere più dettagli.</p>
-      {brandChunks.map((chunk, idx) => (
-        <div style={logosRowStyle} key={idx}>
-          {chunk.map((brand) => (
-            <a
-              h1={brand.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textAlign: "center", margin: "10px" }}
-              key={brand._id}
-              onMouseEnter={(e) => (e.currentTarget.querySelector('img').style.transform = "scale(1.05)")}
-              onMouseLeave={(e) => (e.currentTarget.querySelector('img').style.transform = "scale(1)")}
-            >
-              <img
-                src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
-                alt={brand.name}
-                style={logoStyle}
-              />
-              <p>{brand.name}</p>
-            </a>
-          ))}
+    <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "60vh" }}>
+      <div
+        style={{
+          textAlign: "center",
+          padding: "60px 20px 30px",
+          backgroundColor: "#fafafa",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        <h1
+          style={{
+            fontWeight: 300,
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            letterSpacing: "0.05em",
+            marginBottom: "12px",
+          }}
+        >
+          Contratti
+        </h1>
+        <p style={{ color: "#777", fontSize: "1.1rem", marginBottom: "30px" }}>
+          Esplora i nostri partner contract
+        </p>
+        <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Cerca brand..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ borderRadius: "30px", padding: "10px 20px", border: "1px solid #ddd" }}
+          />
         </div>
-      ))}
+      </div>
+
+      <Container className="py-5">
+        {loading ? (
+          <div className="text-center py-5"><div className="spinner-border" /></div>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-muted py-5">Nessun brand trovato per "{search}"</p>
+        ) : (
+          <div className="row">
+            {filtered.map((brand) => (
+              <div className="col-12 col-sm-6 col-md-4 mb-4" key={brand._id}>
+                <a
+                  href={brand.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <div
+                    style={{
+                      borderRadius: "8px",
+                      overflow: "hidden",
+                      border: "1px solid #eee",
+                      transition: "box-shadow 0.2s, transform 0.2s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.1)";
+                      e.currentTarget.style.transform = "translateY(-3px)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = "none";
+                      e.currentTarget.style.transform = "none";
+                    }}
+                  >
+                    <img
+                      src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                      alt={brand.name}
+                      style={{ width: "100%", height: "220px", objectFit: "cover" }}
+                    />
+                    <div style={{ padding: "12px 16px", backgroundColor: "#fff" }}>
+                      <p style={{ margin: 0, fontWeight: 500, color: "#333" }}>{brand.name}</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
+      </Container>
     </div>
   );
 }

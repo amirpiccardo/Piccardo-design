@@ -1,171 +1,166 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faPlus,
-  faSave,
-} from "@fortawesome/free-solid-svg-icons";
-import { addBrand, updateBrand, deleteBrand } from "../services/apiServices";
+import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { fetchBrands, addBrand, updateBrand, deleteBrand } from "../services/apiServices";
 
 const BrandManagement = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
-  const [newBrand, setNewBrand] = useState({
-    name: "",
-    logo: null,
-    website: "",
-  });
-  const [editIndex, setEditIndex] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [form, setForm] = useState({ name: "", logo: null, website: "" });
+  const [editId, setEditId] = useState(null);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Network response was not ok: ${response.statusText}`
-          );
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBrands(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching brands:", error);
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+  const load = () => {
+    setLoading(true);
+    fetchBrands()
+      .then((data) => { setBrands(data); setLoading(false); })
+      .catch(() => { setError("Errore nel caricamento dei brand"); setLoading(false); });
+  };
 
-  const handleBrandInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "logo") {
-      setNewBrand({ ...newBrand, logo: e.target.files[0] });
+  useEffect(() => { load(); }, []);
+
+  const reset = () => { setForm({ name: "", logo: null, website: "" }); setEditId(null); };
+
+  const showFeedback = (msg, type = "success") => {
+    setFeedback({ msg, type });
+    setTimeout(() => setFeedback(null), 3000);
+  };
+
+  const handleChange = (e) => {
+    if (e.target.name === "logo") {
+      setForm({ ...form, logo: e.target.files[0] });
     } else {
-      setNewBrand({ ...newBrand, [name]: value });
+      setForm({ ...form, [e.target.name]: e.target.value });
     }
   };
 
-  const handleAddBrand = () => {
-    addBrand(newBrand).then((data) => {
-      setNewBrand({ name: "", logo: null, website: "" });
-    });
+  const handleSubmit = async () => {
+    if (!form.name) return showFeedback("Il nome è obbligatorio", "danger");
+    if (!editId && !form.logo) return showFeedback("Il logo è obbligatorio", "danger");
+    setSaving(true);
+    try {
+      if (editId) {
+        await updateBrand(editId, form);
+        showFeedback("Brand aggiornato con successo");
+      } else {
+        await addBrand(form);
+        showFeedback("Brand aggiunto con successo");
+      }
+      reset();
+      load();
+    } catch {
+      showFeedback("Errore durante il salvataggio", "danger");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleEditBrand = (index) => {
-    setEditIndex(index);
-    setNewBrand(brands[index]);
+  const handleEdit = (brand) => {
+    setEditId(brand._id);
+    setForm({ name: brand.name, logo: null, website: brand.website || "" });
   };
 
-  const handleUpdateBrand = () => {
-    const id = brands[editIndex]._id;
-    updateBrand(id, newBrand).then((data) => {
-      setEditIndex(null);
-      setNewBrand({ name: "", logo: null, website: "" });
-    });
+  const handleDelete = async (id) => {
+    if (!window.confirm("Sei sicuro di voler eliminare questo brand?")) return;
+    try {
+      await deleteBrand(id);
+      showFeedback("Brand eliminato");
+      load();
+    } catch {
+      showFeedback("Errore durante l'eliminazione", "danger");
+    }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error fetching brands: {error.message}</div>;
+  const normalizePath = (p) => (p || "").replace(/\\/g, "/");
+
+  if (loading) return <div className="text-center py-5"><div className="spinner-border" /></div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <div className="card mt-5">
-      <div className="card-body">
-        <h5 className="card-title">
-          {editIndex !== null ? "Edit Brand" : "Add Brand"}
-        </h5>
-        <form>
-          <div className="form-group mb-3">
-            <label htmlFor="brandName">Brand Name</label>
-            <input
-              type="text"
-              className="form-control"
-              id="brandName"
-              name="name"
-              placeholder="Brand Name"
-              value={newBrand.name}
-              onChange={handleBrandInputChange}
-            />
+    <div>
+      {feedback && (
+        <div className={`alert alert-${feedback.type} alert-dismissible`}>
+          {feedback.msg}
+        </div>
+      )}
+
+      <div className="card mb-4">
+        <div className="card-body">
+          <h5 className="card-title mb-3">{editId ? "Modifica Brand" : "Aggiungi Brand"}</h5>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                placeholder="Nome brand"
+                value={form.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control"
+                name="website"
+                placeholder="Sito web (es. https://...)"
+                value={form.website}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <input
+                type="file"
+                className="form-control"
+                name="logo"
+                accept="image/*"
+                onChange={handleChange}
+              />
+              {editId && <small className="text-muted">Lascia vuoto per non cambiare il logo</small>}
+            </div>
           </div>
-          <div className="form-group mb-3">
-            <label htmlFor="brandLogo">Brand Logo</label>
-            <input
-              type="file"
-              className="form-control"
-              id="brandLogo"
-              name="logo"
-              onChange={handleBrandInputChange}
-            />
-          </div>
-          <div className="form-group mb-3">
-            <label htmlFor="brandWebsite">Brand Website</label>
-            <input
-              type="text"
-              className="form-control"
-              id="brandWebsite"
-              name="website"
-              placeholder="Brand Website"
-              value={newBrand.website}
-              onChange={handleBrandInputChange}
-            />
-          </div>
-          <div className="form-group">
-            {editIndex !== null ? (
-              <button
-                type="button"
-                className="btn btn-success w-100"
-                onClick={handleUpdateBrand}
-              >
-                <FontAwesomeIcon icon={faSave} /> Save
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="btn btn-primary w-100"
-                onClick={handleAddBrand}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add
+          <div className="mt-3 d-flex gap-2">
+            <button className="btn btn-dark" onClick={handleSubmit} disabled={saving}>
+              {saving
+                ? <span className="spinner-border spinner-border-sm me-1" />
+                : <FontAwesomeIcon icon={editId ? faSave : faPlus} className="me-1" />}
+              {editId ? "Salva" : "Aggiungi"}
+            </button>
+            {editId && (
+              <button className="btn btn-outline-secondary" onClick={reset}>
+                <FontAwesomeIcon icon={faTimes} className="me-1" /> Annulla
               </button>
             )}
           </div>
-        </form>
+        </div>
       </div>
-      <div className="row mt-5">
-        {brands.map((brand, index) => (
-          <div className="col-md-4 mb-4" key={brand._id}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5 className="card-title">{brand.name}</h5>
-                <a
-                  href={brand.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`${import.meta.env.VITE_BASE_URL}/${brand.logo}`}
-                    alt={brand.name}
-                    className="img-fluid"
-                  />
-                </a>
-                <button
-                  className="btn btn-warning btn-sm mt-3 me-2"
-                  onClick={() => handleEditBrand(index)}
-                >
-                  <FontAwesomeIcon icon={faEdit} /> Edit
-                </button>
-                <button
-                  className="btn btn-danger btn-sm mt-3"
-                  onClick={() => deleteBrand(brand._id)}
-                >
-                  <FontAwesomeIcon icon={faTrash} /> Delete
-                </button>
+
+      <div className="row">
+        {brands.map((brand) => (
+          <div className="col-sm-6 col-md-4 col-lg-3 mb-3" key={brand._id}>
+            <div className="card h-100 text-center">
+              <div className="card-body d-flex flex-column align-items-center justify-content-between">
+                <img
+                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                  alt={brand.name}
+                  style={{ maxHeight: "70px", maxWidth: "140px", objectFit: "contain", marginBottom: "10px" }}
+                />
+                <p className="fw-semibold mb-2">{brand.name}</p>
+                <div className="d-flex gap-2">
+                  <button className="btn btn-sm btn-outline-secondary" onClick={() => handleEdit(brand)}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(brand._id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         ))}
+        {brands.length === 0 && <p className="text-muted">Nessun brand presente.</p>}
       </div>
     </div>
   );
