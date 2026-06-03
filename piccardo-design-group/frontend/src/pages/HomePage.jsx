@@ -12,45 +12,88 @@ function HomePage() {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`)
       .then((response) => response.json())
-      .then((data) => setBrands(data))
+      .then((data) => setBrands(Array.isArray(data) ? data : []))
       .catch((error) => console.error("Error fetching brands:", error));
   }, []);
 
   const headingStyle = {
     textAlign: "center",
-    marginTop: "40px",
-    fontFamily: "Raleway, serif",
-    fontWeight: "400",
-    fontSize: "4rem",
-    lineHeight: "1.4em",
-    marginBottom: "20px",
+    marginTop: "60px",
+    fontFamily: "'Cormorant Garamond', serif",
+    fontWeight: 500,
+    fontSize: "clamp(2.2rem, 6vw, 4rem)",
+    lineHeight: "1.2em",
+    marginBottom: "16px",
+    color: "#1a1a1a",
+    letterSpacing: "0.01em",
+  };
+
+  const subheadingStyle = {
+    textAlign: "center",
+    fontFamily: "Raleway, sans-serif",
+    fontWeight: 300,
+    fontSize: "clamp(1rem, 2.5vw, 1.25rem)",
+    color: "#666",
+    maxWidth: "640px",
+    margin: "0 auto 28px",
+    lineHeight: "1.7em",
+  };
+
+  const ctaRowStyle = {
+    display: "flex",
+    gap: "14px",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginBottom: "40px",
+  };
+
+  const primaryBtn = {
+    display: "inline-block",
+    padding: "13px 30px",
+    backgroundColor: "#1a1a1a",
+    color: "#fff",
+    borderRadius: "30px",
+    textDecoration: "none",
+    fontSize: "0.95rem",
+    fontFamily: "Raleway, sans-serif",
+    letterSpacing: "0.05em",
+    transition: "background-color 0.2s",
+  };
+
+  const secondaryBtn = {
+    ...primaryBtn,
+    backgroundColor: "transparent",
+    color: "#1a1a1a",
+    border: "1px solid #1a1a1a",
   };
 
   const imageStyle = {
     width: "100%",
-    height: "700px",
-    marginTop: "40px",
+    height: "clamp(320px, 60vh, 640px)",
+    marginTop: "20px",
     position: "relative",
     objectFit: "cover",
   };
 
   const logoStyle = {
-    width: "150px",
+    width: "140px",
     height: "auto",
     margin: "10px",
     transition: "transform 0.3s",
+    objectFit: "contain",
   };
 
-  const buttonStyle = {
+  const overlayButtonStyle = {
     display: "inline-block",
-    padding: "15px 30px",
-    margin: "10px",
-    backgroundColor: "#000",
+    padding: "14px 32px",
+    backgroundColor: "rgba(0,0,0,0.85)",
     color: "#fff",
     borderRadius: "30px",
     textAlign: "center",
     textDecoration: "none",
-    fontSize: "18px",
+    fontSize: "1rem",
+    fontFamily: "Raleway, sans-serif",
+    letterSpacing: "0.05em",
     transition: "transform 0.3s",
     position: "absolute",
     top: "50%",
@@ -58,88 +101,115 @@ function HomePage() {
     transform: "translate(-50%, -50%)",
   };
 
-  const normalizePath = (path) => path.replace(/\\/g, "/");
+  const normalizePath = (path) => (path || "").replace(/\\/g, "/");
 
   return (
-    <Container fluid>
-      <Row>
+    <Container fluid className="px-0">
+      <Row className="g-0">
         <Col>
           <div style={headingStyle}>
-            <h1>Transforming Spaces, Inspiring Lives</h1>
+            <h1 style={{ margin: 0 }}>Trasformiamo gli spazi, ispiriamo la vita</h1>
+          </div>
+          <p style={subheadingStyle}>
+            Distribuiamo i migliori brand di arredamento e design Made in Italy,
+            offrendo soluzioni su misura per aziende, architetti e progettisti.
+          </p>
+          <div style={ctaRowStyle}>
+            <Link
+              to="/materials"
+              style={primaryBtn}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1a1a1a")}
+            >
+              Scopri i nostri partner
+            </Link>
+            <Link
+              to="/contact"
+              style={secondaryBtn}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#1a1a1a";
+                e.currentTarget.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+                e.currentTarget.style.color = "#1a1a1a";
+              }}
+            >
+              Contattaci
+            </Link>
           </div>
         </Col>
       </Row>
-      <Row>
+
+      <Row className="g-0">
         <Col>
-          <img src={image} alt="Design Image" style={imageStyle} />
+          <img src={image} alt="Interni di design Piccardo Design Group" style={imageStyle} />
         </Col>
       </Row>
-      <Row className="d-flex justify-content-center align-items-center flex-wrap">
-        {brands.map((brand, index) => (
-          <Col
-            xs={6}
-            sm={4}
-            md={3}
-            className="my-2 d-flex justify-content-center"
-            key={index}
-          >
-            <a
-              href={brand.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={(e) =>
-                (e.currentTarget.querySelector("img").style.transform =
-                  "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.querySelector("img").style.transform =
-                  "scale(1)")
-              }
+
+      {brands.length > 0 && (
+        <Row className="d-flex justify-content-center align-items-center flex-wrap py-4">
+          {brands.map((brand) => (
+            <Col
+              xs={6}
+              sm={4}
+              md={3}
+              lg={2}
+              className="my-3 d-flex justify-content-center"
+              key={brand._id}
             >
-              <img
-                src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(
-                  brand.logo
-                )}`}
-                alt={brand.name}
-                style={logoStyle}
-              />
-            </a>
-          </Col>
-        ))}
-      </Row>
-      <Row>
+              <a
+                href={brand.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={brand.name}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.querySelector("img").style.transform = "scale(1.08)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.querySelector("img").style.transform = "scale(1)")
+                }
+              >
+                <img
+                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                  alt={brand.name}
+                  style={logoStyle}
+                  loading="lazy"
+                />
+              </a>
+            </Col>
+          ))}
+        </Row>
+      )}
+
+      <Row className="g-0">
         <Col>
           <div style={{ position: "relative", marginBottom: "0" }}>
             <img
               src={additionalImage}
-              alt="Additional Design Image"
+              alt="Soluzioni di arredamento contract"
               style={imageStyle}
+              loading="lazy"
             />
             <Link
               to="/materials"
-              style={buttonStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
-              }}
+              style={overlayButtonStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = "translate(-50%, -50%) scale(1.05)")}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = "translate(-50%, -50%) scale(1)")}
             >
               Scopri di più
             </Link>
           </div>
         </Col>
       </Row>
-      <Row>
+
+      <Row className="g-0">
         <Col>
           <ChatBot />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <NewsletterBanner />
-        </Col>
-      </Row>
+
+      <NewsletterBanner />
     </Container>
   );
 }

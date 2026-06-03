@@ -58,7 +58,11 @@ function Contracts() {
         {loading ? (
           <div className="text-center py-5"><div className="spinner-border" /></div>
         ) : filtered.length === 0 ? (
-          <p className="text-center text-muted py-5">Nessun brand trovato per "{search}"</p>
+          <p className="text-center text-muted py-5">
+            {brands.length === 0
+              ? "I nostri contract saranno presto disponibili. Torna a trovarci!"
+              : `Nessun brand trovato per "${search}"`}
+          </p>
         ) : (
           <div className="row">
             {filtered.map((brand) => (

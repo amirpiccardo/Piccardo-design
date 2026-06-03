@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+
+Sitemap: https://ravishing-curiosity-production-bb13.up.railway.app/sitemap.xml

@@ -7,28 +7,9 @@ const ChatBot = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    script.onload = () => {
-      const iframe = document.querySelector("iframe");
-      iframe.onload = () => {
-        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        const style = document.createElement("style");
-        style.textContent = `
-          .df-messenger {
-            background-color: #f0f0f0 !important;
-            font-family: 'Arial', sans-serif !important;
-          }
-          .df-messenger-bubble {
-            background-color: #007bff !important;
-            color: #fff !important;
-            border-radius: 15px !important;
-            padding: 10px !important;
-          }
-          .df-messenger-text {
-            font-size: 16px !important;
-          }
-        `;
-        iframeDocument.head.appendChild(style);
-      };
+    return () => {
+      // pulizia: rimuove lo script se il componente viene smontato
+      if (script.parentNode) script.parentNode.removeChild(script);
     };
   }, []);
 
