@@ -53,6 +53,9 @@ const userRoutes = require("./routes/users");
 const teamRoutes = require("./routes/team");
 const brandRoutes = require("./routes/brands");
 
+app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "Piccardo Design Group API" }));
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
+
 app.use("/api/materialpage/brands", materialBrandRoutes);
 app.use("/api/contract/brands", contractBrandRoutes);
 app.use("/api/contact", contactRoutes);
