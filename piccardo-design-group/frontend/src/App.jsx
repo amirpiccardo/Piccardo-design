@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+import ScrollTopButton from "./components/ScrollTopButton";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import TeamPage from "./pages/TeamPage";
@@ -22,6 +24,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
           <Navbar />
           <div style={{ flex: "1" }}>
@@ -38,6 +41,7 @@ function App() {
             </Routes>
           </div>
           <Footer />
+          <ScrollTopButton />
         </div>
       </BrowserRouter>
     </AuthProvider>

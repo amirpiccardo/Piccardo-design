@@ -21,7 +21,7 @@ function Footer() {
             <h6 style={{ color: "#fff", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "0.8rem" }}>
               Piccardo Design Group
             </h6>
-            <p style={{ fontSize: "0.85rem", color: "#999", lineHeight: "1.8" }}>
+            <p style={{ fontSize: "0.85rem", color: "#b3b3b3", lineHeight: "1.8" }}>
               Via Alfieri 18<br />
               Imperia, IM 18100<br />
               P.IVA 01587610088
@@ -42,18 +42,18 @@ function Footer() {
                 { to: "/contact", label: "Contattaci" },
               ].map(({ to, label }) => (
                 <li key={to}>
-                  <Link to={to} style={{ color: "#999", textDecoration: "none" }}
+                  <Link to={to} style={{ color: "#b3b3b3", textDecoration: "none" }}
                     onMouseEnter={(e) => (e.target.style.color = "#fff")}
-                    onMouseLeave={(e) => (e.target.style.color = "#999")}>
+                    onMouseLeave={(e) => (e.target.style.color = "#b3b3b3")}>
                     {label}
                   </Link>
                 </li>
               ))}
               {isAuthenticated && (
                 <li>
-                  <Link to="/admin" style={{ color: "#999", textDecoration: "none" }}
+                  <Link to="/admin" style={{ color: "#b3b3b3", textDecoration: "none" }}
                     onMouseEnter={(e) => (e.target.style.color = "#fff")}
-                    onMouseLeave={(e) => (e.target.style.color = "#999")}>
+                    onMouseLeave={(e) => (e.target.style.color = "#b3b3b3")}>
                     Area Admin
                   </Link>
                 </li>
@@ -66,13 +66,13 @@ function Footer() {
               Seguici
             </h6>
             <div className="d-flex gap-3 mt-2">
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: "#b3b3b3", fontSize: "1.4rem" }}>
                 <FaInstagram />
               </a>
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: "#b3b3b3", fontSize: "1.4rem" }}>
                 <FaFacebook />
               </a>
-              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#999", fontSize: "1.4rem" }}>
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={{ color: "#b3b3b3", fontSize: "1.4rem" }}>
                 <FaLinkedin />
               </a>
             </div>

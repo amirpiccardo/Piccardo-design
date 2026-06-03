@@ -1,0 +1,101 @@
+/* ===== Piccardo Design Group — Sistema di design globale ===== */
+
+:root {
+  /* Colori */
+  --pdg-dark: #1a1a1a;
+  --pdg-dark-soft: #333333;
+  --pdg-gold: #c8a96e;
+  --pdg-gold-dark: #b3925a;
+  --pdg-bg: #ffffff;
+  --pdg-bg-soft: #fafafa;
+  --pdg-border: #e8e8e8;
+  --pdg-text: #1a1a1a;
+  --pdg-text-muted: #666666;
+
+  /* Tipografia */
+  --pdg-font-serif: "Cormorant Garamond", Georgia, serif;
+  --pdg-font-sans: "Raleway", system-ui, -apple-system, sans-serif;
+
+  /* Spaziature */
+  --pdg-radius: 12px;
+  --pdg-radius-pill: 30px;
+  --pdg-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --pdg-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --pdg-transition: 0.25s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--pdg-font-sans);
+  color: var(--pdg-text);
+  background: var(--pdg-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--pdg-font-serif);
+}
+
+/* Accessibilità: focus visibile per navigazione da tastiera */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--pdg-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Campi: bordo dorato al focus */
+input:focus,
+textarea:focus {
+  border-color: var(--pdg-gold) !important;
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+}
+
+/* Animazione reveal allo scroll */
+.pdg-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+.pdg-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Skeleton loader */
+.pdg-skeleton {
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: pdg-shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+@keyframes pdg-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* Riduci animazioni se l'utente lo preferisce */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pdg-reveal { transition: none; opacity: 1; transform: none; }
+  .pdg-skeleton { animation: none; }
+}

@@ -56,7 +56,13 @@ function Contracts() {
 
       <Container className="py-5">
         {loading ? (
-          <div className="text-center py-5"><div className="spinner-border" /></div>
+          <div className="row">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div className="col-12 col-sm-6 col-md-4 mb-4" key={i}>
+                <div className="pdg-skeleton" style={{ width: "100%", height: "260px", borderRadius: "8px" }} />
+              </div>
+            ))}
+          </div>
         ) : filtered.length === 0 ? (
           <p className="text-center text-muted py-5">
             {brands.length === 0

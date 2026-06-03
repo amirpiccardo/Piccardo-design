@@ -4,7 +4,22 @@ import image from "../assets/primosfondo.jpg";
 import additionalImage from "../assets/sfondodue.jpg";
 import NewsletterBanner from "../components/NewsletterBanner";
 import ChatBot from "../components/ChatBot";
+import Reveal from "../components/Reveal";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
+
+const services = [
+  { icon: faCouch, title: "Distribuzione brand", text: "Selezioniamo e distribuiamo i migliori marchi di arredamento e design Made in Italy." },
+  { icon: faDraftingCompass, title: "Soluzioni contract", text: "Progetti su misura per hotel, uffici e spazi commerciali, dalla A alla Z." },
+  { icon: faHandshake, title: "Consulenza & partnership", text: "Affianchiamo aziende, architetti e progettisti con esperienza trentennale." },
+];
+
+const stats = [
+  { value: "30+", label: "Anni di esperienza" },
+  { value: "20+", label: "Brand partner" },
+  { value: "100%", label: "Made in Italy" },
+];
 
 function HomePage() {
   const [brands, setBrands] = useState([]);
@@ -146,6 +161,63 @@ function HomePage() {
           <img src={image} alt="Interni di design Piccardo Design Group" style={imageStyle} />
         </Col>
       </Row>
+
+      {/* Sezione Servizi */}
+      <div style={{ padding: "70px 20px", backgroundColor: "#fff" }}>
+        <Reveal as="h2" style={{ textAlign: "center", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 600, marginBottom: "12px", color: "#1a1a1a" }}>
+          Cosa facciamo
+        </Reveal>
+        <Reveal as="p" delay={80} style={{ textAlign: "center", color: "#666", maxWidth: "600px", margin: "0 auto 48px", fontSize: "1.05rem" }}>
+          Un unico partner per la distribuzione di arredamento di design e le soluzioni contract.
+        </Reveal>
+        <div className="container">
+          <div className="row g-4 justify-content-center">
+            {services.map((s, i) => (
+              <div className="col-12 col-md-4" key={s.title}>
+                <Reveal delay={i * 120}>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "36px 24px",
+                      border: "1px solid #eee",
+                      borderRadius: "14px",
+                      height: "100%",
+                      transition: "box-shadow 0.25s, transform 0.25s",
+                      background: "#fff",
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.10)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
+                  >
+                    <FontAwesomeIcon icon={s.icon} style={{ fontSize: "2.2rem", color: "#c8a96e", marginBottom: "18px" }} />
+                    <h3 style={{ fontSize: "1.4rem", fontWeight: 600, marginBottom: "12px" }}>{s.title}</h3>
+                    <p style={{ color: "#666", lineHeight: "1.7", margin: 0 }}>{s.text}</p>
+                  </div>
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Sezione Numeri */}
+      <div style={{ background: "#1a1a1a", padding: "60px 20px" }}>
+        <div className="container">
+          <div className="row text-center">
+            {stats.map((s, i) => (
+              <div className="col-4" key={s.label}>
+                <Reveal delay={i * 120}>
+                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 6vw, 3.5rem)", fontWeight: 600, color: "#c8a96e" }}>
+                    {s.value}
+                  </div>
+                  <div style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(0.8rem, 2vw, 1rem)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                    {s.label}
+                  </div>
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {brands.length > 0 && (
         <Row className="d-flex justify-content-center align-items-center flex-wrap py-4">

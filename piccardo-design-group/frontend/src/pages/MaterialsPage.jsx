@@ -56,7 +56,13 @@ function MaterialsPage() {
 
       <Container className="py-5">
         {loading ? (
-          <div className="text-center py-5"><div className="spinner-border" /></div>
+          <div className="row justify-content-center">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex justify-content-center" key={i}>
+                <div className="pdg-skeleton" style={{ width: "140px", height: "112px" }} />
+              </div>
+            ))}
+          </div>
         ) : filtered.length === 0 ? (
           <p className="text-center text-muted py-5">
             {brands.length === 0
