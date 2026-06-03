@@ -1,7 +1,9 @@
 /* ===== Piccardo Design Group — Sistema di design globale ===== */
 
 :root {
-  /* Colori */
+  /* Colori — identità: blu navy + oro (interpretazione raffinata del marchio reale) */
+  --pdg-navy: #1b2a4a;
+  --pdg-navy-soft: #24375f;
   --pdg-dark: #1a1a1a;
   --pdg-dark-soft: #333333;
   --pdg-gold: #c8a96e;
@@ -10,7 +12,7 @@
   --pdg-bg-soft: #fafafa;
   --pdg-border: #e8e8e8;
   --pdg-text: #1a1a1a;
-  --pdg-text-muted: #666666;
+  --pdg-text-muted: #5a5a5a;
 
   /* Tipografia */
   --pdg-font-serif: "Cormorant Garamond", Georgia, serif;
@@ -93,9 +95,58 @@ textarea:focus {
   100% { background-position: 0 50%; }
 }
 
+/* Tilt 3D sulle card al hover */
+.pdg-tilt {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.pdg-tilt:hover {
+  transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+}
+
+/* Mask-reveal del titolo hero (le parole scivolano da sotto una linea) */
+.pdg-mask {
+  overflow: hidden;
+  display: inline-block;
+}
+.pdg-mask > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: pdg-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes pdg-rise {
+  to { transform: translateY(0); }
+}
+
+/* Transizione fade tra le pagine (route) */
+.pdg-page {
+  animation: pdg-page-in 0.5s ease both;
+}
+@keyframes pdg-page-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Blur-up immagini: parte sfocata, diventa nitida una volta caricata */
+.pdg-blur-up {
+  filter: blur(14px);
+  transform: scale(1.04);
+  transition: filter 0.7s ease, transform 0.7s ease;
+}
+.pdg-blur-up.is-loaded {
+  filter: blur(0);
+  transform: none;
+}
+
 /* Riduci animazioni se l'utente lo preferisce */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .pdg-reveal { transition: none; opacity: 1; transform: none; }
   .pdg-skeleton { animation: none; }
+  .pdg-tilt:hover { transform: none; }
+  .pdg-mask > span { animation: none; transform: none; }
+  .pdg-page { animation: none; }
+  .pdg-blur-up { filter: none; transform: none; }
 }

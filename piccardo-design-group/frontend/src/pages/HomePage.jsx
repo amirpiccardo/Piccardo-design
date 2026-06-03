@@ -6,6 +6,7 @@ import NewsletterBanner from "../components/NewsletterBanner";
 import ChatBot from "../components/ChatBot";
 import Reveal from "../components/Reveal";
 import Seo from "../components/Seo";
+import CountUp from "../components/CountUp";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
@@ -125,7 +126,10 @@ function HomePage() {
       <Row className="g-0">
         <Col>
           <div style={headingStyle}>
-            <h1 style={{ margin: 0 }}>Trasformiamo gli spazi, ispiriamo la vita</h1>
+            <h1 style={{ margin: 0 }}>
+              <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Trasformiamo gli spazi,</span></span>{" "}
+              <span className="pdg-mask"><span style={{ animationDelay: "0.18s" }}>ispiriamo la vita</span></span>
+            </h1>
           </div>
           <p style={subheadingStyle}>
             Distribuiamo i migliori brand di arredamento e design Made in Italy,
@@ -178,17 +182,15 @@ function HomePage() {
               <div className="col-12 col-md-4" key={s.title}>
                 <Reveal delay={i * 120}>
                   <div
+                    className="pdg-tilt"
                     style={{
                       textAlign: "center",
                       padding: "36px 24px",
                       border: "1px solid #eee",
                       borderRadius: "14px",
                       height: "100%",
-                      transition: "box-shadow 0.25s, transform 0.25s",
                       background: "#fff",
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "0 8px 32px rgba(0,0,0,0.10)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
                   >
                     <FontAwesomeIcon icon={s.icon} style={{ fontSize: "2.2rem", color: "#c8a96e", marginBottom: "18px" }} />
                     <h3 style={{ fontSize: "1.4rem", fontWeight: 600, marginBottom: "12px" }}>{s.title}</h3>
@@ -202,14 +204,14 @@ function HomePage() {
       </div>
 
       {/* Sezione Numeri */}
-      <div style={{ background: "#1a1a1a", padding: "60px 20px" }}>
+      <div style={{ background: "linear-gradient(135deg, #1b2a4a, #24375f)", padding: "70px 20px" }}>
         <div className="container">
           <div className="row text-center">
             {stats.map((s, i) => (
               <div className="col-4" key={s.label}>
                 <Reveal delay={i * 120}>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 6vw, 3.5rem)", fontWeight: 600, color: "#c8a96e" }}>
-                    {s.value}
+                    <CountUp value={s.value} />
                   </div>
                   <div style={{ color: "rgba(255,255,255,0.75)", fontSize: "clamp(0.8rem, 2vw, 1rem)", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                     {s.label}

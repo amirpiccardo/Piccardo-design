@@ -80,19 +80,11 @@ function Contracts() {
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div
+                    className="pdg-tilt"
                     style={{
                       borderRadius: "8px",
                       overflow: "hidden",
                       border: "1px solid #eee",
-                      transition: "box-shadow 0.2s, transform 0.2s",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = "0 6px 20px rgba(0,0,0,0.1)";
-                      e.currentTarget.style.transform = "translateY(-3px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = "none";
-                      e.currentTarget.style.transform = "none";
                     }}
                   >
                     <img

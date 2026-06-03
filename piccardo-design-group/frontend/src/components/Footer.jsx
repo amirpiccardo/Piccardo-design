@@ -9,7 +9,7 @@ function Footer() {
   return (
     <footer
       style={{
-        backgroundColor: "#1a1a1a",
+        background: "linear-gradient(135deg, #1b2a4a, #16233f)",
         color: "#ccc",
         padding: "40px 0 20px",
         fontFamily: "Raleway, sans-serif",
