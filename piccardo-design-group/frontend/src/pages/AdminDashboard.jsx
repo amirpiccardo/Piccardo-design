@@ -9,18 +9,22 @@ import {
   faAddressBook,
   faEnvelope,
   faSignOutAlt,
+  faChartPie,
+  faKey,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import DashboardOverview from "../components/DashboardOverview";
 import BrandManagement from "../components/BrandManagement";
 import MaterialBrandManagement from "../components/MaterialBrandManagement";
 import ContractBrandManagement from "../components/ContractBrandManagement";
 import ContactManagement from "../components/ContactManagement";
 import NewsletterManagement from "../components/NewsletterManagement";
 import TeamManagement from "../components/TeamManagement";
+import AccountSettings from "../components/AccountSettings";
 
 function AdminDashboard() {
-  const [key, setKey] = useState("brands");
+  const [key, setKey] = useState("overview");
   const navigate = useNavigate();
   const { logout } = useAuth();
 
@@ -52,6 +56,9 @@ function AdminDashboard() {
               onSelect={(k) => setKey(k)}
               className="mb-4"
             >
+              <Tab eventKey="overview" title={<><FontAwesomeIcon icon={faChartPie} className="me-1" />Panoramica</>}>
+                <DashboardOverview />
+              </Tab>
               <Tab eventKey="brands" title={<><FontAwesomeIcon icon={faTags} className="me-1" />Brands</>}>
                 <BrandManagement />
               </Tab>
@@ -69,6 +76,9 @@ function AdminDashboard() {
               </Tab>
               <Tab eventKey="newsletter" title={<><FontAwesomeIcon icon={faEnvelope} className="me-1" />Newsletter</>}>
                 <NewsletterManagement />
+              </Tab>
+              <Tab eventKey="account" title={<><FontAwesomeIcon icon={faKey} className="me-1" />Account</>}>
+                <AccountSettings />
               </Tab>
             </Tabs>
           </Col>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import teamImage from "../assets/team.jpg";
 import ChatBot from "../components/ChatBot";
+import Seo from "../components/Seo";
 
 function TeamPage() {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -109,6 +110,7 @@ function TeamPage() {
 
   return (
     <div style={pageStyle}>
+      <Seo title="Il nostro Team" description="Il team di Piccardo Design Group: professionisti del design che danno vita alla tua visione con soluzioni innovative e personalizzate." />
       <div style={heroBannerStyle}>
         <img src={teamImage} alt="Il team di Piccardo Design Group" style={imageStyle} />
         <div style={overlayStyle}>

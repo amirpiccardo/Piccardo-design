@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEnvelope, faFileCsv, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { fetchSubscribers, deleteSubscriber } from "../services/apiServices";
+import { exportToCsv } from "../utils/csv";
 
 const NewsletterManagement = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState(null);
+  const [search, setSearch] = useState("");
 
   const load = () => {
     setLoading(true);
@@ -33,16 +35,36 @@ const NewsletterManagement = () => {
     }
   };
 
+  const filtered = subscribers.filter((s) => (s.email || "").toLowerCase().includes(search.toLowerCase()));
+
+  const handleExport = () => {
+    exportToCsv("iscritti-newsletter.csv", filtered, [
+      { label: "Email", value: (r) => r.email },
+      { label: "Data iscrizione", value: (r) => (r.createdAt ? new Date(r.createdAt).toLocaleDateString("it-IT") : "") },
+    ]);
+  };
+
   if (loading) return <div className="text-center py-5"><div className="spinner-border" /></div>;
 
   return (
     <div>
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
-      <h5 className="mb-3">Iscritti alla newsletter ({subscribers.length})</h5>
+      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h5 className="mb-0">Iscritti alla newsletter ({filtered.length})</h5>
+        <div className="d-flex gap-2">
+          <div className="input-group input-group-sm" style={{ width: "220px" }}>
+            <span className="input-group-text"><FontAwesomeIcon icon={faSearch} /></span>
+            <input className="form-control" placeholder="Cerca email..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <button className="btn btn-sm btn-outline-dark" onClick={handleExport} disabled={filtered.length === 0}>
+            <FontAwesomeIcon icon={faFileCsv} className="me-1" /> Esporta CSV
+          </button>
+        </div>
+      </div>
 
-      {subscribers.length === 0 ? (
-        <p className="text-muted">Nessun iscritto.</p>
+      {filtered.length === 0 ? (
+        <p className="text-muted">{subscribers.length === 0 ? "Nessun iscritto." : "Nessun risultato."}</p>
       ) : (
         <div className="table-responsive">
           <table className="table table-hover align-middle">
@@ -54,7 +76,7 @@ const NewsletterManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {subscribers.map((sub) => (
+              {filtered.map((sub) => (
                 <tr key={sub._id || sub.email}>
                   <td>{sub.email}</td>
                   <td>

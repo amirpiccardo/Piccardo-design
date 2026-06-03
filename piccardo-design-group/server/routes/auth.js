@@ -69,4 +69,30 @@ router.get("/verifyToken", authMiddleware, (req, res) => {
   res.status(200).json({ auth: true, role: req.user.role });
 });
 
+// Cambio password dell'utente autenticato
+router.post("/change-password", authMiddleware, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: "Password attuale e nuova sono obbligatorie" });
+  }
+  if (newPassword.length < 8) {
+    return res.status(400).json({ message: "La nuova password deve avere almeno 8 caratteri" });
+  }
+
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user) return res.status(404).json({ message: "Utente non trovato" });
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) return res.status(400).json({ message: "Password attuale non corretta" });
+
+    user.password = newPassword; // l'hook pre-save la cifra
+    await user.save();
+    res.status(200).json({ message: "Password aggiornata con successo" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

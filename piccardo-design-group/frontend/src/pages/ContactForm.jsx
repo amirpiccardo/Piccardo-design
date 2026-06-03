@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faEnvelope, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import Seo from "../components/Seo";
 
 function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot anti-spam (deve restare vuoto)
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Se il campo honeypot è compilato, è un bot: simuliamo successo e non inviamo
+    if (website) {
+      setStatus({ type: "success", text: "Messaggio inviato con successo!" });
+      return;
+    }
     setLoading(true);
     setStatus(null);
     try {
@@ -60,6 +67,7 @@ function ContactForm() {
 
   return (
     <section style={{ backgroundColor: "#fafafa", minHeight: "70vh", padding: "60px 0", fontFamily: "Raleway, sans-serif" }}>
+      <Seo title="Contattaci" description="Contatta Piccardo Design Group per collaborazioni, distribuzione brand o progetti contract. Via Alfieri 18, Imperia." />
       <Container>
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(2.2rem, 5vw, 3.2rem)", color: "#1a1a1a" }}>
@@ -80,11 +88,20 @@ function ContactForm() {
                   Via Alfieri 18<br />Imperia, IM 18100<br />P.IVA 01587610088
                 </p>
               </div>
-              <div>
+              <div style={{ marginBottom: "24px" }}>
                 <FontAwesomeIcon icon={faEnvelope} style={{ color: "#c8a96e", fontSize: "1.3rem", marginBottom: "8px" }} />
                 <h6 style={{ fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.8rem", color: "#1a1a1a" }}>Email</h6>
                 <p style={{ color: "#666", margin: 0 }}>info@piccardodesign.it</p>
               </div>
+              <iframe
+                title="Sede Piccardo Design Group"
+                src="https://www.google.com/maps?q=Via%20Alfieri%2018,%20Imperia,%20IM&output=embed"
+                width="100%"
+                height="220"
+                style={{ border: 0, borderRadius: "12px" }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </Col>
 
@@ -105,6 +122,17 @@ function ContactForm() {
                   style={{ ...inputStyle, resize: "vertical" }}
                   required
                   placeholder="Scrivi il tuo messaggio..."
+                />
+
+                {/* Honeypot anti-spam: nascosto agli utenti, riempito solo dai bot */}
+                <input
+                  type="text"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
                 />
 
                 <button

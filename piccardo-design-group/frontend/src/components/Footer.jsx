@@ -80,6 +80,23 @@ function Footer() {
         </div>
 
         <hr style={{ borderColor: "#333" }} />
+        <div style={{ display: "flex", justifyContent: "center", gap: "18px", flexWrap: "wrap", marginBottom: "10px" }}>
+          {[
+            { to: "/faq", label: "FAQ" },
+            { to: "/privacy", label: "Privacy & Cookie" },
+            { to: "/termini", label: "Termini" },
+          ].map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              style={{ color: "#b3b3b3", textDecoration: "none", fontSize: "0.78rem" }}
+              onMouseEnter={(e) => (e.target.style.color = "#fff")}
+              onMouseLeave={(e) => (e.target.style.color = "#b3b3b3")}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
         <p style={{ textAlign: "center", fontSize: "0.75rem", color: "#666", margin: 0 }}>
           &copy; {new Date().getFullYear()} Piccardo Design Group. Tutti i diritti riservati.
         </p>

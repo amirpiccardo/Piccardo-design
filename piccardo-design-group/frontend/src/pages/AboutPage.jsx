@@ -1,6 +1,7 @@
 import React from "react";
 import aboutImage from "../assets/sfondoabout.png";
 import ChatBot from "../components/ChatBot";
+import Seo from "../components/Seo";
 
 function AboutPage() {
   const pageStyle = {
@@ -48,6 +49,7 @@ function AboutPage() {
 
   return (
     <div style={pageStyle}>
+      <Seo title="Chi Siamo" description="Piccardo Design Group: consulenti esperti nella distribuzione di arredamento e design Made in Italy, con trent'anni di esperienza nel settore." />
       <div style={heroStyle}>
         <div style={heroOverlay} />
         <h1 style={headingStyle}>Chi Siamo</h1>

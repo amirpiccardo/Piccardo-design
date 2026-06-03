@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { fetchMaterialBrands } from "../services/apiServices";
+import Seo from "../components/Seo";
 
 function MaterialsPage() {
   const [brands, setBrands] = useState([]);
@@ -21,6 +22,7 @@ function MaterialsPage() {
 
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "60vh" }}>
+      <Seo title="I nostri Brand" description="Scopri i brand partner di Piccardo Design Group: i migliori marchi di arredamento e design Made in Italy." />
       <div
         style={{
           textAlign: "center",

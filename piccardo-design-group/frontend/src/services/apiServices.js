@@ -4,6 +4,19 @@ const authHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("authToken")}`,
 });
 
+// ─── Account / Password ───────────────────────────────────────────────────────
+
+export const changePassword = (currentPassword, newPassword) =>
+  fetch(`${BASE}/api/auth/change-password`, {
+    method: "POST",
+    headers: { ...authHeaders(), "Content-Type": "application/json" },
+    body: JSON.stringify({ currentPassword, newPassword }),
+  }).then(async (r) => {
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.message || "Errore");
+    return data;
+  });
+
 // ─── Brands (Homepage) ───────────────────────────────────────────────────────
 
 export const fetchBrands = () =>

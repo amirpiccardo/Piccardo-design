@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEnvelope, faUser, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEnvelope, faUser, faComment, faFileCsv, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { fetchContacts, deleteContact } from "../services/apiServices";
+import { exportToCsv } from "../utils/csv";
 
 const ContactManagement = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState(null);
+  const [search, setSearch] = useState("");
 
   const load = () => {
     setLoading(true);
     fetchContacts()
-      .then((data) => { setContacts(data); setLoading(false); })
+      .then((data) => { setContacts(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   };
 
@@ -33,19 +35,44 @@ const ContactManagement = () => {
     }
   };
 
+  const filtered = contacts.filter((c) => {
+    const q = search.toLowerCase();
+    return (c.name || "").toLowerCase().includes(q) || (c.email || "").toLowerCase().includes(q) || (c.message || "").toLowerCase().includes(q);
+  });
+
+  const handleExport = () => {
+    exportToCsv("contatti.csv", filtered, [
+      { label: "Nome", value: (r) => r.name },
+      { label: "Email", value: (r) => r.email },
+      { label: "Messaggio", value: (r) => r.message },
+      { label: "Data", value: (r) => (r.createdAt ? new Date(r.createdAt).toLocaleString("it-IT") : "") },
+    ]);
+  };
+
   if (loading) return <div className="text-center py-5"><div className="spinner-border" /></div>;
 
   return (
     <div>
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
-      <h5 className="mb-3">Messaggi ricevuti ({contacts.length})</h5>
+      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h5 className="mb-0">Messaggi ricevuti ({filtered.length})</h5>
+        <div className="d-flex gap-2">
+          <div className="input-group input-group-sm" style={{ width: "220px" }}>
+            <span className="input-group-text"><FontAwesomeIcon icon={faSearch} /></span>
+            <input className="form-control" placeholder="Cerca..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <button className="btn btn-sm btn-outline-dark" onClick={handleExport} disabled={filtered.length === 0}>
+            <FontAwesomeIcon icon={faFileCsv} className="me-1" /> Esporta CSV
+          </button>
+        </div>
+      </div>
 
-      {contacts.length === 0 ? (
-        <p className="text-muted">Nessun messaggio ricevuto.</p>
+      {filtered.length === 0 ? (
+        <p className="text-muted">{contacts.length === 0 ? "Nessun messaggio ricevuto." : "Nessun risultato."}</p>
       ) : (
         <div className="row">
-          {contacts.map((contact) => (
+          {filtered.map((contact) => (
             <div className="col-md-6 col-lg-4 mb-3" key={contact._id}>
               <div className="card h-100">
                 <div className="card-body">

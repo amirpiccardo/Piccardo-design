@@ -5,6 +5,7 @@ import additionalImage from "../assets/sfondodue.jpg";
 import NewsletterBanner from "../components/NewsletterBanner";
 import ChatBot from "../components/ChatBot";
 import Reveal from "../components/Reveal";
+import Seo from "../components/Seo";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
@@ -120,6 +121,7 @@ function HomePage() {
 
   return (
     <Container fluid className="px-0">
+      <Seo description="Piccardo Design Group distribuisce i migliori brand di arredamento e design Made in Italy. Soluzioni contract e consulenza per aziende, architetti e progettisti." />
       <Row className="g-0">
         <Col>
           <div style={headingStyle}>
