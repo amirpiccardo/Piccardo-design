@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEnvelope, faFileCsv, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { fetchSubscribers, deleteSubscriber } from "../services/apiServices";
 import { exportToCsv } from "../utils/csv";
+import useConfirm from "../hooks/useConfirm";
 
 const NewsletterManagement = () => {
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState(null);
   const [search, setSearch] = useState("");
+  const [confirm, confirmUI] = useConfirm();
 
   const load = () => {
     setLoading(true);
@@ -25,7 +27,7 @@ const NewsletterManagement = () => {
   };
 
   const handleDelete = async (email) => {
-    if (!window.confirm(`Rimuovere ${email} dalla newsletter?`)) return;
+    if (!(await confirm({ title: "Rimuovere l'iscritto?", message: `${email} verrà rimosso dalla newsletter.`, danger: true, confirmLabel: "Rimuovi" }))) return;
     try {
       await deleteSubscriber(email);
       showFeedback("Iscritto rimosso");
@@ -48,6 +50,7 @@ const NewsletterManagement = () => {
 
   return (
     <div>
+      {confirmUI}
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">

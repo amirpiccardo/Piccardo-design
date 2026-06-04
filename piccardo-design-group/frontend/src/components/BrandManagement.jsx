@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { fetchBrands, addBrand, updateBrand, deleteBrand } from "../services/apiServices";
 import { mediaUrl } from "../utils/media";
+import useConfirm from "../hooks/useConfirm";
 
 const BrandManagement = () => {
   const [brands, setBrands] = useState([]);
@@ -12,6 +13,7 @@ const BrandManagement = () => {
   const [feedback, setFeedback] = useState(null);
   const [form, setForm] = useState({ name: "", logo: null, website: "" });
   const [editId, setEditId] = useState(null);
+  const [confirm, confirmUI] = useConfirm();
 
   const load = () => {
     setLoading(true);
@@ -64,7 +66,7 @@ const BrandManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Sei sicuro di voler eliminare questo brand?")) return;
+    if (!(await confirm({ title: "Eliminare il brand?", message: "L'operazione non è reversibile.", danger: true, confirmLabel: "Elimina" }))) return;
     try {
       await deleteBrand(id);
       showFeedback("Brand eliminato");
@@ -81,6 +83,7 @@ const BrandManagement = () => {
 
   return (
     <div>
+      {confirmUI}
       {feedback && (
         <div className={`alert alert-${feedback.type} alert-dismissible`}>
           {feedback.msg}
@@ -120,6 +123,9 @@ const BrandManagement = () => {
                 onChange={handleChange}
               />
               {editId && <small className="text-muted">Lascia vuoto per non cambiare il logo</small>}
+              {form.logo instanceof File && (
+                <img src={URL.createObjectURL(form.logo)} alt="anteprima" style={{ marginTop: 8, maxHeight: 56, maxWidth: 120, objectFit: "contain", border: "1px solid #eee", borderRadius: 6, padding: 4 }} />
+              )}
             </div>
           </div>
           <div className="mt-3 d-flex gap-2">

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { fetchTeamMembers, addTeamMember, updateTeamMember, deleteTeamMember } from "../services/apiServices";
 import { mediaUrl } from "../utils/media";
+import useConfirm from "../hooks/useConfirm";
 
 const TeamManagement = () => {
   const [members, setMembers] = useState([]);
@@ -11,6 +12,7 @@ const TeamManagement = () => {
   const [feedback, setFeedback] = useState(null);
   const [form, setForm] = useState({ name: "", role: "", photo: null });
   const [editId, setEditId] = useState(null);
+  const [confirm, confirmUI] = useConfirm();
 
   const load = () => {
     setLoading(true);
@@ -63,7 +65,7 @@ const TeamManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Eliminare questo membro del team?")) return;
+    if (!(await confirm({ title: "Eliminare il membro?", message: "L'operazione non è reversibile.", danger: true, confirmLabel: "Elimina" }))) return;
     try {
       await deleteTeamMember(id);
       showFeedback("Membro eliminato");
@@ -79,6 +81,7 @@ const TeamManagement = () => {
 
   return (
     <div>
+      {confirmUI}
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
       <div className="card mb-4">
@@ -94,6 +97,9 @@ const TeamManagement = () => {
             <div className="col-md-4">
               <input type="file" className="form-control" name="photo" accept="image/*" onChange={handleChange} />
               {editId && <small className="text-muted">Lascia vuoto per non cambiare la foto</small>}
+              {form.photo instanceof File && (
+                <img src={URL.createObjectURL(form.photo)} alt="anteprima" style={{ marginTop: 8, height: 56, width: 56, objectFit: "cover", borderRadius: "50%", border: "1px solid #eee" }} />
+              )}
             </div>
           </div>
           <div className="mt-3 d-flex gap-2">

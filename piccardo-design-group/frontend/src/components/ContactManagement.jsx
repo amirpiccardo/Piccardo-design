@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEnvelope, faUser, faComment, faFileCsv, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { fetchContacts, deleteContact } from "../services/apiServices";
 import { exportToCsv } from "../utils/csv";
+import useConfirm from "../hooks/useConfirm";
 
 const ContactManagement = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [feedback, setFeedback] = useState(null);
   const [search, setSearch] = useState("");
+  const [confirm, confirmUI] = useConfirm();
 
   const load = () => {
     setLoading(true);
@@ -25,7 +27,7 @@ const ContactManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Eliminare questo messaggio?")) return;
+    if (!(await confirm({ title: "Eliminare il messaggio?", message: "L'operazione non è reversibile.", danger: true, confirmLabel: "Elimina" }))) return;
     try {
       await deleteContact(id);
       showFeedback("Messaggio eliminato");
@@ -53,6 +55,7 @@ const ContactManagement = () => {
 
   return (
     <div>
+      {confirmUI}
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
