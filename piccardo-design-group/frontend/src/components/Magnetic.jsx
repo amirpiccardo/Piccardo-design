@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 
-// Avvolge un elemento e lo fa "attrarre" leggermente verso il cursore al passaggio.
-// Effetto premium da studio di design. Disattivato su touch / reduced-motion.
-function Magnetic({ children, strength = 0.35, style = {}, ...rest }) {
+// Hover elegante: il bottone resta nella sua posizione e reagisce con un
+// leggero ingrandimento + ombra al passaggio del cursore (niente "inseguimento").
+function Magnetic({ children, style = {}, ...rest }) {
   const ref = useRef(null);
 
   const reduce =
@@ -10,24 +10,23 @@ function Magnetic({ children, strength = 0.35, style = {}, ...rest }) {
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const onMove = (e) => {
+  const onEnter = () => {
     if (reduce || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    const x = e.clientX - (r.left + r.width / 2);
-    const y = e.clientY - (r.top + r.height / 2);
-    ref.current.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+    ref.current.style.transform = "scale(1.04)";
+    ref.current.style.filter = "drop-shadow(0 6px 16px rgba(0,0,0,0.18))";
   };
-
   const onLeave = () => {
-    if (ref.current) ref.current.style.transform = "translate(0, 0)";
+    if (!ref.current) return;
+    ref.current.style.transform = "scale(1)";
+    ref.current.style.filter = "none";
   };
 
   return (
     <span
       ref={ref}
-      onMouseMove={onMove}
+      onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      style={{ display: "inline-block", transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)", ...style }}
+      style={{ display: "inline-block", transition: "transform 0.25s ease, filter 0.25s ease", ...style }}
       {...rest}
     >
       {children}

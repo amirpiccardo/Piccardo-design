@@ -26,6 +26,13 @@ const stats = [
   { value: "100%", label: "Made in Italy" },
 ];
 
+const steps = [
+  { n: "01", title: "Ascoltiamo", text: "Analizziamo le tue esigenze e quelle del mercato per definire gli obiettivi." },
+  { n: "02", title: "Selezioniamo", text: "Scegliamo i brand e le soluzioni più adatte tra i migliori marchi Made in Italy." },
+  { n: "03", title: "Forniamo", text: "Gestiamo la distribuzione e la logistica con precisione e affidabilità." },
+  { n: "04", title: "Supportiamo", text: "Ti affianchiamo in ogni fase, anche dopo, con consulenza tecnica dedicata." },
+];
+
 function HomePage() {
   const [brands, setBrands] = useState([]);
 
@@ -230,6 +237,34 @@ function HomePage() {
         </div>
       </div>
 
+      {/* Sezione Come lavoriamo */}
+      <div style={{ padding: "70px 20px", background: "#fafafa" }}>
+        <Reveal as="h2" style={{ textAlign: "center", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 600, marginBottom: "12px", color: "#1a1a1a" }}>
+          Come lavoriamo
+        </Reveal>
+        <Reveal as="p" delay={80} style={{ textAlign: "center", color: "#666", maxWidth: "600px", margin: "0 auto 48px", fontSize: "1.05rem" }}>
+          Un metodo chiaro in quattro passi, dalla prima esigenza al supporto continuo.
+        </Reveal>
+        <div className="container">
+          <div className="row g-4">
+            {steps.map((s, i) => (
+              <div className="col-6 col-lg-3" key={s.n}>
+                <Reveal delay={i * 100}>
+                  <div style={{ padding: "8px 6px" }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.6rem", fontWeight: 600, color: "#c8a96e", lineHeight: 1 }}>
+                      {s.n}
+                    </div>
+                    <div style={{ width: "36px", height: "2px", background: "#1b2a4a", margin: "12px 0" }} />
+                    <h3 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "8px" }}>{s.title}</h3>
+                    <p style={{ color: "#666", fontSize: "0.95rem", lineHeight: 1.6, margin: 0 }}>{s.text}</p>
+                  </div>
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {brands.length > 0 && (
         <Row className="d-flex justify-content-center align-items-center flex-wrap py-4">
           {brands.map((brand) => (
@@ -272,18 +307,20 @@ function HomePage() {
             alt="Soluzioni di arredamento contract"
             overlay={<div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.15)" }} />}
           >
-            <Magnetic style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-              <Link
-                to="/materials"
-                style={{
-                  display: "inline-block", padding: "14px 32px", backgroundColor: "rgba(0,0,0,0.85)",
-                  color: "#fff", borderRadius: "30px", textDecoration: "none", fontSize: "1rem",
-                  fontFamily: "Raleway, sans-serif", letterSpacing: "0.05em",
-                }}
-              >
-                Scopri di più
-              </Link>
-            </Magnetic>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+              <Magnetic>
+                <Link
+                  to="/materials"
+                  style={{
+                    display: "inline-block", padding: "14px 32px", backgroundColor: "rgba(0,0,0,0.85)",
+                    color: "#fff", borderRadius: "30px", textDecoration: "none", fontSize: "1rem",
+                    fontFamily: "Raleway, sans-serif", letterSpacing: "0.05em",
+                  }}
+                >
+                  Scopri di più
+                </Link>
+              </Magnetic>
+            </div>
           </ParallaxImage>
         </Col>
       </Row>
