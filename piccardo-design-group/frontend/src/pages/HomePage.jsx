@@ -7,6 +7,8 @@ import ChatBot from "../components/ChatBot";
 import Reveal from "../components/Reveal";
 import Seo from "../components/Seo";
 import CountUp from "../components/CountUp";
+import Magnetic from "../components/Magnetic";
+import ParallaxImage from "../components/ParallaxImage";
 import { mediaUrl } from "../utils/media";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -137,35 +139,39 @@ function HomePage() {
             offrendo soluzioni su misura per aziende, architetti e progettisti.
           </p>
           <div style={ctaRowStyle}>
-            <Link
-              to="/materials"
-              style={primaryBtn}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1a1a1a")}
-            >
-              Scopri i nostri partner
-            </Link>
-            <Link
-              to="/contact"
-              style={secondaryBtn}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#1a1a1a";
-                e.currentTarget.style.color = "#fff";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "#1a1a1a";
-              }}
-            >
-              Contattaci
-            </Link>
+            <Magnetic>
+              <Link
+                to="/materials"
+                style={primaryBtn}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1a1a1a")}
+              >
+                Scopri i nostri partner
+              </Link>
+            </Magnetic>
+            <Magnetic>
+              <Link
+                to="/contact"
+                style={secondaryBtn}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#1a1a1a";
+                  e.currentTarget.style.color = "#fff";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "#1a1a1a";
+                }}
+              >
+                Contattaci
+              </Link>
+            </Magnetic>
           </div>
         </Col>
       </Row>
 
       <Row className="g-0">
         <Col>
-          <img src={image} alt="Interni di design Piccardo Design Group" style={imageStyle} />
+          <ParallaxImage src={image} alt="Interni di design Piccardo Design Group" style={{ marginTop: "20px" }} />
         </Col>
       </Row>
 
@@ -261,22 +267,24 @@ function HomePage() {
 
       <Row className="g-0">
         <Col>
-          <div style={{ position: "relative", marginBottom: "0" }}>
-            <img
-              src={additionalImage}
-              alt="Soluzioni di arredamento contract"
-              style={imageStyle}
-              loading="lazy"
-            />
-            <Link
-              to="/materials"
-              style={overlayButtonStyle}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = "translate(-50%, -50%) scale(1.05)")}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = "translate(-50%, -50%) scale(1)")}
-            >
-              Scopri di più
-            </Link>
-          </div>
+          <ParallaxImage
+            src={additionalImage}
+            alt="Soluzioni di arredamento contract"
+            overlay={<div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.15)" }} />}
+          >
+            <Magnetic style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+              <Link
+                to="/materials"
+                style={{
+                  display: "inline-block", padding: "14px 32px", backgroundColor: "rgba(0,0,0,0.85)",
+                  color: "#fff", borderRadius: "30px", textDecoration: "none", fontSize: "1rem",
+                  fontFamily: "Raleway, sans-serif", letterSpacing: "0.05em",
+                }}
+              >
+                Scopri di più
+              </Link>
+            </Magnetic>
+          </ParallaxImage>
         </Col>
       </Row>
 
