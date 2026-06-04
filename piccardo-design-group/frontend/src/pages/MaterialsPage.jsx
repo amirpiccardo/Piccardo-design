@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { fetchMaterialBrands } from "../services/apiServices";
 import Seo from "../components/Seo";
+import { mediaUrl } from "../utils/media";
 
 function MaterialsPage() {
   const [brands, setBrands] = useState([]);
@@ -101,7 +102,7 @@ function MaterialsPage() {
                   }}
                 >
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                    src={mediaUrl(brand.logo)}
                     alt={brand.name}
                     style={{ maxWidth: "100px", maxHeight: "60px", objectFit: "contain" }}
                   />

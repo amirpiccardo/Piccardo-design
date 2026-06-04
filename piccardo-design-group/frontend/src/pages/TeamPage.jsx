@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import teamImage from "../assets/team.jpg";
 import ChatBot from "../components/ChatBot";
 import Seo from "../components/Seo";
+import { mediaUrl } from "../utils/media";
 
 function TeamPage() {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -160,7 +161,7 @@ function TeamPage() {
                   }}
                 >
                   <img
-                    src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(member.photo)}`}
+                    src={mediaUrl(member.photo)}
                     alt={member.name}
                     style={memberImageStyle}
                     loading="lazy"

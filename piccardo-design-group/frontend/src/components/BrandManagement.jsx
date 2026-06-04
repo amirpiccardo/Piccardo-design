@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { fetchBrands, addBrand, updateBrand, deleteBrand } from "../services/apiServices";
+import { mediaUrl } from "../utils/media";
 
 const BrandManagement = () => {
   const [brands, setBrands] = useState([]);
@@ -143,7 +144,7 @@ const BrandManagement = () => {
             <div className="card h-100 text-center">
               <div className="card-body d-flex flex-column align-items-center justify-content-between">
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                  src={mediaUrl(brand.logo)}
                   alt={brand.name}
                   style={{ maxHeight: "70px", maxWidth: "140px", objectFit: "contain", marginBottom: "10px" }}
                 />

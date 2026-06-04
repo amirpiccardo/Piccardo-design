@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { fetchTeamMembers, addTeamMember, updateTeamMember, deleteTeamMember } from "../services/apiServices";
+import { mediaUrl } from "../utils/media";
 
 const TeamManagement = () => {
   const [members, setMembers] = useState([]);
@@ -115,7 +116,7 @@ const TeamManagement = () => {
             <div className="card h-100 text-center">
               <div className="card-body d-flex flex-column align-items-center">
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(member.photo)}`}
+                  src={mediaUrl(member.photo)}
                   alt={member.name}
                   style={{ width: "80px", height: "80px", borderRadius: "50%", objectFit: "cover", marginBottom: "10px" }}
                 />

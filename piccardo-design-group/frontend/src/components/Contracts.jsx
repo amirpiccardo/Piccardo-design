@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { fetchContractBrands } from "../services/apiServices";
+import { mediaUrl } from "../utils/media";
 
 function Contracts() {
   const [brands, setBrands] = useState([]);
@@ -88,7 +89,7 @@ function Contracts() {
                     }}
                   >
                     <img
-                      src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                      src={mediaUrl(brand.logo)}
                       alt={brand.name}
                       style={{ width: "100%", height: "220px", objectFit: "cover" }}
                     />

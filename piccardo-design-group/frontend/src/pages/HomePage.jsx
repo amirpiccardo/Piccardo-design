@@ -7,6 +7,7 @@ import ChatBot from "../components/ChatBot";
 import Reveal from "../components/Reveal";
 import Seo from "../components/Seo";
 import CountUp from "../components/CountUp";
+import { mediaUrl } from "../utils/media";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
@@ -247,7 +248,7 @@ function HomePage() {
                 }
               >
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}/${normalizePath(brand.logo)}`}
+                  src={mediaUrl(brand.logo)}
                   alt={brand.name}
                   style={logoStyle}
                   loading="lazy"

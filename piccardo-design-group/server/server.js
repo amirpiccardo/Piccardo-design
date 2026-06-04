@@ -8,7 +8,9 @@ const rateLimit = require("express-rate-limit");
 
 const app = express();
 
-app.use(helmet());
+// crossOriginResourcePolicy "cross-origin": consente al frontend (dominio diverso)
+// di caricare risorse statiche (es. immagini /uploads) servite dal backend
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(express.json());
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS
