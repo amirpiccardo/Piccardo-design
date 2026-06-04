@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Brand = require("../models/Brand");
 const upload = require("../middlewares/upload");
+const { fileToDataUri } = require("../middlewares/upload");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 
 router.get("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
 
   const brand = new Brand({
     name: req.body.name,
-    logo: req.file.path,
+    logo: fileToDataUri(req.file),
     website: req.body.website || "",
   });
 
@@ -33,7 +34,7 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
 
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
   const updateData = { name: req.body.name, website: req.body.website };
-  if (req.file) updateData.logo = req.file.path;
+  if (req.file) updateData.logo = fileToDataUri(req.file);
 
   try {
     const brand = await Brand.findByIdAndUpdate(req.params.id, updateData, { new: true });

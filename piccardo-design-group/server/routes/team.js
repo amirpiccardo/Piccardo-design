@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const TeamMember = require("../models/TeamMember");
 const upload = require("../middlewares/upload");
+const { fileToDataUri } = require("../middlewares/upload");
 const { authMiddleware, adminMiddleware } = require("../middlewares/authMiddleware");
 
 router.get("/", async (req, res) => {
@@ -22,7 +23,7 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("photo"), async 
   const teamMember = new TeamMember({
     name: req.body.name,
     role: req.body.role,
-    photo: req.file.path,
+    photo: fileToDataUri(req.file),
   });
 
   try {
@@ -35,7 +36,7 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("photo"), async 
 
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("photo"), async (req, res) => {
   const updateData = { name: req.body.name, role: req.body.role };
-  if (req.file) updateData.photo = req.file.path;
+  if (req.file) updateData.photo = fileToDataUri(req.file);
 
   try {
     const teamMember = await TeamMember.findByIdAndUpdate(req.params.id, updateData, { new: true });

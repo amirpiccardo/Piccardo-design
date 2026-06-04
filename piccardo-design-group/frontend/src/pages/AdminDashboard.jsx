@@ -29,8 +29,10 @@ function AdminDashboard() {
   const { logout } = useAuth();
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
+    if (window.confirm("Vuoi uscire dal pannello di amministrazione?")) {
+      logout();
+      navigate("/login");
+    }
   };
 
   return (

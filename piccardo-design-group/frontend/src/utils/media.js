@@ -4,8 +4,10 @@
 // - percorso legacy multer (uploads/...) -> prefissato col backend
 export function mediaUrl(path) {
   if (!path) return "";
-  const p = String(path).replace(/\\/g, "/");
-  if (/^https?:\/\//i.test(p)) return p;
-  if (p.startsWith("/")) return p;
-  return `${import.meta.env.VITE_BASE_URL}/${p}`;
+  const p = String(path);
+  if (p.startsWith("data:")) return p; // immagine base64 salvata nel DB
+  const s = p.replace(/\\/g, "/");
+  if (/^https?:\/\//i.test(s)) return s; // URL assoluto
+  if (s.startsWith("/")) return s; // path sul dominio frontend (statico)
+  return `${import.meta.env.VITE_BASE_URL}/${s}`; // legacy multer uploads/
 }

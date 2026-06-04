@@ -23,7 +23,8 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  const location = useLocation();
+  return isAuthenticated ? children : <Navigate to="/login" replace state={{ from: location }} />;
 }
 
 function AnimatedRoutes() {
