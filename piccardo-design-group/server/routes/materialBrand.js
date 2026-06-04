@@ -14,6 +14,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const brand = await MaterialPageBrand.findById(req.params.id);
+    if (!brand) return res.status(404).json({ message: "Brand non trovato" });
+    res.status(200).json(brand);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
   if (!req.file) return res.status(400).json({ message: "Logo obbligatorio" });
   if (!req.body.name) return res.status(400).json({ message: "Nome obbligatorio" });
@@ -22,6 +32,8 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
     name: req.body.name,
     logo: fileToDataUri(req.file),
     website: req.body.website || "",
+    description: req.body.description || "",
+    category: req.body.category || "",
   });
 
   try {
@@ -33,7 +45,12 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
 });
 
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
-  const updateData = { name: req.body.name, website: req.body.website };
+  const updateData = {
+    name: req.body.name,
+    website: req.body.website,
+    description: req.body.description || "",
+    category: req.body.category || "",
+  };
   if (req.file) updateData.logo = fileToDataUri(req.file);
 
   try {

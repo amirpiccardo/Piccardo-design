@@ -22,6 +22,8 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
     name: req.body.name,
     logo: fileToDataUri(req.file),
     website: req.body.website || "",
+    description: req.body.description || "",
+    category: req.body.category || "",
   });
 
   try {
@@ -33,7 +35,12 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("logo"), async (
 });
 
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("logo"), async (req, res) => {
-  const updateData = { name: req.body.name, website: req.body.website };
+  const updateData = {
+    name: req.body.name,
+    website: req.body.website,
+    description: req.body.description || "",
+    category: req.body.category || "",
+  };
   if (req.file) updateData.logo = fileToDataUri(req.file);
 
   try {

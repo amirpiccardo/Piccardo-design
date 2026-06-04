@@ -10,12 +10,16 @@ import {
   deleteMaterialBrand,
 } from "../services/apiServices";
 
+const CATEGORIES = ["Arredamento", "Illuminazione", "Cucina", "Bagno", "Complementi", "Outdoor", "Tessili"];
+
+const emptyForm = { name: "", logo: null, website: "", description: "", category: "" };
+
 const MaterialBrandManagement = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState(null);
-  const [form, setForm] = useState({ name: "", logo: null, website: "" });
+  const [form, setForm] = useState(emptyForm);
   const [editId, setEditId] = useState(null);
   const [confirm, confirmUI] = useConfirm();
 
@@ -28,7 +32,7 @@ const MaterialBrandManagement = () => {
 
   useEffect(() => { load(); }, []);
 
-  const reset = () => { setForm({ name: "", logo: null, website: "" }); setEditId(null); };
+  const reset = () => { setForm(emptyForm); setEditId(null); };
 
   const showFeedback = (msg, type = "success") => {
     setFeedback({ msg, type });
@@ -66,7 +70,7 @@ const MaterialBrandManagement = () => {
 
   const handleEdit = (brand) => {
     setEditId(brand._id);
-    setForm({ name: brand.name, logo: null, website: brand.website || "" });
+    setForm({ name: brand.name, logo: null, website: brand.website || "", description: brand.description || "", category: brand.category || "" });
   };
 
   const handleDelete = async (id) => {
@@ -105,6 +109,24 @@ const MaterialBrandManagement = () => {
               {form.logo instanceof File && (
                 <img src={URL.createObjectURL(form.logo)} alt="anteprima" style={{ marginTop: 8, maxHeight: 56, maxWidth: 120, objectFit: "contain", border: "1px solid #eee", borderRadius: 6, padding: 4 }} />
               )}
+            </div>
+          </div>
+          <div className="row g-3 mt-1">
+            <div className="col-md-8">
+              <textarea
+                className="form-control"
+                name="description"
+                placeholder="Descrizione del brand (opzionale)"
+                rows={2}
+                value={form.description}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="col-md-4">
+              <select className="form-select" name="category" value={form.category} onChange={handleChange}>
+                <option value="">Categoria (opzionale)</option>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
             </div>
           </div>
           <div className="mt-3 d-flex gap-2">
