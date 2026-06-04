@@ -54,10 +54,12 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const teamRoutes = require("./routes/team");
 const brandRoutes = require("./routes/brands");
+const analyticsRoutes = require("./routes/analytics");
 
 app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "Piccardo Design Group API" }));
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 
+app.use("/api/analytics", analyticsRoutes);
 app.use("/api/materialpage/brands", materialBrandRoutes);
 app.use("/api/contract/brands", contractBrandRoutes);
 app.use("/api/contact", contactRoutes);

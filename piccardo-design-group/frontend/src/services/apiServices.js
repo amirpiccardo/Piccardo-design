@@ -6,6 +6,9 @@ const authHeaders = () => ({
 
 // ─── Account / Password ───────────────────────────────────────────────────────
 
+export const fetchAnalyticsStats = () =>
+  fetch(`${BASE}/api/analytics/stats`, { headers: authHeaders() }).then((r) => r.json());
+
 export const changePassword = (currentPassword, newPassword) =>
   fetch(`${BASE}/api/auth/change-password`, {
     method: "POST",

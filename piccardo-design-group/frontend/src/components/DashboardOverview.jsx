@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTags, faUsers, faBoxOpen, faFileContract, faAddressBook, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
   fetchBrands, fetchTeamMembers, fetchMaterialBrands,
-  fetchContractBrands, fetchContacts, fetchSubscribers,
+  fetchContractBrands, fetchContacts, fetchSubscribers, fetchAnalyticsStats,
 } from "../services/apiServices";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
@@ -28,6 +28,7 @@ const cards = [
 
 const DashboardOverview = () => {
   const [counts, setCounts] = useState(null);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     Promise.allSettled([
@@ -40,6 +41,7 @@ const DashboardOverview = () => {
         contracts: len(res[3]), contacts: len(res[4]), subscribers: len(res[5]),
       });
     });
+    fetchAnalyticsStats().then(setStats).catch(() => setStats(null));
   }, []);
 
   if (!counts) return <div className="text-center py-5"><div className="spinner-border" /></div>;
@@ -54,8 +56,48 @@ const DashboardOverview = () => {
     }],
   };
 
+  const pageLabel = (p) => ({ "/": "Home", "/about": "Chi Siamo", "/team": "Team", "/materials": "Brands", "/contracts": "Contract", "/contact": "Contatti", "/faq": "FAQ" }[p] || p);
+
   return (
     <div>
+      {/* Analytics interne */}
+      {stats && (
+        <div className="row g-3 mb-4">
+          <div className="col-md-3">
+            <div className="card text-center h-100" style={{ background: "linear-gradient(135deg,#1b2a4a,#24375f)", color: "#fff" }}>
+              <div className="card-body">
+                <div style={{ fontSize: "2.2rem", fontWeight: 700, color: "#c8a96e" }}>{stats.last30 ?? 0}</div>
+                <div className="small" style={{ opacity: 0.85 }}>Visite (30 giorni)</div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="card text-center h-100">
+              <div className="card-body">
+                <div style={{ fontSize: "2.2rem", fontWeight: 700 }}>{stats.total ?? 0}</div>
+                <div className="text-muted small">Visite totali</div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="card h-100">
+              <div className="card-body">
+                <h6 className="card-title mb-2">Pagine più viste</h6>
+                {(stats.topPages || []).length === 0 ? (
+                  <p className="text-muted small mb-0">Ancora nessuna visita registrata.</p>
+                ) : (
+                  <ol className="mb-0 ps-3 small">
+                    {stats.topPages.map((p) => (
+                      <li key={p._id}>{pageLabel(p._id)} — <strong>{p.count}</strong></li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="row g-3 mb-4">
         {cards.map((c) => (
           <div className="col-6 col-md-4 col-lg-2" key={c.key}>
