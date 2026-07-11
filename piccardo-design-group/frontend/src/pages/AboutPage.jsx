@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import aboutImage from "../assets/sfondoabout.png";
 import ChatBot from "../components/ChatBot";
 import Seo from "../components/Seo";
+import { mediaUrl } from "../utils/media";
+import { FaLinkedin } from "react-icons/fa";
 
 function AboutPage() {
-  const pageStyle = {
-    fontFamily: "Raleway, sans-serif",
-    color: "#1a1a1a",
-  };
+  const [team, setTeam] = useState([]);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/api/team`)
+      .then((r) => r.json())
+      .then((data) => setTeam(Array.isArray(data) ? data : []))
+      .catch(() => {});
+  }, []);
+
+  const pageStyle = { fontFamily: "Raleway, sans-serif", color: "#1a1a1a" };
 
   const heroStyle = {
     position: "relative",
@@ -21,11 +29,7 @@ function AboutPage() {
     justifyContent: "center",
   };
 
-  const heroOverlay = {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(0,0,0,0.4)",
-  };
+  const heroOverlay = { position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)" };
 
   const headingStyle = {
     position: "relative",
@@ -47,9 +51,21 @@ function AboutPage() {
     color: "#444",
   };
 
+  const teamHeadingStyle = {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontWeight: 600,
+    fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
+    marginBottom: "12px",
+    textAlign: "center",
+    color: "#1a1a1a",
+  };
+
   return (
     <div style={pageStyle}>
-      <Seo title="Chi Siamo" description="Piccardo Design Group: consulenti esperti nella distribuzione di arredamento e design Made in Italy, con trent'anni di esperienza nel settore." />
+      <Seo
+        title="Chi Siamo"
+        description="Liguria Design Group: agenzia di rappresentanza nel settore arredamento e illuminazione, guidata da Gabriele Piccardo e Francesca Zabbia."
+      />
       <div style={heroStyle}>
         <div style={heroOverlay} />
         <h1 style={headingStyle}>Chi Siamo</h1>
@@ -57,28 +73,62 @@ function AboutPage() {
 
       <div className="container py-5" style={{ maxWidth: "820px" }}>
         <p style={textStyle}>
-          Il <strong>Piccardo Design Group</strong> è il partner con cui collaborare per
-          raggiungere al meglio i tuoi obiettivi aziendali nel settore del design. Siamo
-          consulenti esperti e determinati, un team unito che lavora professionalmente per
-          intercettare le esigenze del mercato e offrire soluzioni innovative ai nostri partner.
+          <strong>Liguria Design Group</strong> lavora per creare sinergie tra azienda,
+          rivenditore e cliente, elevando l'arredamento e l'illuminazione con esperienza
+          e passione.
         </p>
         <p style={textStyle}>
-          Crediamo nelle relazioni durature con clienti, architetti e designer, nella crescita
-          sostenibile e nella forza dell'eccellenza del design e del Made in Italy. Lavoriamo con
-          serietà e affidabilità per offrire soluzioni personalizzate, di alta qualità e servizi
-          di supporto alle imprese in ogni fase del loro percorso.
+          Siamo un'agenzia di rappresentanza: rappresentiamo aziende leader nel settore
+          mobili e illuminazione, occupandoci di tutta la casa. Ci occupiamo di
+          preventivazione e consulenza, supportando rivenditori e negozianti nel lavoro
+          quotidiano con la nostra esperienza nel mondo del design, dell'arredamento e
+          del marketing.
         </p>
         <p style={textStyle}>
-          Collaborare con noi significa lavorare con un team orientato ai dettagli, composto da
-          professionisti con trent'anni di esperienza nel settore, capace di stabilire un dialogo
-          dinamico tra i propri clienti e le aziende partner, sfruttando nuove opportunità e
-          tecnologie.
-        </p>
-        <p style={{ ...textStyle, fontWeight: 400, color: "#1a1a1a" }}>
-          Affidati a noi per gestire la distribuzione dei tuoi marchi di arredamento.{" "}
-          Scopri le nostre aziende partner o contattaci per collaborare.
+          Presentiamo la nostra esperienza nel settore dell'arredamento e illuminazione,
+          unita a un approccio personalizzato che valorizza qualità e innovazione, per
+          soddisfare pienamente le esigenze dei clienti della Liguria e del basso Piemonte.
         </p>
       </div>
+
+      {team.length > 0 && (
+        <div className="container pb-5">
+          <h2 style={teamHeadingStyle}>Il Nostro Team</h2>
+          <p style={{ textAlign: "center", color: "#777", marginBottom: "40px" }}>
+            Conosci i professionisti che guidano Liguria Design Group con passione e competenza.
+          </p>
+          <div className="row justify-content-center g-4">
+            {team.map((member) => (
+              <div className="col-12 col-md-6" key={member._id}>
+                <div className="row g-0 h-100 align-items-stretch" style={{ border: "1px solid #eee", borderRadius: "12px", overflow: "hidden" }}>
+                  <div className="col-5">
+                    <img
+                      src={mediaUrl(member.photo)}
+                      alt={member.name}
+                      style={{ width: "100%", height: "100%", minHeight: "260px", objectFit: "cover" }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="col-7 d-flex flex-column justify-content-center" style={{ padding: "24px" }}>
+                    <p style={{ fontSize: "1.25rem", fontWeight: 600, margin: 0, color: "#1b2a4a" }}>{member.name}</p>
+                    <p style={{ fontSize: "0.9rem", color: "#c8a96e", fontWeight: 600, marginBottom: "12px" }}>{member.role}</p>
+                    {member.bio && (
+                      <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, marginBottom: member.linkedin ? "12px" : 0 }}>
+                        {member.bio}
+                      </p>
+                    )}
+                    {member.linkedin && (
+                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "#1b2a4a", fontSize: "1.3rem" }}>
+                        <FaLinkedin />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <ChatBot />
     </div>

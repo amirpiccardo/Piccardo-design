@@ -19,12 +19,13 @@ function Footer() {
         <div className="row mb-4">
           <div className="col-md-4 mb-3">
             <h6 style={{ color: "#fff", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: "0.8rem" }}>
-              Piccardo Design Group
+              Liguria Design Group
             </h6>
             <p style={{ fontSize: "0.85rem", color: "#b3b3b3", lineHeight: "1.8" }}>
-              Via Alfieri 18<br />
+              Via Vittorio Alfieri 18<br />
               Imperia, IM 18100<br />
-              P.IVA 01587610088
+              P.IVA 01587610088<br />
+              info@liguriadesigngroup.it
             </p>
           </div>
 
@@ -36,9 +37,8 @@ function Footer() {
               {[
                 { to: "/", label: "Home" },
                 { to: "/about", label: "Chi Siamo" },
-                { to: "/team", label: "Team" },
-                { to: "/materials", label: "Brands" },
-                { to: "/contracts", label: "Contracts" },
+                { to: "/materials", label: "Brand" },
+                { to: "/contracts", label: "Contract" },
                 { to: "/contact", label: "Contattaci" },
               ].map(({ to, label }) => (
                 <li key={to}>
@@ -98,7 +98,7 @@ function Footer() {
           ))}
         </div>
         <p style={{ textAlign: "center", fontSize: "0.75rem", color: "#666", margin: 0 }}>
-          &copy; {new Date().getFullYear()} Piccardo Design Group. Tutti i diritti riservati.
+          &copy; {new Date().getFullYear()} Liguria Design Group. Tutti i diritti riservati.
         </p>
       </div>
     </footer>

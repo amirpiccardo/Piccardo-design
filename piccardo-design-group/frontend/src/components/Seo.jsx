@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SITE = "Piccardo Design Group";
+const SITE = "Liguria Design Group";
 
 function setMeta(key, content, attr = "name") {
   if (!content) return;
@@ -16,7 +16,7 @@ function setMeta(key, content, attr = "name") {
 // Imposta title e meta description/OG per la singola pagina (senza librerie esterne)
 export default function Seo({ title, description }) {
   useEffect(() => {
-    const fullTitle = title ? `${title} | ${SITE}` : `${SITE} — Distribuzione arredamento e design Made in Italy`;
+    const fullTitle = title ? `${title} | ${SITE}` : `${SITE} — Rappresentanza Arredamento e Illuminazione`;
     document.title = fullTitle;
     setMeta("og:title", fullTitle, "property");
     setMeta("twitter:title", fullTitle);

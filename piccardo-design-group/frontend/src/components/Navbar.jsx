@@ -23,7 +23,7 @@ function Navbar() {
     >
       <div className="container">
         <Link className="navbar-brand" to="/">
-          <img src={logo} alt="Piccardo Design Group" height="70" />
+          <img src={logo} alt="Liguria Design Group" height="70" />
         </Link>
 
         <button
@@ -43,9 +43,8 @@ function Navbar() {
             {[
               { path: "/", label: "Home" },
               { path: "/about", label: "Chi Siamo" },
-              { path: "/team", label: "Team" },
-              { path: "/materials", label: "Brands" },
-              { path: "/contracts", label: "Contracts" },
+              { path: "/materials", label: "Brand" },
+              { path: "/contracts", label: "Contract" },
             ].map(({ path, label }) => (
               <li className="nav-item" key={path}>
                 <Link

@@ -7,7 +7,7 @@ const text = { color: "#555", lineHeight: 1.8, fontSize: "1rem" };
 function PrivacyPage() {
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "70vh" }}>
-      <Seo title="Privacy & Cookie Policy" description="Informativa sulla privacy e sui cookie di Piccardo Design Group ai sensi del GDPR (Reg. UE 2016/679)." />
+      <Seo title="Privacy & Cookie Policy" description="Informativa sulla privacy e sui cookie di Liguria Design Group ai sensi del GDPR (Reg. UE 2016/679)." />
       <div className="container py-5" style={{ maxWidth: "820px" }}>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 600, marginBottom: "8px" }}>
           Privacy &amp; Cookie Policy
@@ -16,8 +16,8 @@ function PrivacyPage() {
 
         <h2 style={sectionTitle}>1. Titolare del trattamento</h2>
         <p style={text}>
-          Il titolare del trattamento dei dati è Piccardo Design Group, Via Alfieri 18, 18100 Imperia (IM),
-          P.IVA 01587610088. Per qualsiasi richiesta è possibile scrivere a info@piccardodesign.it.
+          Il titolare del trattamento dei dati è Liguria Design Group, Via Alfieri 18, 18100 Imperia (IM),
+          P.IVA 01587610088. Per qualsiasi richiesta è possibile scrivere a info@liguriadesigngroup.it.
         </p>
 
         <h2 style={sectionTitle}>2. Dati raccolti</h2>
@@ -49,7 +49,7 @@ function PrivacyPage() {
         <h2 style={sectionTitle}>6. Diritti dell'interessato</h2>
         <p style={text}>
           Ai sensi degli artt. 15-22 del GDPR hai diritto di accesso, rettifica, cancellazione, limitazione,
-          portabilità e opposizione. Per esercitarli, scrivi a info@piccardodesign.it. Hai inoltre diritto di
+          portabilità e opposizione. Per esercitarli, scrivi a info@liguriadesigngroup.it. Hai inoltre diritto di
           proporre reclamo al Garante per la protezione dei dati personali.
         </p>
 

@@ -7,7 +7,7 @@ const text = { color: "#555", lineHeight: 1.8, fontSize: "1rem" };
 function TermsPage() {
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "70vh" }}>
-      <Seo title="Termini e Condizioni" description="Termini e condizioni d'uso del sito Piccardo Design Group." />
+      <Seo title="Termini e Condizioni" description="Termini e condizioni d'uso del sito Liguria Design Group." />
       <div className="container py-5" style={{ maxWidth: "820px" }}>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 600, marginBottom: "8px" }}>
           Termini e Condizioni
@@ -16,19 +16,19 @@ function TermsPage() {
 
         <h2 style={sectionTitle}>1. Oggetto</h2>
         <p style={text}>
-          I presenti termini regolano l'utilizzo del sito di Piccardo Design Group. Navigando il sito accetti le
+          I presenti termini regolano l'utilizzo del sito di Liguria Design Group. Navigando il sito accetti le
           presenti condizioni.
         </p>
 
         <h2 style={sectionTitle}>2. Proprietà intellettuale</h2>
         <p style={text}>
-          Tutti i contenuti del sito (testi, immagini, logo, marchi) sono di proprietà di Piccardo Design Group o
+          Tutti i contenuti del sito (testi, immagini, logo, marchi) sono di proprietà di Liguria Design Group o
           dei rispettivi titolari e non possono essere riprodotti senza autorizzazione.
         </p>
 
         <h2 style={sectionTitle}>3. Limitazione di responsabilità</h2>
         <p style={text}>
-          Le informazioni presenti sul sito sono fornite a scopo informativo. Piccardo Design Group non garantisce
+          Le informazioni presenti sul sito sono fornite a scopo informativo. Liguria Design Group non garantisce
           l'assenza di errori e non è responsabile per eventuali danni derivanti dall'uso del sito.
         </p>
 

@@ -56,7 +56,7 @@ const teamRoutes = require("./routes/team");
 const brandRoutes = require("./routes/brands");
 const analyticsRoutes = require("./routes/analytics");
 
-app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "Piccardo Design Group API" }));
+app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "Liguria Design Group API" }));
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
 
 app.use("/api/analytics", analyticsRoutes);

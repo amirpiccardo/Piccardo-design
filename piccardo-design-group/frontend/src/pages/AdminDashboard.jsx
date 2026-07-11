@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTags, faUsers, faBoxOpen, faFileContract, faAddressBook,
+  faTags, faUsers, faFileContract, faAddressBook,
   faEnvelope, faSignOutAlt, faChartPie, faKey,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,6 @@ import { useAuth } from "../context/AuthContext";
 import ConfirmModal from "../components/ConfirmModal";
 import DashboardOverview from "../components/DashboardOverview";
 import BrandManagement from "../components/BrandManagement";
-import MaterialBrandManagement from "../components/MaterialBrandManagement";
 import ContractBrandManagement from "../components/ContractBrandManagement";
 import ContactManagement from "../components/ContactManagement";
 import NewsletterManagement from "../components/NewsletterManagement";
@@ -18,9 +17,8 @@ import AccountSettings from "../components/AccountSettings";
 
 const sections = [
   { key: "overview", label: "Panoramica", icon: faChartPie, comp: DashboardOverview },
-  { key: "brands", label: "Brands", icon: faTags, comp: BrandManagement },
+  { key: "brands", label: "Brand", icon: faTags, comp: BrandManagement },
   { key: "team", label: "Team", icon: faUsers, comp: TeamManagement },
-  { key: "materials", label: "Materiali", icon: faBoxOpen, comp: MaterialBrandManagement },
   { key: "contracts", label: "Contract", icon: faFileContract, comp: ContractBrandManagement },
   { key: "contacts", label: "Contatti", icon: faAddressBook, comp: ContactManagement },
   { key: "newsletter", label: "Newsletter", icon: faEnvelope, comp: NewsletterManagement },
@@ -77,7 +75,7 @@ function AdminDashboard() {
         className="admin-sidebar"
       >
         <div style={{ color: "#fff", fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 600, padding: "0 12px 18px", borderBottom: "1px solid rgba(255,255,255,0.1)", marginBottom: "14px" }}>
-          Piccardo<span style={{ color: "#c8a96e" }}>·</span>Admin
+Liguria<span style={{ color: "#c8a96e" }}>·</span>Admin
         </div>
         <nav style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1, overflowY: "auto" }} className="admin-nav">
           {sections.map(navItem)}

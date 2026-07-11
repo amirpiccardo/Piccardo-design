@@ -9,18 +9,17 @@ import {
   Legend,
 } from "chart.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTags, faUsers, faBoxOpen, faFileContract, faAddressBook, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faTags, faUsers, faFileContract, faAddressBook, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
-  fetchBrands, fetchTeamMembers, fetchMaterialBrands,
+  fetchBrands, fetchTeamMembers,
   fetchContractBrands, fetchContacts, fetchSubscribers, fetchAnalyticsStats,
 } from "../services/apiServices";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const cards = [
-  { key: "brands", label: "Brands", icon: faTags, color: "#c8a96e" },
+  { key: "brands", label: "Brand", icon: faTags, color: "#c8a96e" },
   { key: "team", label: "Team", icon: faUsers, color: "#1a1a1a" },
-  { key: "materials", label: "Materiali", icon: faBoxOpen, color: "#7a8b99" },
   { key: "contracts", label: "Contract", icon: faFileContract, color: "#9c7b54" },
   { key: "contacts", label: "Messaggi", icon: faAddressBook, color: "#2e7d32" },
   { key: "subscribers", label: "Iscritti", icon: faEnvelope, color: "#5b6abf" },
@@ -32,13 +31,13 @@ const DashboardOverview = () => {
 
   useEffect(() => {
     Promise.allSettled([
-      fetchBrands(), fetchTeamMembers(), fetchMaterialBrands(),
+      fetchBrands(), fetchTeamMembers(),
       fetchContractBrands(), fetchContacts(), fetchSubscribers(),
     ]).then((res) => {
       const len = (r) => (r.status === "fulfilled" && Array.isArray(r.value) ? r.value.length : 0);
       setCounts({
-        brands: len(res[0]), team: len(res[1]), materials: len(res[2]),
-        contracts: len(res[3]), contacts: len(res[4]), subscribers: len(res[5]),
+        brands: len(res[0]), team: len(res[1]),
+        contracts: len(res[2]), contacts: len(res[3]), subscribers: len(res[4]),
       });
     });
     fetchAnalyticsStats().then(setStats).catch(() => setStats(null));
@@ -56,7 +55,7 @@ const DashboardOverview = () => {
     }],
   };
 
-  const pageLabel = (p) => ({ "/": "Home", "/about": "Chi Siamo", "/team": "Team", "/materials": "Brands", "/contracts": "Contract", "/contact": "Contatti", "/faq": "FAQ" }[p] || p);
+  const pageLabel = (p) => ({ "/": "Home", "/about": "Chi Siamo", "/materials": "Brand", "/contracts": "Contract", "/contact": "Contatti", "/faq": "FAQ" }[p] || p);
 
   return (
     <div>

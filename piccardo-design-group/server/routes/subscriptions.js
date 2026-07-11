@@ -23,31 +23,38 @@ router.post("/subscribe", subscribeLimiter, async (req, res) => {
   try {
     const newSubscription = new NewsletterSubscription({ email });
     await newSubscription.save();
-
-    const msg = {
-      to: email,
-      from: process.env.SENDGRID_VERIFIED_SENDER,
-      subject: "Benvenuto nella newsletter di Piccardo Design Group!",
-      text: "Grazie per esserti iscritto alla nostra newsletter. Riceverai aggiornamenti sulle nostre novità e partnership.",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Benvenuto in Piccardo Design Group!</h2>
-          <p>Grazie per esserti iscritto alla nostra newsletter.</p>
-          <p>Riceverai aggiornamenti sulle nostre novità, partnership e prodotti.</p>
-          <hr/>
-          <small>Per disiscriverti, rispondi a questa email con oggetto "Disiscrizione".</small>
-        </div>
-      `,
-    };
-
-    await sendgrid.send(msg);
-    res.status(201).json({ message: "Iscrizione avvenuta con successo!" });
   } catch (error) {
     if (error.code === 11000) {
       return res.status(400).json({ message: "Email già registrata." });
     }
-    res.status(500).json({ message: "Errore durante l'iscrizione." });
+    return res.status(500).json({ message: "Errore durante l'iscrizione." });
   }
+
+  // L'iscrizione è salvata: l'email di benvenuto è un extra, se fallisce
+  // (es. SendGrid non configurato) non deve far fallire l'iscrizione stessa.
+  if (process.env.SENDGRID_API_KEY && process.env.SENDGRID_VERIFIED_SENDER) {
+    try {
+      await sendgrid.send({
+        to: email,
+        from: process.env.SENDGRID_VERIFIED_SENDER,
+        subject: "Benvenuto nella newsletter di Liguria Design Group!",
+        text: "Grazie per esserti iscritto alla nostra newsletter. Riceverai aggiornamenti sulle nostre novità e partnership.",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2>Benvenuto in Liguria Design Group!</h2>
+            <p>Grazie per esserti iscritto alla nostra newsletter.</p>
+            <p>Riceverai aggiornamenti sulle nostre novità, partnership e prodotti.</p>
+            <hr/>
+            <small>Per disiscriverti, rispondi a questa email con oggetto "Disiscrizione".</small>
+          </div>
+        `,
+      });
+    } catch (emailError) {
+      console.error("Invio email di benvenuto fallito:", emailError.message);
+    }
+  }
+
+  res.status(201).json({ message: "Iscrizione avvenuta con successo!" });
 });
 
 router.get("/subscribers", authMiddleware, adminMiddleware, async (req, res) => {

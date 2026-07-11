@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { fetchMaterialBrands } from "../services/apiServices";
+import { fetchBrands } from "../services/apiServices";
 import Seo from "../components/Seo";
 import { mediaUrl } from "../utils/media";
 
@@ -12,7 +11,7 @@ function MaterialsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchMaterialBrands()
+    fetchBrands()
       .then((data) => { setBrands(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
@@ -27,13 +26,13 @@ function MaterialsPage() {
 
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "60vh" }}>
-      <Seo title="I nostri Brand" description="Scopri i brand partner di Piccardo Design Group: i migliori marchi di arredamento e design Made in Italy." />
+      <Seo title="I nostri Brand" description="Scopri i brand rappresentati da Liguria Design Group: i migliori marchi di arredamento e illuminazione." />
       <div style={{ textAlign: "center", padding: "60px 20px 30px", backgroundColor: "#fafafa", borderBottom: "1px solid #eee" }}>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "0.02em", marginBottom: "12px" }}>
-          I Nostri Partner
+          Le Aziende Che Ci Hanno Scelto
         </h1>
         <p style={{ color: "#777", fontSize: "1.1rem", marginBottom: "26px" }}>
-          Clicca su un brand per scoprirne di più
+          Clicca su un brand per visitare il sito ufficiale
         </p>
         <div style={{ maxWidth: "400px", margin: "0 auto 22px" }}>
           <input
@@ -84,8 +83,10 @@ function MaterialsPage() {
           <div className="row justify-content-center">
             {filtered.map((brand) => (
               <div className="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 d-flex justify-content-center" key={brand._id}>
-                <Link
-                  to={`/brand/${brand._id}`}
+                <a
+                  href={brand.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   title={brand.name}
                   style={{
                     display: "flex", flexDirection: "column", alignItems: "center", textDecoration: "none",
@@ -99,7 +100,7 @@ function MaterialsPage() {
                   <span style={{ fontSize: "0.78rem", color: "#444", marginTop: "10px", textAlign: "center" }}>
                     {brand.name}
                   </span>
-                </Link>
+                </a>
               </div>
             ))}
           </div>

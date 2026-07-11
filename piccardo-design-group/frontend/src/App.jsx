@@ -7,9 +7,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ScrollTopButton from "./components/ScrollTopButton";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import TeamPage from "./pages/TeamPage";
 import MaterialsPage from "./pages/MaterialsPage";
-import BrandDetailPage from "./pages/BrandDetailPage";
 import ContractsPage from "./pages/ContractsPage";
 import LoginPage from "./pages/LoginPage";
 import ContactForm from "./pages/ContactForm";
@@ -35,9 +33,8 @@ function AnimatedRoutes() {
       <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/team" element={<TeamPage />} />
+        <Route path="/team" element={<Navigate to="/about" replace />} />
         <Route path="/materials" element={<MaterialsPage />} />
-        <Route path="/brand/:id" element={<BrandDetailPage />} />
         <Route path="/contracts" element={<ContractsPage />} />
         <Route path="/contact" element={<ContactForm />} />
         <Route path="/faq" element={<FaqPage />} />

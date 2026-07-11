@@ -98,48 +98,6 @@ export const deleteTeamMember = (id) =>
     headers: authHeaders(),
   });
 
-// ─── Material Brands ──────────────────────────────────────────────────────────
-
-export const fetchMaterialBrands = () =>
-  fetch(`${BASE}/api/materialpage/brands`).then((r) => r.json());
-
-export const fetchMaterialBrandById = (id) =>
-  fetch(`${BASE}/api/materialpage/brands/${id}`).then((r) => r.json());
-
-export const addMaterialBrand = (brand) => {
-  const fd = new FormData();
-  fd.append("name", brand.name);
-  fd.append("logo", brand.logo);
-  fd.append("website", brand.website);
-  fd.append("description", brand.description || "");
-  fd.append("category", brand.category || "");
-  return fetch(`${BASE}/api/materialpage/brands`, {
-    method: "POST",
-    headers: authHeaders(),
-    body: fd,
-  }).then((r) => r.json());
-};
-
-export const updateMaterialBrand = (brandId, brand) => {
-  const fd = new FormData();
-  fd.append("name", brand.name);
-  if (brand.logo instanceof File) fd.append("logo", brand.logo);
-  fd.append("website", brand.website);
-  fd.append("description", brand.description || "");
-  fd.append("category", brand.category || "");
-  return fetch(`${BASE}/api/materialpage/brands/${brandId}`, {
-    method: "PUT",
-    headers: authHeaders(),
-    body: fd,
-  }).then((r) => r.json());
-};
-
-export const deleteMaterialBrand = (brandId) =>
-  fetch(`${BASE}/api/materialpage/brands/${brandId}`, {
-    method: "DELETE",
-    headers: authHeaders(),
-  });
-
 // ─── Contract Brands ──────────────────────────────────────────────────────────
 
 export const fetchContractBrands = () =>

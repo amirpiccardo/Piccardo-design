@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const QUICK = [
   { q: "Come posso collaborare con voi?", a: "Compila il modulo nella pagina Contatti: ti ricontatteremo per valutare insieme la collaborazione.", to: "/contact" },
-  { q: "Quali brand distribuite?", a: "Distribuiamo i migliori marchi di arredamento e design Made in Italy. Scopri tutti i partner nella pagina Brands.", to: "/materials" },
-  { q: "Lavorate su progetti contract?", a: "Sì, realizziamo soluzioni su misura per hotel, uffici e spazi commerciali. Vedi la sezione Contract.", to: "/contracts" },
+  { q: "Quali brand rappresentate?", a: "Rappresentiamo i migliori marchi di arredamento e illuminazione Made in Italy. Scopri tutti i partner nella pagina Brand.", to: "/materials" },
+  { q: "Fate anche consulenza contract?", a: "Sì, offriamo consulenza per hotel, B&B, studentati e forniture importanti. Vedi la sezione Contract.", to: "/contracts" },
   { q: "Dove siete?", a: "Siamo in Via Alfieri 18, Imperia (IM). Trovi mappa e contatti nella pagina Contatti.", to: "/contact" },
 ];
 
-const WELCOME = { from: "bot", text: "Ciao! 👋 Sono l'assistente di Piccardo Design Group. Come posso aiutarti?" };
+const WELCOME = { from: "bot", text: "Ciao! 👋 Sono l'assistente di Liguria Design Group. Come posso aiutarti?" };
 
 function ChatBot() {
   const [open, setOpen] = useState(false);

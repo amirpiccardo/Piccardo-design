@@ -5,24 +5,24 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const faqs = [
   {
-    q: "Di cosa si occupa Piccardo Design Group?",
-    a: "Distribuiamo brand di arredamento e design Made in Italy, offrendo soluzioni contract e consulenza ad aziende, architetti e progettisti.",
+    q: "Di cosa si occupa Liguria Design Group?",
+    a: "Siamo un'agenzia di rappresentanza nel settore mobili e illuminazione. Rappresentiamo aziende leader del settore e supportiamo rivenditori e negozianti con consulenza, preventivazione e assistenza quotidiana.",
   },
   {
-    q: "Come posso diventare partner o rivenditore?",
+    q: "Come posso diventare rivenditore o richiedere una consulenza?",
     a: "Contattaci tramite il modulo nella pagina Contatti: il nostro team ti ricontatterà per valutare insieme le opportunità di collaborazione.",
   },
   {
-    q: "Lavorate anche su progetti contract?",
-    a: "Sì. Realizziamo soluzioni su misura per hotel, uffici e spazi commerciali, seguendo il progetto in ogni fase.",
+    q: "Fate anche consulenza contract?",
+    a: "Sì. Offriamo consulenza per hotel, B&B, pensioni, studentati e altre strutture che richiedono forniture importanti di arredamento e illuminazione.",
   },
   {
     q: "In quali zone operate?",
-    a: "Operiamo su tutto il territorio italiano. Per richieste specifiche, contattaci e valuteremo insieme le esigenze.",
+    a: "Operiamo principalmente in Liguria e nel basso Piemonte. Per richieste specifiche, contattaci e valuteremo insieme le esigenze.",
   },
   {
-    q: "Posso ricevere il catalogo dei brand?",
-    a: "Scrivici tramite il modulo di contatto indicando i brand di tuo interesse e ti forniremo le informazioni disponibili.",
+    q: "Posso ricevere informazioni sui brand rappresentati?",
+    a: "Scrivici tramite il modulo di contatto indicando i brand di tuo interesse e ti forniremo tutte le informazioni disponibili.",
   },
 ];
 
@@ -65,7 +65,7 @@ function FaqItem({ q, a }) {
 function FaqPage() {
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "70vh" }}>
-      <Seo title="Domande frequenti" description="Risposte alle domande più frequenti su Piccardo Design Group: partnership, contract, cataloghi e zone servite." />
+      <Seo title="Domande frequenti" description="Risposte alle domande più frequenti su Liguria Design Group: rappresentanza, consulenza, contract e zone servite." />
       <div style={{ textAlign: "center", padding: "60px 20px 20px", backgroundColor: "#fafafa", borderBottom: "1px solid #eee" }}>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>
           Domande frequenti

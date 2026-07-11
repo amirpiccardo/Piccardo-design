@@ -67,7 +67,7 @@ function ContactForm() {
 
   return (
     <section style={{ backgroundColor: "#fafafa", minHeight: "70vh", padding: "60px 0", fontFamily: "Raleway, sans-serif" }}>
-      <Seo title="Contattaci" description="Contatta Piccardo Design Group per collaborazioni, distribuzione brand o progetti contract. Via Alfieri 18, Imperia." />
+      <Seo title="Contattaci" description="Contatta Liguria Design Group per consulenza, preventivi o collaborazioni nel settore arredamento e illuminazione. Via Alfieri 18, Imperia." />
       <Container>
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(2.2rem, 5vw, 3.2rem)", color: "#1a1a1a" }}>
@@ -85,16 +85,16 @@ function ContactForm() {
                 <FontAwesomeIcon icon={faMapMarkerAlt} style={{ color: "#c8a96e", fontSize: "1.3rem", marginBottom: "8px" }} />
                 <h6 style={{ fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.8rem", color: "#1a1a1a" }}>Sede</h6>
                 <p style={{ color: "#666", margin: 0, lineHeight: "1.7" }}>
-                  Via Alfieri 18<br />Imperia, IM 18100<br />P.IVA 01587610088
+                  Via Vittorio Alfieri 18<br />Imperia, IM 18100<br />P.IVA 01587610088
                 </p>
               </div>
               <div style={{ marginBottom: "24px" }}>
                 <FontAwesomeIcon icon={faEnvelope} style={{ color: "#c8a96e", fontSize: "1.3rem", marginBottom: "8px" }} />
                 <h6 style={{ fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: "0.8rem", color: "#1a1a1a" }}>Email</h6>
-                <p style={{ color: "#666", margin: 0 }}>info@piccardodesign.it</p>
+                <p style={{ color: "#666", margin: 0 }}>info@liguriadesigngroup.it</p>
               </div>
               <iframe
-                title="Sede Piccardo Design Group"
+                title="Sede Liguria Design Group"
                 src="https://www.google.com/maps?q=Via%20Alfieri%2018,%20Imperia,%20IM&output=embed"
                 width="100%"
                 height="220"

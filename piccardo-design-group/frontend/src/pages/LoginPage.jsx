@@ -83,7 +83,7 @@ function LoginPage() {
           }}
         >
           <div style={{ textAlign: "center", marginBottom: "26px" }}>
-            <img src={logo} alt="Piccardo Design Group" style={{ height: "64px", marginBottom: "10px" }} />
+            <img src={logo} alt="Liguria Design Group" style={{ height: "64px", marginBottom: "10px" }} />
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.6rem", margin: 0, color: "#1b2a4a" }}>
               Area Riservata
             </h3>

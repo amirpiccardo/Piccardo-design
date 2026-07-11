@@ -6,7 +6,7 @@ import Seo from "../components/Seo";
 function ContractsPage() {
   return (
     <div>
-      <Seo title="Contract" description="Soluzioni contract di Piccardo Design Group per hotel, uffici e spazi commerciali: progetti su misura con i migliori brand di design." />
+      <Seo title="Contract" description="Consulenza contract di Liguria Design Group: arredamento e illuminazione per hotel, B&B, studentati e forniture importanti." />
       <Contracts />
       <ChatBot />
     </div>

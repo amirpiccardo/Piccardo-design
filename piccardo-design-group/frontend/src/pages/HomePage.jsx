@@ -15,16 +15,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
 
 const services = [
-  { icon: faCouch, title: "Distribuzione brand", text: "Selezioniamo e distribuiamo i migliori marchi di arredamento e design Made in Italy." },
-  { icon: faDraftingCompass, title: "Soluzioni contract", text: "Progetti su misura per hotel, uffici e spazi commerciali, dalla A alla Z." },
-  { icon: faHandshake, title: "Consulenza & partnership", text: "Affianchiamo aziende, architetti e progettisti con esperienza trentennale." },
+  { icon: faCouch, title: "Rappresentanza brand", text: "Rappresentiamo aziende leader nel settore arredamento e illuminazione, curando i rapporti con i rivenditori." },
+  { icon: faDraftingCompass, title: "Consulenza & preventivazione", text: "Supportiamo rivenditori e clienti nella scelta e nella preventivazione dei prodotti più adatti." },
+  { icon: faHandshake, title: "Soluzioni contract", text: "Consulenza dedicata per hotel, B&B, studentati e forniture di grandi progetti." },
 ];
 
-const stats = [
-  { value: "30+", label: "Anni di esperienza" },
-  { value: "20+", label: "Brand partner" },
-  { value: "100%", label: "Made in Italy" },
-];
+const baseStats = [{ value: "100%", label: "Made in Italy" }];
 
 const steps = [
   { n: "01", title: "Ascoltiamo", text: "Analizziamo le tue esigenze e quelle del mercato per definire gli obiettivi." },
@@ -132,18 +128,17 @@ function HomePage() {
 
   return (
     <Container fluid className="px-0">
-      <Seo description="Piccardo Design Group distribuisce i migliori brand di arredamento e design Made in Italy. Soluzioni contract e consulenza per aziende, architetti e progettisti." />
+      <Seo description="Liguria Design Group: agenzia di rappresentanza nel settore arredamento e illuminazione. Consulenza su misura per aziende, architetti e progettisti." />
       <Row className="g-0">
         <Col>
           <div style={headingStyle}>
             <h1 style={{ margin: 0 }}>
-              <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Trasformiamo gli spazi,</span></span>{" "}
-              <span className="pdg-mask"><span style={{ animationDelay: "0.18s" }}>ispiriamo la vita</span></span>
+              <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Liguria Design Group</span></span>
             </h1>
           </div>
           <p style={subheadingStyle}>
-            Distribuiamo i migliori brand di arredamento e design Made in Italy,
-            offrendo soluzioni su misura per aziende, architetti e progettisti.
+            Consulenza su misura per aziende, architetti e progettisti nel settore
+            dell'arredamento e dell'illuminazione.
           </p>
           <div style={ctaRowStyle}>
             <Magnetic>
@@ -178,7 +173,7 @@ function HomePage() {
 
       <Row className="g-0">
         <Col>
-          <ParallaxImage src={image} alt="Interni di design Piccardo Design Group" style={{ marginTop: "20px" }} />
+          <ParallaxImage src={image} alt="Interni di design Liguria Design Group" style={{ marginTop: "20px" }} />
         </Col>
       </Row>
 
@@ -188,7 +183,7 @@ function HomePage() {
           Cosa facciamo
         </Reveal>
         <Reveal as="p" delay={80} style={{ textAlign: "center", color: "#666", maxWidth: "600px", margin: "0 auto 48px", fontSize: "1.05rem" }}>
-          Un unico partner per la distribuzione di arredamento di design e le soluzioni contract.
+          Un unico riferimento per l'arredamento e l'illuminazione, dalla consulenza alla fornitura.
         </Reveal>
         <div className="container">
           <div className="row g-4 justify-content-center">
@@ -220,9 +215,12 @@ function HomePage() {
       {/* Sezione Numeri */}
       <div style={{ background: "linear-gradient(135deg, #1b2a4a, #24375f)", padding: "70px 20px" }}>
         <div className="container">
-          <div className="row text-center">
-            {stats.map((s, i) => (
-              <div className="col-4" key={s.label}>
+          <div className="row text-center justify-content-center">
+            {[
+              ...(brands.length > 0 ? [{ value: `${brands.length}+`, label: "Brand partner" }] : []),
+              ...baseStats,
+            ].map((s, i) => (
+              <div className="col-6 col-sm-4" key={s.label}>
                 <Reveal delay={i * 120}>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 6vw, 3.5rem)", fontWeight: 600, color: "#c8a96e" }}>
                     <CountUp value={s.value} />
@@ -304,7 +302,7 @@ function HomePage() {
         <Col>
           <ParallaxImage
             src={additionalImage}
-            alt="Soluzioni di arredamento contract"
+            alt="Soluzioni contract Liguria Design Group"
             overlay={<div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.15)" }} />}
           >
             <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
