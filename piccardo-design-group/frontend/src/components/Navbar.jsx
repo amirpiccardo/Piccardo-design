@@ -69,7 +69,7 @@ function Navbar() {
                 to="/contact"
                 className="btn"
                 style={{
-                  backgroundColor: "#000",
+                  backgroundColor: "#1b2a4a",
                   color: "#fff",
                   borderRadius: "30px",
                   padding: "8px 22px",
@@ -78,8 +78,8 @@ function Navbar() {
                   letterSpacing: "0.05em",
                   transition: "background-color 0.2s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#000")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c8a96e")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1b2a4a")}
               >
                 Contattaci
               </Link>

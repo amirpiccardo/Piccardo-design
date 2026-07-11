@@ -23,7 +23,7 @@ function NotFoundPage() {
       <Link
         to="/"
         style={{
-          backgroundColor: "#000",
+          backgroundColor: "#1b2a4a",
           color: "#fff",
           padding: "12px 32px",
           borderRadius: "30px",

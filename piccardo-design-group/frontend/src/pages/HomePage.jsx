@@ -73,21 +73,21 @@ function HomePage() {
   const primaryBtn = {
     display: "inline-block",
     padding: "13px 30px",
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#1b2a4a",
     color: "#fff",
     borderRadius: "30px",
     textDecoration: "none",
     fontSize: "0.95rem",
     fontFamily: "Raleway, sans-serif",
     letterSpacing: "0.05em",
-    transition: "background-color 0.2s",
+    transition: "background-color 0.2s, color 0.2s",
   };
 
   const secondaryBtn = {
     ...primaryBtn,
     backgroundColor: "transparent",
-    color: "#1a1a1a",
-    border: "1px solid #1a1a1a",
+    color: "#1b2a4a",
+    border: "1px solid #1b2a4a",
   };
 
   const imageStyle = {
@@ -153,8 +153,8 @@ function HomePage() {
               <Link
                 to="/materials"
                 style={primaryBtn}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#333")}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1a1a1a")}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c8a96e")}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1b2a4a")}
               >
                 Scopri i nostri partner
               </Link>
@@ -164,12 +164,12 @@ function HomePage() {
                 to="/contact"
                 style={secondaryBtn}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "#1a1a1a";
+                  e.currentTarget.style.backgroundColor = "#1b2a4a";
                   e.currentTarget.style.color = "#fff";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = "transparent";
-                  e.currentTarget.style.color = "#1a1a1a";
+                  e.currentTarget.style.color = "#1b2a4a";
                 }}
               >
                 Contattaci
@@ -319,7 +319,7 @@ function HomePage() {
                 <Link
                   to="/materials"
                   style={{
-                    display: "inline-block", padding: "14px 32px", backgroundColor: "rgba(0,0,0,0.85)",
+                    display: "inline-block", padding: "14px 32px", backgroundColor: "rgba(27,42,74,0.9)",
                     color: "#fff", borderRadius: "30px", textDecoration: "none", fontSize: "1rem",
                     fontFamily: "Raleway, sans-serif", letterSpacing: "0.05em",
                   }}

@@ -96,7 +96,7 @@ const NewsletterBanner = () => {
   const submitButtonStyle = {
     width: "100%",
     padding: "13px 20px",
-    backgroundColor: "#1a1a1a",
+    backgroundColor: "#1b2a4a",
     color: "#fff",
     border: "none",
     borderRadius: "30px",

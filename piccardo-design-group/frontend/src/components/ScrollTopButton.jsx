@@ -25,7 +25,7 @@ function ScrollTopButton() {
         height: "46px",
         borderRadius: "50%",
         border: "none",
-        background: "#1a1a1a",
+        background: "#1b2a4a",
         color: "#fff",
         cursor: "pointer",
         boxShadow: "0 4px 16px rgba(0,0,0,0.25)",
@@ -36,7 +36,7 @@ function ScrollTopButton() {
         transition: "background 0.2s",
       }}
       onMouseEnter={(e) => (e.currentTarget.style.background = "#c8a96e")}
-      onMouseLeave={(e) => (e.currentTarget.style.background = "#1a1a1a")}
+      onMouseLeave={(e) => (e.currentTarget.style.background = "#1b2a4a")}
     >
       <FontAwesomeIcon icon={faArrowUp} />
     </button>

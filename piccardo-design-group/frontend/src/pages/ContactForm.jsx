@@ -141,7 +141,7 @@ function ContactForm() {
                   style={{
                     width: "100%",
                     padding: "14px",
-                    backgroundColor: "#1a1a1a",
+                    backgroundColor: "#1b2a4a",
                     color: "#fff",
                     border: "none",
                     borderRadius: "30px",
