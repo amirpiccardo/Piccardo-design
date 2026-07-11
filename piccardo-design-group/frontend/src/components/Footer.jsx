@@ -49,15 +49,6 @@ function Footer() {
                   </Link>
                 </li>
               ))}
-              {isAuthenticated && (
-                <li>
-                  <Link to="/admin" style={{ color: "#b3b3b3", textDecoration: "none" }}
-                    onMouseEnter={(e) => (e.target.style.color = "#fff")}
-                    onMouseLeave={(e) => (e.target.style.color = "#b3b3b3")}>
-                    Area Admin
-                  </Link>
-                </li>
-              )}
             </ul>
           </div>
 
@@ -85,6 +76,7 @@ function Footer() {
             { to: "/faq", label: "FAQ" },
             { to: "/privacy", label: "Privacy & Cookie" },
             { to: "/termini", label: "Termini" },
+            isAuthenticated ? { to: "/admin", label: "Area Admin" } : { to: "/login", label: "Area Riservata" },
           ].map(({ to, label }) => (
             <Link
               key={to}
