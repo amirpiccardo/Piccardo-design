@@ -24,6 +24,8 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("photo"), async 
     name: req.body.name,
     role: req.body.role,
     photo: fileToDataUri(req.file),
+    bio: req.body.bio || "",
+    linkedin: req.body.linkedin || "",
   });
 
   try {
@@ -35,7 +37,12 @@ router.post("/", authMiddleware, adminMiddleware, upload.single("photo"), async 
 });
 
 router.put("/:id", authMiddleware, adminMiddleware, upload.single("photo"), async (req, res) => {
-  const updateData = { name: req.body.name, role: req.body.role };
+  const updateData = {
+    name: req.body.name,
+    role: req.body.role,
+    bio: req.body.bio || "",
+    linkedin: req.body.linkedin || "",
+  };
   if (req.file) updateData.photo = fileToDataUri(req.file);
 
   try {

@@ -10,7 +10,8 @@ const TeamManagement = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState(null);
-  const [form, setForm] = useState({ name: "", role: "", photo: null });
+  const emptyForm = { name: "", role: "", photo: null, bio: "", linkedin: "" };
+  const [form, setForm] = useState(emptyForm);
   const [editId, setEditId] = useState(null);
   const [confirm, confirmUI] = useConfirm();
 
@@ -23,7 +24,7 @@ const TeamManagement = () => {
 
   useEffect(() => { load(); }, []);
 
-  const reset = () => { setForm({ name: "", role: "", photo: null }); setEditId(null); };
+  const reset = () => { setForm(emptyForm); setEditId(null); };
 
   const showFeedback = (msg, type = "success") => {
     setFeedback({ msg, type });
@@ -61,7 +62,7 @@ const TeamManagement = () => {
 
   const handleEdit = (member) => {
     setEditId(member._id);
-    setForm({ name: member.name, role: member.role, photo: null });
+    setForm({ name: member.name, role: member.role, photo: null, bio: member.bio || "", linkedin: member.linkedin || "" });
   };
 
   const handleDelete = async (id) => {
@@ -100,6 +101,14 @@ const TeamManagement = () => {
               {form.photo instanceof File && (
                 <img src={URL.createObjectURL(form.photo)} alt="anteprima" style={{ marginTop: 8, height: 56, width: 56, objectFit: "cover", borderRadius: "50%", border: "1px solid #eee" }} />
               )}
+            </div>
+          </div>
+          <div className="row g-3 mt-1">
+            <div className="col-md-8">
+              <textarea className="form-control" name="bio" placeholder="Biografia (opzionale)" rows={2} value={form.bio} onChange={handleChange} />
+            </div>
+            <div className="col-md-4">
+              <input type="text" className="form-control" name="linkedin" placeholder="Link LinkedIn (opzionale)" value={form.linkedin} onChange={handleChange} />
             </div>
           </div>
           <div className="mt-3 d-flex gap-2">

@@ -4,6 +4,7 @@ import teamImage from "../assets/team.jpg";
 import ChatBot from "../components/ChatBot";
 import Seo from "../components/Seo";
 import { mediaUrl } from "../utils/media";
+import { FaLinkedin } from "react-icons/fa";
 
 function TeamPage() {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -98,17 +99,6 @@ function TeamPage() {
     color: "#1a1a1a",
   };
 
-  const memberImageStyle = {
-    width: "100%",
-    height: "340px",
-    objectFit: "cover",
-    borderRadius: "8px",
-    marginBottom: "14px",
-    transition: "transform 0.3s, box-shadow 0.3s",
-  };
-
-  const normalizePath = (p) => (p || "").replace(/\\/g, "/");
-
   return (
     <div style={pageStyle}>
       <Seo title="Il nostro Team" description="Il team di Piccardo Design Group: professionisti del design che danno vita alla tua visione con soluzioni innovative e personalizzate." />
@@ -146,28 +136,30 @@ function TeamPage() {
           <h2 style={headingStyle}>Il Nostro Team</h2>
           <div className="row justify-content-center g-4">
             {teamMembers.map((member) => (
-              <div className="col-12 col-sm-6 col-lg-4 col-xl-3" key={member._id}>
-                <div
-                  style={{ textAlign: "center" }}
-                  onMouseEnter={(e) => {
-                    const img = e.currentTarget.querySelector("img");
-                    img.style.transform = "scale(1.03)";
-                    img.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const img = e.currentTarget.querySelector("img");
-                    img.style.transform = "scale(1)";
-                    img.style.boxShadow = "none";
-                  }}
-                >
-                  <img
-                    src={mediaUrl(member.photo)}
-                    alt={member.name}
-                    style={memberImageStyle}
-                    loading="lazy"
-                  />
-                  <p style={{ fontSize: "1.15rem", fontWeight: 500, margin: 0 }}>{member.name}</p>
-                  <p style={{ fontSize: "0.95rem", color: "#888" }}>{member.role}</p>
+              <div className="col-12 col-md-6" key={member._id}>
+                <div className="row g-0 h-100 align-items-stretch" style={{ border: "1px solid #eee", borderRadius: "12px", overflow: "hidden" }}>
+                  <div className="col-5">
+                    <img
+                      src={mediaUrl(member.photo)}
+                      alt={member.name}
+                      style={{ width: "100%", height: "100%", minHeight: "220px", objectFit: "cover" }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="col-7 d-flex flex-column justify-content-center" style={{ padding: "22px" }}>
+                    <p style={{ fontSize: "1.2rem", fontWeight: 600, margin: 0, color: "#1b2a4a" }}>{member.name}</p>
+                    <p style={{ fontSize: "0.9rem", color: "#c8a96e", fontWeight: 600, marginBottom: "12px" }}>{member.role}</p>
+                    {member.bio && (
+                      <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.6, marginBottom: member.linkedin ? "12px" : 0 }}>
+                        {member.bio}
+                      </p>
+                    )}
+                    {member.linkedin && (
+                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "#1b2a4a", fontSize: "1.3rem" }}>
+                        <FaLinkedin />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

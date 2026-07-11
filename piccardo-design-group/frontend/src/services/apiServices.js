@@ -69,6 +69,8 @@ export const addTeamMember = (member) => {
   fd.append("name", member.name);
   fd.append("role", member.role);
   fd.append("photo", member.photo);
+  fd.append("bio", member.bio || "");
+  fd.append("linkedin", member.linkedin || "");
   return fetch(`${BASE}/api/team`, {
     method: "POST",
     headers: authHeaders(),
@@ -80,6 +82,8 @@ export const updateTeamMember = (id, member) => {
   const fd = new FormData();
   fd.append("name", member.name);
   fd.append("role", member.role);
+  fd.append("bio", member.bio || "");
+  fd.append("linkedin", member.linkedin || "");
   if (member.photo instanceof File) fd.append("photo", member.photo);
   return fetch(`${BASE}/api/team/${id}`, {
     method: "PUT",
