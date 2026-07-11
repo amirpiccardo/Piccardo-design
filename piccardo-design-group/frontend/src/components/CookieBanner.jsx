@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-const STORAGE_KEY = "pdg_cookie_consent";
+import { COOKIE_CONSENT_KEY as STORAGE_KEY } from "../utils/cookieConsent";
 
 function CookieBanner() {
   const [visible, setVisible] = useState(false);
@@ -15,6 +14,7 @@ function CookieBanner() {
 
   const decide = (value) => {
     localStorage.setItem(STORAGE_KEY, value);
+    window.dispatchEvent(new Event("cookie-consent-changed"));
     setVisible(false);
   };
 

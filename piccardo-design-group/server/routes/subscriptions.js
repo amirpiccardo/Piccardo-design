@@ -59,7 +59,10 @@ router.post("/subscribe", subscribeLimiter, async (req, res) => {
 
 router.get("/subscribers", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const subscribers = await NewsletterSubscription.find({}, "email createdAt");
+    const limit = Math.min(parseInt(req.query.limit, 10) || 500, 500);
+    const subscribers = await NewsletterSubscription.find({}, "email createdAt")
+      .sort({ createdAt: -1 })
+      .limit(limit);
     res.status(200).json(subscribers);
   } catch (error) {
     res.status(500).json({ message: "Errore nel recupero degli iscritti." });

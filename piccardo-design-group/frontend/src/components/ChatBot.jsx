@@ -77,6 +77,14 @@ function ChatBot() {
             <div key={i} style={{ display: "flex", justifyContent: m.from === "user" ? "flex-end" : "flex-start", marginBottom: "10px" }}>
               <div
                 onClick={() => m.to && navigate(m.to)}
+                role={m.to ? "button" : undefined}
+                tabIndex={m.to ? 0 : undefined}
+                onKeyDown={(e) => {
+                  if (m.to && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault();
+                    navigate(m.to);
+                  }
+                }}
                 style={{
                   maxWidth: "80%", padding: "10px 14px", borderRadius: m.from === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
                   background: m.from === "user" ? "#1b2a4a" : "#fff", color: m.from === "user" ? "#fff" : "#333",

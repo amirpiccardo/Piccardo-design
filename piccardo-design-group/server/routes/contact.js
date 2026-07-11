@@ -35,7 +35,8 @@ router.post("/", contactLimiter, async (req, res) => {
 // GET e DELETE riservati all'admin
 router.get("/", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const contacts = await Contact.find().sort({ createdAt: -1 });
+    const limit = Math.min(parseInt(req.query.limit, 10) || 500, 500);
+    const contacts = await Contact.find().sort({ createdAt: -1 }).limit(limit);
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ message: error.message });

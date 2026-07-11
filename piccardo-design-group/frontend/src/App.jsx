@@ -6,19 +6,26 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import ScrollTopButton from "./components/ScrollTopButton";
 import HomePage from "./pages/HomePage";
-import AboutPage from "./pages/AboutPage";
-import MaterialsPage from "./pages/MaterialsPage";
-import ContractsPage from "./pages/ContractsPage";
-import LoginPage from "./pages/LoginPage";
-import ContactForm from "./pages/ContactForm";
 import NotFoundPage from "./pages/NotFoundPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import TermsPage from "./pages/TermsPage";
-import FaqPage from "./pages/FaqPage";
 import CookieBanner from "./components/CookieBanner";
 
+// Pagine secondarie caricate solo quando servono, per ridurre il bundle iniziale
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const MaterialsPage = lazy(() => import("./pages/MaterialsPage"));
+const ContractsPage = lazy(() => import("./pages/ContractsPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const ContactForm = lazy(() => import("./pages/ContactForm"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
 // L'area admin (con chart.js) è caricata solo quando serve
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+
+const PageFallback = () => (
+  <div className="text-center py-5">
+    <div className="spinner-border" />
+  </div>
+);
 
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -30,29 +37,29 @@ function AnimatedRoutes() {
   const location = useLocation();
   return (
     <div key={location.pathname} className="pdg-page" style={{ flex: "1" }}>
-      <Routes location={location}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/team" element={<Navigate to="/about" replace />} />
-        <Route path="/materials" element={<MaterialsPage />} />
-        <Route path="/contracts" element={<ContractsPage />} />
-        <Route path="/contact" element={<ContactForm />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/termini" element={<TermsPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/admin"
-          element={
-            <PrivateRoute>
-              <Suspense fallback={<div className="text-center py-5"><div className="spinner-border" /></div>}>
+      <Suspense fallback={<PageFallback />}>
+        <Routes location={location}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/team" element={<Navigate to="/about" replace />} />
+          <Route path="/materials" element={<MaterialsPage />} />
+          <Route path="/contracts" element={<ContractsPage />} />
+          <Route path="/contact" element={<ContactForm />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/termini" element={<TermsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
                 <AdminDashboard />
-              </Suspense>
-            </PrivateRoute>
-          }
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
