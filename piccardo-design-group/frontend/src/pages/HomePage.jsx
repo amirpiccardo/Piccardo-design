@@ -98,10 +98,20 @@ function HomePage() {
     objectFit: "cover",
   };
 
-  const logoStyle = {
+  const logoBoxStyle = {
+    height: "70px",
     width: "140px",
-    height: "auto",
     margin: "10px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const logoStyle = {
+    maxWidth: "140px",
+    maxHeight: "70px",
+    width: "auto",
+    height: "auto",
     transition: "transform 0.3s",
     objectFit: "contain",
   };
@@ -131,11 +141,9 @@ function HomePage() {
       <Seo description="Liguria Design Group: agenzia di rappresentanza nel settore arredamento e illuminazione. Consulenza su misura per aziende, architetti e progettisti." />
       <Row className="g-0">
         <Col>
-          <div style={headingStyle}>
-            <h1 style={{ margin: 0 }}>
-              <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Liguria Design Group</span></span>
-            </h1>
-          </div>
+          <h1 style={headingStyle}>
+            <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Liguria Design Group</span></span>
+          </h1>
           <p style={subheadingStyle}>
             Consulenza su misura per aziende, architetti e progettisti nel settore
             dell'arredamento e dell'illuminazione.
@@ -249,7 +257,7 @@ function HomePage() {
               <div className="col-6 col-lg-3" key={s.n}>
                 <Reveal delay={i * 100}>
                   <div style={{ padding: "8px 6px" }}>
-                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.6rem", fontWeight: 600, color: "#c8a96e", lineHeight: 1 }}>
+                    <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.6rem", fontWeight: 600, color: "#8a6d3f", lineHeight: 1 }}>
                       {s.n}
                     </div>
                     <div style={{ width: "36px", height: "2px", background: "#1b2a4a", margin: "12px 0" }} />
@@ -279,6 +287,7 @@ function HomePage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={brand.name}
+                style={logoBoxStyle}
                 onMouseEnter={(e) =>
                   (e.currentTarget.querySelector("img").style.transform = "scale(1.08)")
                 }

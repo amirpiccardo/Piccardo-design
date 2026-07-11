@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEnvelope, faUser, faComment, faFileCsv, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { fetchContacts, deleteContact } from "../services/apiServices";
+import { fetchContacts, deleteContact, markContactRead } from "../services/apiServices";
 import { exportToCsv } from "../utils/csv";
 import useConfirm from "../hooks/useConfirm";
 
@@ -37,10 +37,23 @@ const ContactManagement = () => {
     }
   };
 
-  const filtered = contacts.filter((c) => {
-    const q = search.toLowerCase();
-    return (c.name || "").toLowerCase().includes(q) || (c.email || "").toLowerCase().includes(q) || (c.message || "").toLowerCase().includes(q);
-  });
+  const handleOpen = (contact) => {
+    if (contact.read) return;
+    setContacts((prev) => prev.map((c) => (c._id === contact._id ? { ...c, read: true } : c)));
+    markContactRead(contact._id).catch(() => {});
+  };
+
+  const unreadCount = contacts.filter((c) => !c.read).length;
+
+  const filtered = contacts
+    .filter((c) => {
+      const q = search.toLowerCase();
+      return (c.name || "").toLowerCase().includes(q) || (c.email || "").toLowerCase().includes(q) || (c.message || "").toLowerCase().includes(q);
+    })
+    .sort((a, b) => {
+      if (!a.read !== !b.read) return a.read ? 1 : -1;
+      return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+    });
 
   const handleExport = () => {
     exportToCsv("contatti.csv", filtered, [
@@ -59,7 +72,12 @@ const ContactManagement = () => {
       {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
 
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-        <h5 className="mb-0">Messaggi ricevuti ({filtered.length})</h5>
+        <h5 className="mb-0">
+          Messaggi ricevuti ({filtered.length})
+          {unreadCount > 0 && (
+            <span className="badge bg-danger ms-2" style={{ verticalAlign: "middle" }}>{unreadCount} nuovi</span>
+          )}
+        </h5>
         <div className="d-flex gap-2">
           <div className="input-group input-group-sm" style={{ width: "220px" }}>
             <span className="input-group-text"><FontAwesomeIcon icon={faSearch} /></span>
@@ -77,15 +95,26 @@ const ContactManagement = () => {
         <div className="row">
           {filtered.map((contact) => (
             <div className="col-md-6 col-lg-4 mb-3" key={contact._id}>
-              <div className="card h-100">
+              <div
+                className="card h-100"
+                onClick={() => handleOpen(contact)}
+                style={{
+                  borderLeft: contact.read ? "1px solid #dee2e6" : "3px solid #c8a96e",
+                  background: contact.read ? "#fff" : "#fffdf7",
+                  cursor: contact.read ? "default" : "pointer",
+                }}
+              >
                 <div className="card-body">
-                  <p className="mb-1">
-                    <FontAwesomeIcon icon={faUser} className="me-2 text-secondary" />
-                    <strong>{contact.name}</strong>
+                  <p className="mb-1 d-flex align-items-center justify-content-between">
+                    <span>
+                      <FontAwesomeIcon icon={faUser} className="me-2 text-secondary" />
+                      <strong>{contact.name}</strong>
+                    </span>
+                    {!contact.read && <span className="badge bg-warning text-dark">Nuovo</span>}
                   </p>
                   <p className="mb-1 small">
                     <FontAwesomeIcon icon={faEnvelope} className="me-2 text-secondary" />
-                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                    <a href={`mailto:${contact.email}`} onClick={(e) => e.stopPropagation()}>{contact.email}</a>
                   </p>
                   <hr className="my-2" />
                   <p className="mb-2 small">
@@ -99,7 +128,10 @@ const ContactManagement = () => {
                       })}
                     </p>
                   )}
-                  <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(contact._id)}>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={(e) => { e.stopPropagation(); handleDelete(contact._id); }}
+                  >
                     <FontAwesomeIcon icon={faTrash} className="me-1" /> Elimina
                   </button>
                 </div>

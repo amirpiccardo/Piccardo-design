@@ -43,6 +43,16 @@ router.get("/", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
+router.patch("/:id/read", authMiddleware, adminMiddleware, async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndUpdate(req.params.id, { read: true }, { new: true });
+    if (!contact) return res.status(404).json({ message: "Contatto non trovato" });
+    res.status(200).json(contact);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const contact = await Contact.findByIdAndDelete(req.params.id);

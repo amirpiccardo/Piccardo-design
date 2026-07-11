@@ -33,7 +33,13 @@ const TeamManagement = () => {
 
   const handleChange = (e) => {
     if (e.target.name === "photo") {
-      setForm({ ...form, photo: e.target.files[0] });
+      const file = e.target.files[0];
+      if (file && file.size > 2 * 1024 * 1024) {
+        showFeedback("Il file supera i 2MB: scegli un'immagine più leggera", "danger");
+        e.target.value = "";
+        return;
+      }
+      setForm({ ...form, photo: file });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -63,6 +69,7 @@ const TeamManagement = () => {
   const handleEdit = (member) => {
     setEditId(member._id);
     setForm({ name: member.name, role: member.role, photo: null, bio: member.bio || "", linkedin: member.linkedin || "" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id) => {

@@ -12,7 +12,7 @@ function TermsPage() {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 600, marginBottom: "8px" }}>
           Termini e Condizioni
         </h1>
-        <p style={{ color: "#999", fontSize: "0.9rem", marginBottom: "24px" }}>Ultimo aggiornamento: giugno 2026</p>
+        <p style={{ color: "#6e6e6e", fontSize: "0.9rem", marginBottom: "24px" }}>Ultimo aggiornamento: giugno 2026</p>
 
         <h2 style={sectionTitle}>1. Oggetto</h2>
         <p style={text}>

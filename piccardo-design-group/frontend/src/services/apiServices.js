@@ -20,6 +20,17 @@ export const changePassword = (currentPassword, newPassword) =>
     return data;
   });
 
+export const registerUser = (username, email, password) =>
+  fetch(`${BASE}/api/auth/register`, {
+    method: "POST",
+    headers: { ...authHeaders(), "Content-Type": "application/json" },
+    body: JSON.stringify({ username, email, password, role: "admin" }),
+  }).then(async (r) => {
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(data.message || "Errore");
+    return data;
+  });
+
 // ─── Brands (Homepage) ───────────────────────────────────────────────────────
 
 export const fetchBrands = () =>
@@ -147,6 +158,12 @@ export const deleteContact = (contactId) =>
     method: "DELETE",
     headers: authHeaders(),
   });
+
+export const markContactRead = (contactId) =>
+  fetch(`${BASE}/api/contact/${contactId}/read`, {
+    method: "PATCH",
+    headers: authHeaders(),
+  }).then((r) => r.json());
 
 // ─── Newsletter ───────────────────────────────────────────────────────────────
 

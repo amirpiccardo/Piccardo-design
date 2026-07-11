@@ -14,6 +14,7 @@ function getExpiryMs(jwt) {
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
+  const [expiresAt, setExpiresAt] = useState(null);
   const logoutTimer = useRef(null);
 
   const clearLogoutTimer = () => {
@@ -28,11 +29,13 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("authToken");
     setToken(null);
     setIsAuthenticated(false);
+    setExpiresAt(null);
   };
 
   const scheduleAutoLogout = (jwt) => {
     clearLogoutTimer();
     const expiryMs = getExpiryMs(jwt);
+    setExpiresAt(expiryMs);
     if (expiryMs === null) return;
     const msLeft = expiryMs - Date.now();
     if (msLeft <= 0) {
@@ -68,7 +71,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, login, logout, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, token, expiresAt, login, logout, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

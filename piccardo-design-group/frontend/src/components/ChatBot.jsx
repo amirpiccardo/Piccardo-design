@@ -93,7 +93,7 @@ function ChatBot() {
                 }}
               >
                 {m.text}
-                {m.to && <div style={{ color: "#c8a96e", fontSize: "0.78rem", marginTop: "4px", fontWeight: 600 }}>Vai alla pagina →</div>}
+                {m.to && <div style={{ color: "#8a6d3f", fontSize: "0.78rem", marginTop: "4px", fontWeight: 600 }}>Vai alla pagina →</div>}
               </div>
             </div>
           ))}

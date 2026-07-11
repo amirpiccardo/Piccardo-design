@@ -94,7 +94,7 @@ function AboutPage() {
       {team.length > 0 && (
         <div className="container pb-5">
           <h2 style={teamHeadingStyle}>Il Nostro Team</h2>
-          <p style={{ textAlign: "center", color: "#777", marginBottom: "40px" }}>
+          <p style={{ textAlign: "center", color: "#5a5a5a", marginBottom: "40px" }}>
             Conosci i professionisti che guidano Liguria Design Group con passione e competenza.
           </p>
           <div className="row justify-content-center g-4">
@@ -111,7 +111,7 @@ function AboutPage() {
                   </div>
                   <div className="col-7 d-flex flex-column justify-content-center" style={{ padding: "24px" }}>
                     <p style={{ fontSize: "1.25rem", fontWeight: 600, margin: 0, color: "#1b2a4a" }}>{member.name}</p>
-                    <p style={{ fontSize: "0.9rem", color: "#c8a96e", fontWeight: 600, marginBottom: "12px" }}>{member.role}</p>
+                    <p style={{ fontSize: "0.9rem", color: "#8a6d3f", fontWeight: 600, marginBottom: "12px" }}>{member.role}</p>
                     {member.bio && (
                       <p style={{ fontSize: "0.88rem", color: "#666", lineHeight: 1.7, marginBottom: member.linkedin ? "12px" : 0 }}>
                         {member.bio}

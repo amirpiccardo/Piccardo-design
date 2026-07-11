@@ -48,7 +48,7 @@ function Contracts() {
         >
           Contract
         </h1>
-        <p style={{ color: "#777", fontSize: "1.1rem", maxWidth: "700px", margin: "0 auto" }}>
+        <p style={{ color: "#5a5a5a", fontSize: "1.1rem", maxWidth: "700px", margin: "0 auto" }}>
           Consulenza e forniture di arredamento e illuminazione per grandi progetti:
           hotel, B&B, pensioni, studentati, auditorium e strutture che richiedono
           forniture importanti.

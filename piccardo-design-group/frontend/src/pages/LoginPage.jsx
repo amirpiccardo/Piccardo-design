@@ -117,7 +117,7 @@ function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword((s) => !s)}
-                style={{ border: "none", background: "transparent", color: "#999", cursor: "pointer" }}
+                style={{ border: "none", background: "transparent", color: "#6e6e6e", cursor: "pointer" }}
                 aria-label={showPassword ? "Nascondi password" : "Mostra password"}
               >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />

@@ -37,7 +37,13 @@ const ContractBrandManagement = () => {
 
   const handleChange = (e) => {
     if (e.target.name === "logo") {
-      setForm({ ...form, logo: e.target.files[0] });
+      const file = e.target.files[0];
+      if (file && file.size > 2 * 1024 * 1024) {
+        showFeedback("Il file supera i 2MB: scegli un'immagine più leggera", "danger");
+        e.target.value = "";
+        return;
+      }
+      setForm({ ...form, logo: file });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -67,6 +73,7 @@ const ContractBrandManagement = () => {
   const handleEdit = (brand) => {
     setEditId(brand._id);
     setForm({ name: brand.name, logo: null, website: brand.website || "" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id) => {

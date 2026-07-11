@@ -31,7 +31,7 @@ function MaterialsPage() {
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "clamp(2rem, 5vw, 3.5rem)", letterSpacing: "0.02em", marginBottom: "12px" }}>
           Le Aziende Che Ci Hanno Scelto
         </h1>
-        <p style={{ color: "#777", fontSize: "1.1rem", marginBottom: "26px" }}>
+        <p style={{ color: "#5a5a5a", fontSize: "1.1rem", marginBottom: "26px" }}>
           Clicca su un brand per visitare il sito ufficiale
         </p>
         <div style={{ maxWidth: "400px", margin: "0 auto 22px" }}>

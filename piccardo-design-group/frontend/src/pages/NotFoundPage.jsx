@@ -17,7 +17,7 @@ function NotFoundPage() {
     >
       <h1 style={{ fontSize: "6rem", fontWeight: 200, color: "#ccc", margin: 0 }}>404</h1>
       <h2 style={{ fontWeight: 300, color: "#333", marginBottom: "16px" }}>Pagina non trovata</h2>
-      <p style={{ color: "#777", marginBottom: "32px" }}>
+      <p style={{ color: "#5a5a5a", marginBottom: "32px" }}>
         La pagina che stai cercando non esiste o è stata spostata.
       </p>
       <Link

@@ -117,7 +117,7 @@ const NewsletterBanner = () => {
     border: "none",
     fontSize: "24px",
     cursor: "pointer",
-    color: "#999",
+    color: "#6e6e6e",
     lineHeight: 1,
   };
 

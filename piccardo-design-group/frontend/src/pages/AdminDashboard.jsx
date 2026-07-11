@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTags, faUsers, faFileContract, faAddressBook,
@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ConfirmModal from "../components/ConfirmModal";
+import SessionExpiryBanner from "../components/SessionExpiryBanner";
 import DashboardOverview from "../components/DashboardOverview";
 import BrandManagement from "../components/BrandManagement";
 import ContractBrandManagement from "../components/ContractBrandManagement";
@@ -14,6 +15,7 @@ import ContactManagement from "../components/ContactManagement";
 import NewsletterManagement from "../components/NewsletterManagement";
 import TeamManagement from "../components/TeamManagement";
 import AccountSettings from "../components/AccountSettings";
+import { fetchContacts } from "../services/apiServices";
 
 const sections = [
   { key: "overview", label: "Panoramica", icon: faChartPie, comp: DashboardOverview },
@@ -28,8 +30,15 @@ const sections = [
 function AdminDashboard() {
   const [active, setActive] = useState("overview");
   const [showLogout, setShowLogout] = useState(false);
+  const [unreadContacts, setUnreadContacts] = useState(0);
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  useEffect(() => {
+    fetchContacts()
+      .then((data) => setUnreadContacts(Array.isArray(data) ? data.filter((c) => !c.read).length : 0))
+      .catch(() => {});
+  }, [active]);
 
   const Current = sections.find((s) => s.key === active)?.comp || DashboardOverview;
   const currentLabel = sections.find((s) => s.key === active)?.label || "";
@@ -59,6 +68,9 @@ function AdminDashboard() {
       >
         <FontAwesomeIcon icon={s.icon} style={{ width: "18px" }} />
         {s.label}
+        {s.key === "contacts" && unreadContacts > 0 && (
+          <span className="badge bg-danger ms-auto">{unreadContacts}</span>
+        )}
       </button>
     );
   };
@@ -93,11 +105,14 @@ Liguria<span style={{ color: "#c8a96e" }}>·</span>Admin
       </aside>
 
       {/* Contenuto */}
-      <main style={{ flex: 1, padding: "28px clamp(16px, 4vw, 40px)", minWidth: 0 }}>
-        <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.8rem", marginBottom: "20px", color: "#1b2a4a" }}>
-          {currentLabel}
-        </h4>
-        <Current />
+      <main style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <SessionExpiryBanner />
+        <div style={{ padding: "28px clamp(16px, 4vw, 40px)" }}>
+          <h4 style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, fontSize: "1.8rem", marginBottom: "20px", color: "#1b2a4a" }}>
+            {currentLabel}
+          </h4>
+          <Current />
+        </div>
       </main>
 
       <ConfirmModal
