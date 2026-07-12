@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSignInAlt, faEnvelope, faLock, faArrowLeft, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 
@@ -9,6 +9,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [capsLock, setCapsLock] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ function LoginPage() {
   const { login } = useAuth();
 
   const from = location.state?.from?.pathname || "/admin";
+
+  const checkCapsLock = (e) => {
+    if (e.getModifierState) setCapsLock(e.getModifierState("CapsLock"));
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -110,6 +115,8 @@ function LoginPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={checkCapsLock}
+                onKeyUp={checkCapsLock}
                 required
                 style={inputStyle}
                 autoComplete="current-password"
@@ -123,6 +130,13 @@ function LoginPage() {
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </button>
             </div>
+
+            {capsLock && (
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#b7791f", fontSize: "0.82rem", marginTop: "-10px", marginBottom: "14px" }}>
+                <FontAwesomeIcon icon={faTriangleExclamation} />
+                Blocco maiuscole (Caps Lock) attivo
+              </div>
+            )}
 
             {error && (
               <div style={{ background: "#fdecea", color: "#c0392b", padding: "10px 14px", borderRadius: "10px", fontSize: "0.88rem", marginBottom: "16px" }}>

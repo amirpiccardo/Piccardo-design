@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTags, faUsers, faFileContract, faAddressBook,
-  faEnvelope, faSignOutAlt, faChartPie, faKey,
+  faEnvelope, faSignOutAlt, faChartPie, faKey, faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -15,10 +15,12 @@ import ContactManagement from "../components/ContactManagement";
 import NewsletterManagement from "../components/NewsletterManagement";
 import TeamManagement from "../components/TeamManagement";
 import AccountSettings from "../components/AccountSettings";
+import PageContentManagement from "../components/PageContentManagement";
 import { fetchContacts } from "../services/apiServices";
 
 const sections = [
   { key: "overview", label: "Panoramica", icon: faChartPie, comp: DashboardOverview },
+  { key: "pages", label: "Pagine", icon: faFileLines, comp: PageContentManagement },
   { key: "brands", label: "Brand", icon: faTags, comp: BrandManagement },
   { key: "team", label: "Team", icon: faUsers, comp: TeamManagement },
   { key: "contracts", label: "Contract", icon: faFileContract, comp: ContractBrandManagement },

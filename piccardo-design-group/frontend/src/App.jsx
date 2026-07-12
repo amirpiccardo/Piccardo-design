@@ -16,6 +16,7 @@ const ContractsPage = lazy(() => import("./pages/ContractsPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const ContactForm = lazy(() => import("./pages/ContactForm"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const CookiePage = lazy(() => import("./pages/CookiePage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const FaqPage = lazy(() => import("./pages/FaqPage"));
 // L'area admin (con chart.js) è caricata solo quando serve
@@ -28,8 +29,9 @@ const PageFallback = () => (
 );
 
 function PrivateRoute({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authChecked } = useAuth();
   const location = useLocation();
+  if (!authChecked) return <PageFallback />;
   return isAuthenticated ? children : <Navigate to="/login" replace state={{ from: location }} />;
 }
 
@@ -47,6 +49,7 @@ function AnimatedRoutes() {
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/cookie-policy" element={<CookiePage />} />
           <Route path="/termini" element={<TermsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route

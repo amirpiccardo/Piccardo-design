@@ -1,30 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
-const faqs = [
-  {
-    q: "Di cosa si occupa Liguria Design Group?",
-    a: "Siamo un'agenzia di rappresentanza nel settore mobili e illuminazione. Rappresentiamo aziende leader del settore e supportiamo rivenditori e negozianti con consulenza, preventivazione e assistenza quotidiana.",
-  },
-  {
-    q: "Come posso diventare rivenditore o richiedere una consulenza?",
-    a: "Contattaci tramite il modulo nella pagina Contatti: il nostro team ti ricontatterà per valutare insieme le opportunità di collaborazione.",
-  },
-  {
-    q: "Fate anche consulenza contract?",
-    a: "Sì. Offriamo consulenza per hotel, B&B, pensioni, studentati e altre strutture che richiedono forniture importanti di arredamento e illuminazione.",
-  },
-  {
-    q: "In quali zone operate?",
-    a: "Operiamo principalmente in Liguria e nel basso Piemonte. Per richieste specifiche, contattaci e valuteremo insieme le esigenze.",
-  },
-  {
-    q: "Posso ricevere informazioni sui brand rappresentati?",
-    a: "Scrivici tramite il modulo di contatto indicando i brand di tuo interesse e ti forniremo tutte le informazioni disponibili.",
-  },
-];
+import { fetchPageContent } from "../services/apiServices";
+import { FAQ_DEFAULT_SECTIONS, resolveSections } from "../data/pageDefaults";
 
 function FaqItem({ q, a }) {
   const [open, setOpen] = useState(false);
@@ -63,6 +42,14 @@ function FaqItem({ q, a }) {
 }
 
 function FaqPage() {
+  const [faqs, setFaqs] = useState(FAQ_DEFAULT_SECTIONS);
+
+  useEffect(() => {
+    fetchPageContent("faq")
+      .then((page) => setFaqs(resolveSections(FAQ_DEFAULT_SECTIONS, page.sections, page.updatedAt)))
+      .catch(() => {});
+  }, []);
+
   return (
     <div style={{ fontFamily: "Raleway, sans-serif", minHeight: "70vh" }}>
       <Seo title="Domande frequenti" description="Risposte alle domande più frequenti su Liguria Design Group: rappresentanza, consulenza, contract e zone servite." />
@@ -73,8 +60,8 @@ function FaqPage() {
         <p style={{ color: "#666" }}>Tutto quello che vuoi sapere su di noi</p>
       </div>
       <div className="container py-5" style={{ maxWidth: "760px" }}>
-        {faqs.map((f) => (
-          <FaqItem key={f.q} {...f} />
+        {faqs.map((f, i) => (
+          <FaqItem key={i} q={f.title} a={f.text} />
         ))}
       </div>
     </div>

@@ -55,6 +55,7 @@ const userRoutes = require("./routes/users");
 const teamRoutes = require("./routes/team");
 const brandRoutes = require("./routes/brands");
 const analyticsRoutes = require("./routes/analytics");
+const pagesRoutes = require("./routes/pages");
 
 app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "Liguria Design Group API" }));
 app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
@@ -68,6 +69,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/brands", brandRoutes);
+app.use("/api/pages", pagesRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === "MulterError" || err.message?.includes("Solo immagini")) {

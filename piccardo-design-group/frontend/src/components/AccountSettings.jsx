@@ -1,7 +1,49 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faKey, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faKey, faUserPlus, faEye, faEyeSlash, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { changePassword, registerUser } from "../services/apiServices";
+
+function PasswordField({ label, value, onChange, helpText }) {
+  const [show, setShow] = useState(false);
+  const [caps, setCaps] = useState(false);
+  const checkCaps = (e) => {
+    if (e.getModifierState) setCaps(e.getModifierState("CapsLock"));
+  };
+
+  return (
+    <div className="mb-3">
+      <label className="form-label">{label}</label>
+      <div className="input-group">
+        <input
+          type={show ? "text" : "password"}
+          className="form-control"
+          value={value}
+          onChange={onChange}
+          onKeyDown={checkCaps}
+          onKeyUp={checkCaps}
+          required
+          minLength={8}
+        />
+        <button
+          type="button"
+          className="btn btn-outline-secondary"
+          onClick={() => setShow((s) => !s)}
+          aria-label={show ? "Nascondi password" : "Mostra password"}
+          tabIndex={-1}
+        >
+          <FontAwesomeIcon icon={show ? faEyeSlash : faEye} />
+        </button>
+      </div>
+      {helpText && <small className="text-muted">{helpText}</small>}
+      {caps && (
+        <div className="d-flex align-items-center gap-1 mt-1" style={{ color: "#b7791f", fontSize: "0.82rem" }}>
+          <FontAwesomeIcon icon={faTriangleExclamation} />
+          Blocco maiuscole (Caps Lock) attivo
+        </div>
+      )}
+    </div>
+  );
+}
 
 const AccountSettings = () => {
   const [current, setCurrent] = useState("");
@@ -70,19 +112,9 @@ const AccountSettings = () => {
             </h5>
             {feedback && <div className={`alert alert-${feedback.type}`}>{feedback.msg}</div>}
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label className="form-label">Password attuale</label>
-                <input type="password" className="form-control" value={current} onChange={(e) => setCurrent(e.target.value)} required />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Nuova password</label>
-                <input type="password" className="form-control" value={next} onChange={(e) => setNext(e.target.value)} required minLength={8} />
-                <small className="text-muted">Almeno 8 caratteri</small>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Conferma nuova password</label>
-                <input type="password" className="form-control" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
-              </div>
+              <PasswordField label="Password attuale" value={current} onChange={(e) => setCurrent(e.target.value)} />
+              <PasswordField label="Nuova password" value={next} onChange={(e) => setNext(e.target.value)} helpText="Almeno 8 caratteri" />
+              <PasswordField label="Conferma nuova password" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
               <button className="btn btn-dark" disabled={loading}>
                 {loading ? <span className="spinner-border spinner-border-sm me-1" /> : null}
                 Aggiorna password
@@ -110,15 +142,8 @@ const AccountSettings = () => {
                 <label className="form-label">Email</label>
                 <input type="email" className="form-control" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required />
               </div>
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input type="password" className="form-control" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required minLength={8} />
-                <small className="text-muted">Almeno 8 caratteri</small>
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Conferma password</label>
-                <input type="password" className="form-control" value={newPasswordConfirm} onChange={(e) => setNewPasswordConfirm(e.target.value)} required />
-              </div>
+              <PasswordField label="Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} helpText="Almeno 8 caratteri" />
+              <PasswordField label="Conferma password" value={newPasswordConfirm} onChange={(e) => setNewPasswordConfirm(e.target.value)} />
               <button className="btn btn-dark" disabled={regLoading}>
                 {regLoading ? <span className="spinner-border spinner-border-sm me-1" /> : null}
                 Crea account

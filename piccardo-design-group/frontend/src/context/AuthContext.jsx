@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
   const [expiresAt, setExpiresAt] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const logoutTimer = useRef(null);
 
   const clearLogoutTimer = () => {
@@ -47,17 +48,22 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const stored = localStorage.getItem("authToken");
-    if (!stored) return;
+    if (!stored) {
+      setAuthChecked(true);
+      return;
+    }
 
     const expiryMs = getExpiryMs(stored);
     if (expiryMs !== null && expiryMs <= Date.now()) {
       localStorage.removeItem("authToken");
+      setAuthChecked(true);
       return;
     }
 
     setToken(stored);
     setIsAuthenticated(true);
     scheduleAutoLogout(stored);
+    setAuthChecked(true);
 
     return clearLogoutTimer;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,7 +77,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, expiresAt, login, logout, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, token, expiresAt, authChecked, login, logout, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

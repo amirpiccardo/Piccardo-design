@@ -175,3 +175,19 @@ export const deleteSubscriber = (email) =>
     method: "DELETE",
     headers: authHeaders(),
   });
+
+// ─── Contenuti pagina ─────────────────────────────────────────────────────────
+
+export const fetchPageContent = (key) =>
+  fetch(`${BASE}/api/pages/${key}`).then((r) => r.json());
+
+export const savePageContent = (key, data) =>
+  fetch(`${BASE}/api/pages/${key}`, {
+    method: "PUT",
+    headers: { ...authHeaders(), "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  }).then(async (r) => {
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(body.message || "Errore");
+    return body;
+  });

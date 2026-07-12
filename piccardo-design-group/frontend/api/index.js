@@ -12,6 +12,7 @@ const materialBrandRoutes = require("./_lib/routes/materialBrand");
 const contactRoutes = require("./_lib/routes/contact");
 const subscriptionRoutes = require("./_lib/routes/subscriptions");
 const analyticsRoutes = require("./_lib/routes/analytics");
+const pagesRoutes = require("./_lib/routes/pages");
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/team", teamRoutes);
 app.use("/api/brands", brandRoutes);
+app.use("/api/pages", pagesRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === "MulterError" || err.message?.includes("Solo immagini")) {

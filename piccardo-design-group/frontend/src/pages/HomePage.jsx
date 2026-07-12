@@ -13,31 +13,39 @@ import { mediaUrl } from "../utils/media";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch, faHandshake, faDraftingCompass } from "@fortawesome/free-solid-svg-icons";
+import { fetchPageContent } from "../services/apiServices";
+import { HOME_DEFAULTS, mergeFields } from "../data/pageDefaults";
 
-const services = [
-  { icon: faCouch, title: "Rappresentanza brand", text: "Rappresentiamo aziende leader nel settore arredamento e illuminazione, curando i rapporti con i rivenditori." },
-  { icon: faDraftingCompass, title: "Consulenza & preventivazione", text: "Supportiamo rivenditori e clienti nella scelta e nella preventivazione dei prodotti più adatti." },
-  { icon: faHandshake, title: "Soluzioni contract", text: "Consulenza dedicata per hotel, B&B, studentati e forniture di grandi progetti." },
-];
-
-const baseStats = [{ value: "100%", label: "Made in Italy" }];
-
-const steps = [
-  { n: "01", title: "Ascoltiamo", text: "Analizziamo le tue esigenze e quelle del mercato per definire gli obiettivi." },
-  { n: "02", title: "Selezioniamo", text: "Scegliamo i brand e le soluzioni più adatte tra i migliori marchi Made in Italy." },
-  { n: "03", title: "Forniamo", text: "Gestiamo la distribuzione e la logistica con precisione e affidabilità." },
-  { n: "04", title: "Supportiamo", text: "Ti affianchiamo in ogni fase, anche dopo, con consulenza tecnica dedicata." },
-];
+const SERVICE_ICONS = [faCouch, faDraftingCompass, faHandshake];
 
 function HomePage() {
   const [brands, setBrands] = useState([]);
+  const [c, setC] = useState(HOME_DEFAULTS);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/api/brands`)
       .then((response) => response.json())
       .then((data) => setBrands(Array.isArray(data) ? data : []))
       .catch((error) => console.error("Error fetching brands:", error));
+    fetchPageContent("home")
+      .then((page) => setC(mergeFields(HOME_DEFAULTS, page.fields)))
+      .catch(() => {});
   }, []);
+
+  const services = [
+    { icon: SERVICE_ICONS[0], title: c.service1Title, text: c.service1Text },
+    { icon: SERVICE_ICONS[1], title: c.service2Title, text: c.service2Text },
+    { icon: SERVICE_ICONS[2], title: c.service3Title, text: c.service3Text },
+  ];
+
+  const baseStats = [{ value: "100%", label: c.statsLabel }];
+
+  const steps = [
+    { n: "01", title: c.step1Title, text: c.step1Text },
+    { n: "02", title: c.step2Title, text: c.step2Text },
+    { n: "03", title: c.step3Title, text: c.step3Text },
+    { n: "04", title: c.step4Title, text: c.step4Text },
+  ];
 
   const headingStyle = {
     textAlign: "center",
@@ -142,12 +150,9 @@ function HomePage() {
       <Row className="g-0">
         <Col>
           <h1 style={headingStyle}>
-            <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>Liguria Design Group</span></span>
+            <span className="pdg-mask"><span style={{ animationDelay: "0.05s" }}>{c.heroTitle}</span></span>
           </h1>
-          <p style={subheadingStyle}>
-            Consulenza su misura per aziende, architetti e progettisti nel settore
-            dell'arredamento e dell'illuminazione.
-          </p>
+          <p style={subheadingStyle}>{c.heroSubtitle}</p>
           <div style={ctaRowStyle}>
             <Magnetic>
               <Link
@@ -188,10 +193,10 @@ function HomePage() {
       {/* Sezione Servizi */}
       <div style={{ padding: "70px 20px", backgroundColor: "#fff" }}>
         <Reveal as="h2" style={{ textAlign: "center", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 600, marginBottom: "12px", color: "#1a1a1a" }}>
-          Cosa facciamo
+          {c.servicesTitle}
         </Reveal>
         <Reveal as="p" delay={80} style={{ textAlign: "center", color: "#666", maxWidth: "600px", margin: "0 auto 48px", fontSize: "1.05rem" }}>
-          Un unico riferimento per l'arredamento e l'illuminazione, dalla consulenza alla fornitura.
+          {c.servicesSubtitle}
         </Reveal>
         <div className="container">
           <div className="row g-4 justify-content-center">
@@ -246,10 +251,10 @@ function HomePage() {
       {/* Sezione Come lavoriamo */}
       <div style={{ padding: "70px 20px", background: "#fafafa" }}>
         <Reveal as="h2" style={{ textAlign: "center", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 600, marginBottom: "12px", color: "#1a1a1a" }}>
-          Come lavoriamo
+          {c.workTitle}
         </Reveal>
         <Reveal as="p" delay={80} style={{ textAlign: "center", color: "#666", maxWidth: "600px", margin: "0 auto 48px", fontSize: "1.05rem" }}>
-          Un metodo chiaro in quattro passi, dalla prima esigenza al supporto continuo.
+          {c.workSubtitle}
         </Reveal>
         <div className="container">
           <div className="row g-4">

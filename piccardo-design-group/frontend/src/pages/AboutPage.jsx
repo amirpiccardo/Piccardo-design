@@ -4,14 +4,20 @@ import ChatBot from "../components/ChatBot";
 import Seo from "../components/Seo";
 import { mediaUrl } from "../utils/media";
 import { FaLinkedin } from "react-icons/fa";
+import { fetchPageContent } from "../services/apiServices";
+import { ABOUT_DEFAULTS, mergeFields } from "../data/pageDefaults";
 
 function AboutPage() {
   const [team, setTeam] = useState([]);
+  const [c, setC] = useState(ABOUT_DEFAULTS);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/api/team`)
       .then((r) => r.json())
       .then((data) => setTeam(Array.isArray(data) ? data : []))
+      .catch(() => {});
+    fetchPageContent("about")
+      .then((page) => setC(mergeFields(ABOUT_DEFAULTS, page.fields)))
       .catch(() => {});
   }, []);
 
@@ -72,30 +78,16 @@ function AboutPage() {
       </div>
 
       <div className="container py-5" style={{ maxWidth: "820px" }}>
-        <p style={textStyle}>
-          <strong>Liguria Design Group</strong> lavora per creare sinergie tra azienda,
-          rivenditore e cliente, elevando l'arredamento e l'illuminazione con esperienza
-          e passione.
-        </p>
-        <p style={textStyle}>
-          Siamo un'agenzia di rappresentanza: rappresentiamo aziende leader nel settore
-          mobili e illuminazione, occupandoci di tutta la casa. Ci occupiamo di
-          preventivazione e consulenza, supportando rivenditori e negozianti nel lavoro
-          quotidiano con la nostra esperienza nel mondo del design, dell'arredamento e
-          del marketing.
-        </p>
-        <p style={textStyle}>
-          Presentiamo la nostra esperienza nel settore dell'arredamento e illuminazione,
-          unita a un approccio personalizzato che valorizza qualità e innovazione, per
-          soddisfare pienamente le esigenze dei clienti della Liguria e del basso Piemonte.
-        </p>
+        <p style={textStyle}>{c.intro1}</p>
+        <p style={textStyle}>{c.intro2}</p>
+        <p style={textStyle}>{c.intro3}</p>
       </div>
 
       {team.length > 0 && (
         <div className="container pb-5">
-          <h2 style={teamHeadingStyle}>Il Nostro Team</h2>
+          <h2 style={teamHeadingStyle}>{c.teamTitle}</h2>
           <p style={{ textAlign: "center", color: "#5a5a5a", marginBottom: "40px" }}>
-            Conosci i professionisti che guidano Liguria Design Group con passione e competenza.
+            {c.teamSubtitle}
           </p>
           <div className="row justify-content-center g-4">
             {team.map((member) => (

@@ -44,8 +44,8 @@ function CookieBanner() {
         <p style={{ margin: 0, fontSize: "0.9rem", color: "#ddd", maxWidth: "680px", lineHeight: 1.6 }}>
           Utilizziamo cookie tecnici necessari al funzionamento del sito. Con il tuo consenso
           possiamo usare cookie di statistica per migliorare l'esperienza. Leggi la{" "}
-          <Link to="/privacy" style={{ color: "#c8a96e", textDecoration: "underline" }}>
-            Privacy &amp; Cookie Policy
+          <Link to="/cookie-policy" style={{ color: "#c8a96e", textDecoration: "underline" }}>
+            Cookie Policy
           </Link>
           .
         </p>

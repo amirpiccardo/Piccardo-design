@@ -74,7 +74,8 @@ function Footer() {
         <div style={{ display: "flex", justifyContent: "center", gap: "18px", flexWrap: "wrap", marginBottom: "10px" }}>
           {[
             { to: "/faq", label: "FAQ" },
-            { to: "/privacy", label: "Privacy & Cookie" },
+            { to: "/privacy", label: "Privacy Policy" },
+            { to: "/cookie-policy", label: "Cookie Policy" },
             { to: "/termini", label: "Termini" },
             isAuthenticated ? { to: "/admin", label: "Area Admin" } : { to: "/login", label: "Area Riservata" },
           ].map(({ to, label }) => (
