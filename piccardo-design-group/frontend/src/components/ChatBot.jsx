@@ -4,10 +4,12 @@ import { faComments, faTimes, faPaperPlane } from "@fortawesome/free-solid-svg-i
 import { useNavigate } from "react-router-dom";
 
 const QUICK = [
-  { q: "Come posso collaborare con voi?", a: "Compila il modulo nella pagina Contatti: ti ricontatteremo per valutare insieme la collaborazione.", to: "/contact" },
+  { q: "Cosa fa Liguria Design Group?", a: "Siamo un'agenzia di rappresentanza nel settore mobili e illuminazione: rappresentiamo aziende leader del settore e supportiamo rivenditori e negozianti con consulenza, preventivazione e assistenza quotidiana.", to: "/about" },
   { q: "Quali brand rappresentate?", a: "Rappresentiamo i migliori marchi di arredamento e illuminazione Made in Italy. Scopri tutti i partner nella pagina Brand.", to: "/materials" },
-  { q: "Fate anche consulenza contract?", a: "Sì, offriamo consulenza per hotel, B&B, studentati e forniture importanti. Vedi la sezione Contract.", to: "/contracts" },
-  { q: "Dove siete?", a: "Siamo in Via Alfieri 18, Imperia (IM). Trovi mappa e contatti nella pagina Contatti.", to: "/contact" },
+  { q: "Come posso diventare rivenditore?", a: "Compila il modulo nella pagina Contatti: ti ricontatteremo per valutare insieme le opportunità di collaborazione.", to: "/contact" },
+  { q: "Fate anche consulenza contract?", a: "Sì, offriamo consulenza per hotel, B&B, pensioni, studentati e forniture importanti. Vedi la sezione Contract.", to: "/contracts" },
+  { q: "In quali zone operate?", a: "Operiamo principalmente in Liguria e nel basso Piemonte. Per richieste specifiche, contattaci e valuteremo insieme le esigenze.", to: "/contact" },
+  { q: "Dove siete?", a: "Siamo in Via Vittorio Alfieri 18, Imperia (IM). Trovi mappa e contatti nella pagina Contatti.", to: "/contact" },
 ];
 
 const WELCOME = { from: "bot", text: "Ciao! 👋 Sono l'assistente di Liguria Design Group. Come posso aiutarti?" };
@@ -63,11 +65,10 @@ function ChatBot() {
         {/* Header */}
         <div style={{ background: "linear-gradient(135deg, #1b2a4a, #24375f)", color: "#fff", padding: "18px 20px" }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 600 }}>
-            Assistente LDG
+            Assistente Liguria Design Group
           </div>
-          <div style={{ fontSize: "0.78rem", opacity: 0.8, display: "flex", alignItems: "center", gap: "6px" }}>
-            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
-            Online · risponde subito
+          <div style={{ fontSize: "0.78rem", opacity: 0.8, letterSpacing: "0.02em" }}>
+            Risposte rapide alle domande più frequenti
           </div>
         </div>
 
@@ -115,6 +116,15 @@ function ChatBot() {
               {item.q}
             </button>
           ))}
+          <button
+            onClick={() => navigate("/faq")}
+            style={{
+              border: "none", background: "none", padding: "7px 4px",
+              fontSize: "0.78rem", cursor: "pointer", color: "#8a6d3f", textDecoration: "underline",
+            }}
+          >
+            Altre domande? Vedi tutte le FAQ
+          </button>
         </div>
 
         {/* CTA contatti */}
