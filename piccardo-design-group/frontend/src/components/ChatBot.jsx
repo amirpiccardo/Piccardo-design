@@ -63,7 +63,7 @@ function ChatBot() {
         {/* Header */}
         <div style={{ background: "linear-gradient(135deg, #1b2a4a, #24375f)", color: "#fff", padding: "18px 20px" }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.35rem", fontWeight: 600 }}>
-            Assistente PDG
+            Assistente LDG
           </div>
           <div style={{ fontSize: "0.78rem", opacity: 0.8, display: "flex", alignItems: "center", gap: "6px" }}>
             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
