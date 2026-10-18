@@ -94,10 +94,7 @@ Marchi (con sito ufficiale verificato): Lapalma (lapalma.it), Pintdecor (pintdec
 
 ### Serve l'utente
 1. **Password SMTP**: aggiungere `SMTP_PASS` su Vercel (Secret, Production), poi fare un Redeploy. Provare il modulo su /contatti e verificare che la mail arrivi a info@.
-2. **Migrazione del dominio liguriadesigngroup.it** (era prevista per il giorno dopo):
-   - su Vercel > Settings > Domains aggiungere `liguriadesigngroup.it` e `www.liguriadesigngroup.it` (scegliere quale è il principale e reindirizzare l'altro);
-   - su Aruba cambiare **solo** i record del sito (A per la radice, CNAME per www) con i valori indicati da Vercel. **Non toccare i record MX** né quelli della posta;
-   - dopo la propagazione, verificare HTTPS.
+2. **Migrazione del dominio: FATTA il 18/10/2026.** Su Vercel `www.liguriadesigngroup.it` è il principale, `liguriadesigngroup.it` reindirizza (308). Su Aruba: A @ = 216.198.79.1, A www = 76.76.21.21, record AAAA del sito eliminati; posta (MX, mail, smtp, SPF) non toccata. `SITE_URL` nel codice punta già a www. Supabase: Site URL e Redirect URLs aggiornati al dominio. Resta solo da verificare, a propagazione finita, che Vercel mostri "Valid Configuration" e che HTTPS funzioni.
 3. **Mittente email di Supabase** (Authentication > Emails > SMTP Settings): impostare smtps.aruba.it, porta 465, utente info@liguriadesigngroup.it, password della casella, mittente "Liguria Design Group". Senza, gli inviti dall'admin arrivano solo agli indirizzi del team Supabase.
 4. **Contenuti dall'admin**: foto per i 6 marchi che non ne hanno (sezione Marchi), telefono e social (Pagine e testi > Dati aziendali), conferma delle province nella mappa (Pagine e testi > Chi siamo).
 5. Creare l'account di info@liguriadesigngroup.it (o di Gabriele e Francesca) dall'admin, sezione **Account > Invita una persona**, dopo aver fatto il punto 3.

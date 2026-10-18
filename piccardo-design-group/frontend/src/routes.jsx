@@ -4,6 +4,7 @@ import HomePage from "./pages/site/HomePage";
 import BrandsPage from "./pages/site/BrandsPage";
 import BrandPage from "./pages/site/BrandPage";
 import NotFoundPage from "./pages/site/NotFoundPage";
+import CatalogsPage from "./pages/site/CatalogsPage";
 import { ContractPage, AboutPage, DealersPage, ContactPage, FaqPage, LegalPage } from "./pages/site/OtherPages";
 
 function LegacyBrand() {
@@ -24,6 +25,8 @@ export const PUBLIC_ROUTES = [
   { path: "/privacy", element: <LegalPage pageKey="privacy" /> },
   { path: "/cookie-policy", element: <LegalPage pageKey="cookie" /> },
   { path: "/termini", element: <LegalPage pageKey="terms" /> },
+  // Pagina nascosta per i rivenditori (non pre-generata, non in sitemap)
+  { path: "/cataloghi/:key", element: <CatalogsPage /> },
   // Vecchi indirizzi (anche con redirect 301 in vercel.json)
   { path: "/about", element: <Navigate to="/chi-siamo" replace /> },
   { path: "/team", element: <Navigate to="/chi-siamo" replace /> },

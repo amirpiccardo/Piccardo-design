@@ -5,7 +5,7 @@ import { hasStatsConsent } from "./CookieBanner";
 
 function track(pathname) {
   if (!supabase || !hasStatsConsent()) return;
-  if (pathname.startsWith("/admin") || pathname.startsWith("/login")) return;
+  if (pathname.startsWith("/admin") || pathname.startsWith("/login") || pathname.startsWith("/cataloghi")) return;
   const referrer = document.referrer && !document.referrer.startsWith(location.origin) ? document.referrer.slice(0, 300) : "";
   supabase.from("page_views").insert({ path: pathname.slice(0, 200), referrer }).then(() => {}, () => {});
 }

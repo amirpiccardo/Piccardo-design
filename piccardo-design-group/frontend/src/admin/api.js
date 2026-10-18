@@ -159,3 +159,42 @@ export const slugify = (s) =>
   String(s || "")
     .normalize("NFD").replace(/[̀-ͯ]/g, "")
     .toLowerCase().replace(/&/g, " e ").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60);
+
+// ─── Cataloghi PDF (pagina nascosta per i rivenditori) ──────────────────────
+const CATALOG_BUCKET = "cataloghi";
+const MAX_PDF_MB = 50;
+
+export const listCatalogs = async (brandId) =>
+  check(await need().from("brand_catalogs").select("*").eq("brand_id", brandId).order("position"));
+export const updateCatalog = (id, patch) => update("brand_catalogs", id, patch);
+export const reorderCatalogs = (rows) => reorder("brand_catalogs", rows);
+
+export async function uploadCatalog(brandId, file, position) {
+  if (!file) throw new Error("Nessun file selezionato.");
+  if (file.type !== "application/pdf" && !/\.pdf$/i.test(file.name)) throw new Error("Il file non è un PDF.");
+  if (file.size > MAX_PDF_MB * 1024 * 1024) throw new Error(`Il PDF supera ${MAX_PDF_MB} MB. Comprimilo o dividilo in più parti.`);
+  const sb = need();
+  const name = slugify(file.name.replace(/\.pdf$/i, "")) || "catalogo";
+  const path = `${brandId}/${rid()}/${name}.pdf`;
+  check(await sb.storage.from(CATALOG_BUCKET).upload(path, file, { contentType: "application/pdf", cacheControl: "86400", upsert: false }));
+  const url = sb.storage.from(CATALOG_BUCKET).getPublicUrl(path).data.publicUrl;
+  const title = file.name.replace(/\.pdf$/i, "").replace(/[_-]+/g, " ").trim();
+  return insert("brand_catalogs", { brand_id: brandId, title, file: url, size: file.size, position });
+}
+
+export async function deleteCatalog(row) {
+  await remove("brand_catalogs", row.id);
+  const marker = `/storage/v1/object/public/${CATALOG_BUCKET}/`;
+  const i = row.file.indexOf(marker);
+  if (i >= 0) await supabase.storage.from(CATALOG_BUCKET).remove([decodeURIComponent(row.file.slice(i + marker.length))]).catch(() => {});
+}
+
+// Chiave del link nascosto: cambiarla disattiva il link vecchio.
+export const getCatalogsKey = async () =>
+  check(await need().from("private_settings").select("value").eq("key", "catalogs_key").maybeSingle())?.value || "";
+export async function renewCatalogsKey() {
+  const bytes = crypto.getRandomValues(new Uint8Array(12));
+  const value = [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("");
+  check(await need().from("private_settings").upsert({ key: "catalogs_key", value }, { onConflict: "key" }));
+  return value;
+}

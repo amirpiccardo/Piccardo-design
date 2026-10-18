@@ -202,6 +202,13 @@ a.row:hover .row__title, .row.is-active .row__title { color: var(--ink); }
 
 .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
 .filters button { min-height: 40px; padding: 8px 14px; border: 1px solid var(--line); background: var(--paper); border-radius: var(--radius); cursor: pointer; font-size: var(--t-sm); font-weight: 500; }
+.catalogs__tools { display: grid; gap: 14px; margin-top: 20px; }
+.catalogs__tools input { width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); font: inherit; font-size: 16px; }
+.catalogs__tools .filters { margin-bottom: 0; }
+.catalogs__msg { color: var(--slate); padding: 16px 0; border-top: 1px solid var(--ink); }
+.catalogs__brand + .catalogs__brand { margin-top: 40px; }
+.catalogs__head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; margin-bottom: 12px; }
+.catalogs__head h2 { font-size: var(--t-lg); }
 .filters button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
 /* FAQ: righe che si aprono */

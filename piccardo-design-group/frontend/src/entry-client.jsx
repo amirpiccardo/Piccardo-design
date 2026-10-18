@@ -20,7 +20,7 @@ const app = (
 
 // Le pagine pubbliche arrivano già scritte (prerender): React le "riattiva".
 // L'area riservata parte invece da una pagina vuota.
-const isPrivate = /^\/(admin|login)(\/|$)/.test(location.pathname);
+const isPrivate = /^\/(admin|login|cataloghi)(\/|$)/.test(location.pathname);
 if (data && root.firstElementChild && !isPrivate) hydrateRoot(root, app);
 else {
   root.innerHTML = "";

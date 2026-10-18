@@ -15,7 +15,8 @@
     { "source": "/admin", "destination": "/app" },
     { "source": "/admin/:path*", "destination": "/app" },
     { "source": "/login", "destination": "/app" },
-    { "source": "/marchi/:slug", "destination": "/app" }
+    { "source": "/marchi/:slug", "destination": "/app" },
+    { "source": "/cataloghi/:key", "destination": "/app" }
   ],
   "headers": [
     {
@@ -36,7 +37,7 @@
       ]
     },
     {
-      "source": "/(admin|login)(.*)",
+      "source": "/(admin|login|cataloghi)(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ],

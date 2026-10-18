@@ -5,6 +5,7 @@ import { list, insert, update, remove, reorder, deleteImage, slugify } from "./a
 import { Field, ImageField, GalleryField, Loading, MoveButtons, useAdmin, useConfirm } from "./ui";
 import { useRefreshContent } from "../context/ContentContext";
 import { imgUrl } from "../lib/media";
+import { CatalogsField, CatalogsLink } from "./Catalogs";
 
 // Configurazione delle raccolte gestibili (marchi, persone, contract).
 export const COLLECTIONS = {
@@ -24,6 +25,7 @@ export const COLLECTIONS = {
       { key: "description", label: "Descrizione", type: "textarea", rows: 3, hint: "Due righe su cosa produce. Appare nella pagina del marchio e su Google." },
       { key: "website", label: "Sito ufficiale", type: "url" },
       { key: "photos", label: "Foto del marchio", type: "gallery", hint: "La prima è quella che appare nell'indice dei marchi in home." },
+      { key: "catalogs", type: "catalogs" },
     ],
   },
   team: {
@@ -149,6 +151,7 @@ export default function CollectionEditor({ kind }) {
     const v = form[f.key];
     if (f.type === "logo") return <ImageField key={f.key} id={id} label={f.label} hint={f.hint} value={v} onChange={set(f.key)} kind="logo" folder="loghi" withAlt={false} />;
     if (f.type === "photo") return <ImageField key={f.key} id={id} label={f.label} hint={f.hint} value={v} onChange={set(f.key)} withAlt={false} />;
+    if (f.type === "catalogs") return <CatalogsField key={f.key} brandId={form.id} />;
     if (f.type === "gallery") return <GalleryField key={f.key} label={f.label} hint={f.hint} value={v} onChange={set(f.key)} />;
     if (f.type === "slug") return <Field key={f.key} id={id} label={f.label} hint={`${f.hint} Risultato: /marchi/${slugify(v || form.name) || "..."}`} value={v} onChange={set(f.key)} />;
     return <Field key={f.key} id={id} label={f.label} hint={f.hint} type={f.type} rows={f.rows} value={v} onChange={set(f.key)} />;
@@ -157,6 +160,7 @@ export default function CollectionEditor({ kind }) {
   return (
     <div className="stack">
       {confirmUI}
+      {kind === "brands" && !form && <CatalogsLink />}
       {form ? (
         <form className="card" onSubmit={save}>
           <h2>{form.id ? `Modifica ${cfg.title(form) || cfg.noun}` : `Nuovo ${cfg.noun}`}</h2>
