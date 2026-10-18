@@ -1,87 +1,70 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import ScrollToTop from "./components/ScrollToTop";
-import ScrollTopButton from "./components/ScrollTopButton";
-import HomePage from "./pages/HomePage";
-import NotFoundPage from "./pages/NotFoundPage";
-import CookieBanner from "./components/CookieBanner";
+import { Routes, Route, Outlet, useLocation } from "react-router-dom";
+import { ContentProvider } from "./context/ContentContext";
+import { PUBLIC_ROUTES } from "./routes";
+import Footer from "./components/site/Footer";
+import CookieBanner from "./components/site/CookieBanner";
+import RouteEffects from "./components/site/RouteEffects";
 
-// Pagine secondarie caricate solo quando servono, per ridurre il bundle iniziale
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const MaterialsPage = lazy(() => import("./pages/MaterialsPage"));
-const ContractsPage = lazy(() => import("./pages/ContractsPage"));
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const ContactForm = lazy(() => import("./pages/ContactForm"));
-const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
-const CookiePage = lazy(() => import("./pages/CookiePage"));
-const TermsPage = lazy(() => import("./pages/TermsPage"));
-const FaqPage = lazy(() => import("./pages/FaqPage"));
-// L'area admin (con chart.js) è caricata solo quando serve
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+// Area riservata: caricata solo quando serve (con Bootstrap e grafici), mai nel sito pubblico.
+const AdminApp = lazy(() => import("./admin/AdminApp"));
 
-const PageFallback = () => (
-  <div className="text-center py-5">
-    <div className="spinner-border" />
-  </div>
-);
-
-function PrivateRoute({ children }) {
-  const { isAuthenticated, authChecked } = useAuth();
-  const location = useLocation();
-  if (!authChecked) return <PageFallback />;
-  return isAuthenticated ? children : <Navigate to="/login" replace state={{ from: location }} />;
-}
-
-function AnimatedRoutes() {
-  const location = useLocation();
+function SiteLayout() {
   return (
-    <div key={location.pathname} className="pdg-page" style={{ flex: "1" }}>
-      <Suspense fallback={<PageFallback />}>
-        <Routes location={location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/team" element={<Navigate to="/about" replace />} />
-          <Route path="/materials" element={<MaterialsPage />} />
-          <Route path="/contracts" element={<ContractsPage />} />
-          <Route path="/contact" element={<ContactForm />} />
-          <Route path="/faq" element={<FaqPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/cookie-policy" element={<CookiePage />} />
-          <Route path="/termini" element={<TermsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute>
-                <AdminDashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-    </div>
+    <>
+      <RouteEffects />
+      <Outlet />
+      <Footer />
+      <CookieBanner />
+    </>
   );
 }
 
-function App() {
-  return (
-    <AuthProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-          <Navbar />
-          <AnimatedRoutes />
-          <Footer />
-          <ScrollTopButton />
-          <CookieBanner />
+function AdminFallback() {
+  return <div style={{ minHeight: "100svh", display: "grid", placeItems: "center", fontFamily: "system-ui", color: "#16213a" }}>Caricamento area riservata</div>;
+}
+
+class AdminErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { error: null }; }
+  static getDerivedStateFromError(error) { return { error }; }
+  componentDidCatch(error, info) { console.error("Errore area riservata:", error, info?.componentStack); }
+  render() {
+    if (!this.state.error) return this.props.children;
+    return (
+      <div style={{ minHeight: "100svh", display: "grid", placeItems: "center", padding: 24, fontFamily: "system-ui", color: "#16213a" }}>
+        <div style={{ maxWidth: 560, display: "grid", gap: 12 }}>
+          <h1 style={{ fontSize: 24, margin: 0 }}>Qualcosa non ha funzionato nell'area riservata</h1>
+          <pre id="admin-error" style={{ whiteSpace: "pre-wrap", background: "#f3f4f5", padding: 12, fontSize: 13 }}>{String(this.state.error?.stack || this.state.error)}</pre>
+          <button type="button" onClick={() => location.reload()} style={{ justifySelf: "start", padding: "10px 16px" }}>Ricarica</button>
         </div>
-      </BrowserRouter>
-    </AuthProvider>
+      </div>
+    );
+  }
+}
+
+function AdminRoute() {
+  const location = useLocation();
+  return (
+    <AdminErrorBoundary>
+      <Suspense fallback={<AdminFallback />}>
+        <AdminApp path={location.pathname} />
+      </Suspense>
+    </AdminErrorBoundary>
   );
 }
 
-export default App;
+export default function App({ initialContent, live = true }) {
+  return (
+    <ContentProvider initial={initialContent} live={live}>
+      <Routes>
+        <Route path="/login" element={<AdminRoute />} />
+        <Route path="/admin/*" element={<AdminRoute />} />
+        <Route element={<SiteLayout />}>
+          {PUBLIC_ROUTES.map((r) => (
+            <Route key={r.path} path={r.path} element={r.element} />
+          ))}
+        </Route>
+      </Routes>
+    </ContentProvider>
+  );
+}
