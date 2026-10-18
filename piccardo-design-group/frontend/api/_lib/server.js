@@ -1,7 +1,8 @@
 // Strumenti condivisi dalle funzioni serverless (Vercel).
 const { createClient } = require("@supabase/supabase-js");
 
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+// Indirizzo pubblico del progetto Supabase (non segreto)
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "https://mjzlofpzbfeadorxjbov.supabase.co";
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Client con chiave di servizio: salta la Row Level Security, quindi solo lato server.

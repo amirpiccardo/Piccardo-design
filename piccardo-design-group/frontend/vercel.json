@@ -12,10 +12,10 @@
     { "source": "/contact", "destination": "/contatti", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/admin", "destination": "/app.html" },
-    { "source": "/admin/:path*", "destination": "/app.html" },
-    { "source": "/login", "destination": "/app.html" },
-    { "source": "/marchi/:slug", "destination": "/app.html" }
+    { "source": "/admin", "destination": "/app" },
+    { "source": "/admin/:path*", "destination": "/app" },
+    { "source": "/login", "destination": "/app" },
+    { "source": "/marchi/:slug", "destination": "/app" }
   ],
   "headers": [
     {
