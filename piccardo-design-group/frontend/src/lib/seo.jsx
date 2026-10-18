@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { imgUrl } from "./media";
 
-export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://piccardo-design.vercel.app").replace(/\/$/, "");
+export const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://www.liguriadesigngroup.it").replace(/\/$/, "");
 export const SITE_NAME = "Liguria Design Group";
 const DEFAULT_IMAGE = "/og-image.jpg";
 
